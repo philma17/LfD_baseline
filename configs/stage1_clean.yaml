@@ -1,0 +1,56 @@
+# Phase 1 (schlank): Failure-Landscape FR3 (7 DoF) vs. UR5e (6 DoF), LASA Sine.
+# Alle Werte und Schwellen sind VOR dem ersten Lauf festgelegt (2026-10-17).
+
+shape: Sine
+dataset: LASA
+time_rate: demo          # v_peak / L = vs / ps = 0.514 1/s (aus LASA-Daten)
+
+sim:                     # Phase-0-Werte
+  dt: 0.002
+  T_max: 10.0
+  k_perp: 5.0
+  k_rot: 5.0
+  success_frac: 0.01     # Ziel erreicht: Endabstand < 1 % L bei T_max
+  n_starts: 32
+  seed: 0
+  start_criterion: max_sigma_margin   # groesstes sigma_min unter Startloesungen mit Limitabstand > 5 %
+  start_min_margin_pct: 5.0
+  ik:
+    eps: 0.02
+    lam_max: 0.05
+    k_null: 0.0          # pro Variante gesetzt
+
+# Statuslogik, Prioritaet von oben nach unten:
+#   UNGUELTIG_START  IK-Startfehler > 1 mm oder > 1e-3 rad
+#   FEHLER_LIMIT     mind. ein Clip (Gelenkposition oder -geschwindigkeit)
+#   FEHLER_SINGULAER min. sigma_min(J_task) < 0.01
+#   FEHLER_ZIEL      Endabstand >= 1 % L bei T_max
+#   OK               sonst
+status:
+  ik_err_m: 0.001
+  ik_err_rad: 0.001
+  sigma_min: 0.01
+
+task:
+  modes: [pos, full6]    # 3D = Hauptfokus, full6 = Zusatztest
+  anchor: [0.0, 0.0]     # Ziel des DS (x_n = 0) liegt im Mittelpunkt c
+  heights_m:             # GLEICHE absolute Arbeitshoehe fuer beide Roboter
+    FR3: 0.50
+    UR5e: 0.50
+  planes:
+    horizontal: {e1: [1.0, 0.0, 0.0], e2: [0.0, 1.0, 0.0]}
+  L_m: [0.05, 0.10, 0.20, 0.30]
+  r_m: [0.30, 0.40, 0.50, 0.60, 0.70, 0.80]   # c = (r, s, 0.50), Basis im Ursprung
+  s_m: [0.0, 0.20]                            # lateraler Versatz entlang Welt +y
+  # full6: Werkzeug-z (attachment_site) nach unten, Werkzeug-x parallel Welt-x (Yaw = 0)
+  orientation:
+    R_des: [[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]]
+
+# Auswertungsbereiche (vorab festgelegt)
+regions:
+  nominal: {L_max: 0.10, r_max: 0.60}    # alles andere = Randbereich
+
+variants:
+  - {name: FR3_null, robot: FR3, k_null: 0.5, lock: null}   # Nullraum zieht zur Gelenkmitte
+  - {name: FR3, robot: FR3, k_null: 0.0, lock: null}        # ohne Nullraum (min-norm)
+  - {name: UR5e, robot: UR5e, k_null: 0.0, lock: null}

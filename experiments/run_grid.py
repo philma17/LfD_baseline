@@ -70,8 +70,8 @@ def target_for(cfg, mode):
     raise ValueError(mode)
 
 
-def _init(cfg_path):
-    cfg = load_config(cfg_path)
+def _init(cfg_path, overrides=()):
+    cfg = apply_overrides(load_config(cfg_path), overrides)
     ds, sc, rate = build_ds(cfg)
     _CACHE.update(cfg=cfg, ds=ds, sc=sc, rate=rate, sp=sim_params(cfg),
                   robots={k: Robot(s) for k, s in ROBOTS.items()})
@@ -90,22 +90,39 @@ def run_job(job):
     if v["lock"] is not None:
         free[v["lock"]] = False
     t0 = time.time()
-    res = sim.run(robot, ds, emb, sc.x0_n, rate, target_for(cfg, job["mode"]), spv, free=free)
+    res = sim.run(robot, ds, emb, sc.x0_n, rate, target_for(cfg, job["mode"]), spv, free=free,
+                  keep_traj=job.get("keep_traj", False))
     row = {k: job[k] for k in ("job_id", "plane", "L", "s", "r", "mode")}
     row.update(variant=v["name"], lock=v["lock"], center=c.tolist(),
                r_horiz=float(np.hypot(job["r"], job["s"])), wall_s=time.time() - t0)
     row.update(res)
-    f = cfg["failure"]
-    causes = []
-    if res["n_vel_clips"] + res["n_pos_clips"] > 0:
-        causes.append("clip")
-    if res["min_sigma_min"] < f["sigma_min"]:
-        causes.append("sigma")
-    if res["ik_start_pos_err_m"] > f["ik_err_m"] or res.get("ik_start_ori_err_rad", 0) > f.get("ik_err_rad", np.inf):
-        causes.append("ik_start")
-    row["causes"] = causes
-    row["status"] = "ok" if res["success"] else ("limit" if causes else "other")
+    row["status"] = classify(res, cfg["status"])
     return row
+
+
+def classify(res, st):
+    """Status nach configs/*: Prioritaet START > LIMIT > SINGULAER > ZIEL > OK."""
+    if res["ik_start_pos_err_m"] > st["ik_err_m"] or res["ik_start_ori_err_rad"] > st["ik_err_rad"]:
+        return "UNGUELTIG_START"
+    if res["n_vel_clips"] + res["n_pos_clips"] > 0:
+        return "FEHLER_LIMIT"
+    if res["min_sigma_min"] < st["sigma_min"]:
+        return "FEHLER_SINGULAER"
+    if not res["success"]:
+        return "FEHLER_ZIEL"
+    return "OK"
+
+
+def apply_overrides(cfg, overrides):
+    """--override task.r_m=[0.4,0.8]  (Wert als JSON)."""
+    for o in overrides:
+        key, val = o.split("=", 1)
+        d = cfg
+        *path, last = key.split(".")
+        for p in path:
+            d = d[p]
+        d[last] = json.loads(val)
+    return cfg
 
 
 def main():
@@ -114,8 +131,9 @@ def main():
     ap.add_argument("--workers", type=int, default=os.cpu_count())
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--override", action="append", default=[])
     a = ap.parse_args()
-    cfg = load_config(a.config)
+    cfg = apply_overrides(load_config(a.config), a.override)
     stage = os.path.splitext(os.path.basename(a.config))[0]
     out = a.out or os.path.join(ROOT, "results", stage, "runs.jsonl")
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -129,7 +147,8 @@ def main():
           f"{a.workers} Worker", flush=True)
     t0 = time.time()
     ctx = mp.get_context("forkserver")
-    with ctx.Pool(a.workers, initializer=_init, initargs=(a.config,)) as pool, open(out, "a") as fh:
+    with ctx.Pool(a.workers, initializer=_init, initargs=(a.config, a.override)) as pool, \
+            open(out, "a") as fh:
         for i, row in enumerate(pool.imap_unordered(run_job, todo, chunksize=1), 1):
             fh.write(json.dumps(row) + "\n")
             fh.flush()
