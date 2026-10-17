@@ -1,0 +1,126 @@
+test_equilibrium (test_ds.TestNormalisation.test_equilibrium) ... ok
+test_rollout_converges (test_ds.TestNormalisation.test_rollout_converges) ... ok
+test_sine_scaling (test_ds.TestNormalisation.test_sine_scaling) ... ok
+test_2D_Shapes_Five_Obstacle_DS (test_ds.TestOnnxVsTorch.test_2D_Shapes_Five_Obstacle_DS) ... 
+[ONNX vs pth] 2D_Shapes/Five_Obstacle_DS: onnx-vs-pth 5.34e-02, numpy-vs-onnx 2.74e-07
+FAIL
+test_3D_Shapes_Cshape_bottom (test_ds.TestOnnxVsTorch.test_3D_Shapes_Cshape_bottom) ... 
+[ONNX vs pth] 3D_Shapes/Cshape_bottom: onnx-vs-pth 4.47e-07, numpy-vs-onnx 2.35e-07
+ok
+test_LASA_Angle (test_ds.TestOnnxVsTorch.test_LASA_Angle) ... 
+[ONNX vs pth] LASA/Angle: onnx-vs-pth 3.28e-07, numpy-vs-onnx 1.96e-07
+ok
+test_LASA_CShape (test_ds.TestOnnxVsTorch.test_LASA_CShape) ... 
+[ONNX vs pth] LASA/CShape: onnx-vs-pth 5.04e-01, numpy-vs-onnx 2.46e-07
+FAIL
+test_LASA_GShape (test_ds.TestOnnxVsTorch.test_LASA_GShape) ... 
+[ONNX vs pth] LASA/GShape: onnx-vs-pth 6.11e-07, numpy-vs-onnx 3.11e-07
+ok
+test_LASA_NShape (test_ds.TestOnnxVsTorch.test_LASA_NShape) ... 
+[ONNX vs pth] LASA/NShape: onnx-vs-pth 5.36e-06, numpy-vs-onnx 1.81e-06
+ok
+test_LASA_PShape (test_ds.TestOnnxVsTorch.test_LASA_PShape) ... 
+[ONNX vs pth] LASA/PShape: onnx-vs-pth 9.54e-07, numpy-vs-onnx 5.91e-07
+ok
+test_LASA_PShape_benchmark (test_ds.TestOnnxVsTorch.test_LASA_PShape_benchmark) ... 
+[ONNX vs pth] LASA/PShape_benchmark: onnx-vs-pth 5.84e-01, numpy-vs-onnx 3.92e-07
+FAIL
+test_LASA_Sine (test_ds.TestOnnxVsTorch.test_LASA_Sine) ... 
+[ONNX vs pth] LASA/Sine: onnx-vs-pth 5.51e-07, numpy-vs-onnx 3.54e-07
+ok
+test_LASA_Sine_benchmark (test_ds.TestOnnxVsTorch.test_LASA_Sine_benchmark) ... 
+[ONNX vs pth] LASA/Sine_benchmark: onnx-vs-pth 1.03e-06, numpy-vs-onnx 9.99e-07
+ok
+test_LASA_Sine_new (test_ds.TestOnnxVsTorch.test_LASA_Sine_new) ... 
+[ONNX vs pth] LASA/Sine_new: onnx-vs-pth 1.46e-06, numpy-vs-onnx 7.66e-07
+ok
+test_LASA_Sshape (test_ds.TestOnnxVsTorch.test_LASA_Sshape) ... 
+[ONNX vs pth] LASA/Sshape: onnx-vs-pth 5.96e-07, numpy-vs-onnx 3.53e-07
+ok
+test_LASA_Sshape_benchmark (test_ds.TestOnnxVsTorch.test_LASA_Sshape_benchmark) ... 
+[ONNX vs pth] LASA/Sshape_benchmark: onnx-vs-pth 1.98e+00, numpy-vs-onnx 3.02e-07
+FAIL
+test_LASA_Worm (test_ds.TestOnnxVsTorch.test_LASA_Worm) ... 
+[ONNX vs pth] LASA/Worm: onnx-vs-pth 3.87e-07, numpy-vs-onnx 3.27e-07
+ok
+test_LASA_Worm_benchmark (test_ds.TestOnnxVsTorch.test_LASA_Worm_benchmark) ... 
+[ONNX vs pth] LASA/Worm_benchmark: onnx-vs-pth 7.54e-07, numpy-vs-onnx 5.44e-07
+ok
+test_damped_at_singularity_bounded (test_ik.TestDLS.test_damped_at_singularity_bounded) ... ok
+test_exact_away_from_singularity (test_ik.TestDLS.test_exact_away_from_singularity) ... ok
+test_nullspace (test_ik.TestDLS.test_nullspace) ... ok
+test_nullspace_task_keeps_primary_exact (test_ik.TestDLS.test_nullspace_task_keeps_primary_exact) ... ok
+test_column_removal_exact_and_old_error_detected (test_ik.TestLock.test_column_removal_exact_and_old_error_detected)
+Neu: exakt. Alt: Fehler = J[:, j] * q_dot_full[j] und wird erkannt. ... 
+[Lock] max Residuum neu = 5.38e-14, min rel. Residuum alt = 2.62e-03, wirkungslos (Nullspalte): [('pos', 6)]
+ok
+test_reaches_and_deterministic (test_ik.TestMultiStartIK.test_reaches_and_deterministic) ... ok
+test_clip_counted_and_respected (test_ik.TestVelocityLimits.test_clip_counted_and_respected) ... ok
+test_parallel_offset (test_metrics.TestKnownValues.test_parallel_offset) ... ok
+test_time_sync_requires_same_basis (test_metrics.TestKnownValues.test_time_sync_requires_same_basis) ... ok
+test_invariance (test_metrics.TestReparamInvariance.test_invariance) ... 
+[Metriken] (A~B, A~C, B~C): {'chamfer_mean': ('7.77e-08', '7.88e-03', '7.88e-03'), 'chamfer_max': ('4.91e-07', '1.69e-02', '1.69e-02'), 'frechet': ('5.11e-07', '1.69e-02', '1.69e-02'), 'dtw': ('1.19e-07', '8.00e-03', '8.00e-03')}
+ok
+test_fr3_matches_franka_dh (test_robots.TestForwardKinematics.test_fr3_matches_franka_dh) ... 
+[FK] FR3 Menagerie vs. Franka-DH: max |dp| = 7.79e-16 m, max |dR| = 8.29e-16 rad
+ok
+test_ur5e_vs_ur_dh_documented (test_robots.TestForwardKinematics.test_ur5e_vs_ur_dh_documented) ... 
+[FK] UR5e Menagerie vs. UR-DH: max |dp| = 1.48e-03 m (Position)
+ok
+test_jacobian_vs_finite_differences (test_robots.TestJacobian.test_jacobian_vs_finite_differences) ... ok
+test_mjcf_matches_documented_limits (test_robots.TestLimits.test_mjcf_matches_documented_limits) ... ok
+test_bitwise_identical (test_sim.TestDeterminism.test_bitwise_identical) ... ok
+test_midpose_all_robots_all_modes (test_sim.TestMidpose.test_midpose_all_robots_all_modes) ... 
+[Mittellage] FR3   pos    maxdev = 5.14e-06 m (0.0103 % L), chamfer_max = 1.87e-06 m, ori = 1.0e-01 rad, clips v/q = 0/0, sigma_min = 0.229
+
+[Mittellage] FR3   axis5  maxdev = 5.29e-06 m (0.0106 % L), chamfer_max = 1.85e-06 m, ori = 2.2e-07 rad, clips v/q = 0/0, sigma_min = 0.137
+
+[Mittellage] FR3   full6  maxdev = 5.31e-06 m (0.0106 % L), chamfer_max = 1.86e-06 m, ori = 2.2e-07 rad, clips v/q = 0/0, sigma_min = 0.137
+
+[Mittellage] UR5e  pos    maxdev = 6.91e-06 m (0.0138 % L), chamfer_max = 3.66e-06 m, ori = 9.6e-02 rad, clips v/q = 0/0, sigma_min = 0.301
+
+[Mittellage] UR5e  axis5  maxdev = 6.84e-06 m (0.0137 % L), chamfer_max = 3.68e-06 m, ori = 1.8e-12 rad, clips v/q = 0/0, sigma_min = 0.220
+
+[Mittellage] UR5e  full6  maxdev = 6.84e-06 m (0.0137 % L), chamfer_max = 3.68e-06 m, ori = 1.8e-12 rad, clips v/q = 0/0, sigma_min = 0.219
+ok
+
+======================================================================
+FAIL: test_2D_Shapes_Five_Obstacle_DS (test_ds.TestOnnxVsTorch.test_2D_Shapes_Five_Obstacle_DS)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/philipp/lfd_baseline/tests/test_ds.py", line 52, in test
+    self.assertLess(e_onnx_pth, 1e-5, "ONNX-Datei != model_f.pth (verschiedene Netze)")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.05344408378005028 not less than 1e-05 : ONNX-Datei != model_f.pth (verschiedene Netze)
+
+======================================================================
+FAIL: test_LASA_CShape (test_ds.TestOnnxVsTorch.test_LASA_CShape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/philipp/lfd_baseline/tests/test_ds.py", line 52, in test
+    self.assertLess(e_onnx_pth, 1e-5, "ONNX-Datei != model_f.pth (verschiedene Netze)")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.5040332674980164 not less than 1e-05 : ONNX-Datei != model_f.pth (verschiedene Netze)
+
+======================================================================
+FAIL: test_LASA_PShape_benchmark (test_ds.TestOnnxVsTorch.test_LASA_PShape_benchmark)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/philipp/lfd_baseline/tests/test_ds.py", line 52, in test
+    self.assertLess(e_onnx_pth, 1e-5, "ONNX-Datei != model_f.pth (verschiedene Netze)")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.5835362672805786 not less than 1e-05 : ONNX-Datei != model_f.pth (verschiedene Netze)
+
+======================================================================
+FAIL: test_LASA_Sshape_benchmark (test_ds.TestOnnxVsTorch.test_LASA_Sshape_benchmark)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/philipp/lfd_baseline/tests/test_ds.py", line 52, in test
+    self.assertLess(e_onnx_pth, 1e-5, "ONNX-Datei != model_f.pth (verschiedene Netze)")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.9764477014541626 not less than 1e-05 : ONNX-Datei != model_f.pth (verschiedene Netze)
+
+----------------------------------------------------------------------
+Ran 34 tests in 54.958s
+
+FAILED (failures=4)

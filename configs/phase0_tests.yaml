@@ -1,0 +1,34 @@
+# Phase-0-Testkonfiguration. NUR fuer die Fundament-Tests.
+# Diese Werte sind KEINE bestaetigten Versuchsannahmen fuer Stufe 1-5
+# (Ebene, Startpose und Bahnlage sind laut Philipp noch offen, siehe PHASE0.md).
+
+shape: Sine
+dataset: LASA
+
+# Zeitbasis: demo-treu, v_peak / L = vs / ps (aus den LASA-Daten berechnet)
+time_rate: demo
+
+sim:
+  dt: 0.002            # s
+  T_max: 10.0          # s; ideales DS erreicht 1 % L nach 5.86 s (demo-treue Zeitbasis)
+  k_perp: 5.0          # 1/s, Korrektur senkrecht zur Ebene
+  k_rot: 5.0           # 1/s, Orientierungsregelung (axis5/full6)
+  success_frac: 0.01   # Erfolg: Endabstand < 1 % von L
+  n_starts: 32         # Multi-Start-IK fuer die Startpose
+  seed: 0
+  start_criterion: nearest_ref   # Referenz = MJCF-Keyframe "home"
+  ik:
+    eps: 0.02
+    lam_max: 0.05
+    k_null: 0.0
+
+# "Leicht erreichbare Mittellage": Ebene horizontal durch den TCP der
+# dokumentierten Home-Pose (MJCF-Keyframe "home") des jeweiligen Roboters.
+# Bahnmitte (Bounding-Box-Mitte des idealen Pfads) liegt auf diesem TCP.
+midpose:
+  L: 0.05              # m pro Normierungseinheit (= Originalgroesse ps = 50 mm)
+  e1: [1.0, 0.0, 0.0]
+  e2: [0.0, 1.0, 0.0]
+  anchor: bbox_center
+  orientation: home    # axis5/full6: Soll = Orientierung in der Home-Pose
+  tol_frac: 0.01       # max. zeitsynchrone Abweichung < 1 % von L

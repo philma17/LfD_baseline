@@ -1,0 +1,57 @@
+# Stufe 1: LASA Sine, nur Position (3D). FR3 (7 DoF) vs. UR5e (6 DoF).
+# Alle Werte und Schwellen sind VOR dem ersten Lauf festgelegt (Freigabe 2026-10-16).
+
+shape: Sine
+dataset: LASA
+time_rate: demo          # F9: v_peak / L = vs / ps = 0.514 1/s (aus LASA-Daten)
+
+sim:                     # F10, F11, F14: Phase-0-Werte
+  dt: 0.002
+  T_max: 10.0
+  k_perp: 5.0
+  k_rot: 5.0
+  success_frac: 0.01     # Erfolg: Endabstand < 1 % L bei T_max
+  n_starts: 32
+  seed: 0
+  start_criterion: max_sigma_margin   # F7: groesstes sigma_min bei Limitabstand > 5 %
+  start_min_margin_pct: 5.0
+  ik:
+    eps: 0.02
+    lam_max: 0.05
+    k_null: 0.0          # wird pro Variante gesetzt
+
+# F13: limit-bedingter Fehler = Erfolg false UND (Clips > 0 ODER sigma_min < 0.01 ODER IK-Startfehler > 1 mm)
+failure:
+  sigma_min: 0.01
+  ik_err_m: 0.001
+
+# Aufgabe: Bezugspunkt = Ziel des DS (x_n = 0) im Mittelpunkt c (F2).
+# c = (r, s, h_robot) im Weltsystem, Basis im Ursprung (F5).
+# r: radial entlang Welt +x, s: seitlich entlang Welt +y (F3).
+task:
+  mode: pos
+  anchor: [0.0, 0.0]
+  heights_m:             # F1: Hoehe pro Roboter = TCP-Hoehe der Home-Pose (Mittellage in Phase 0 erreichbar)
+    FR3: 0.625
+    UR5e: 0.488
+  planes:                # F1: Ebenenorientierung als Rasterparameter
+    horizontal: {e1: [1.0, 0.0, 0.0], e2: [0.0, 1.0, 0.0]}
+    vertical_xz: {e1: [1.0, 0.0, 0.0], e2: [0.0, 0.0, 1.0]}
+  L_m: [0.05, 0.10, 0.15, 0.20, 0.30]                 # F4
+  r_m: {start: 0.05, stop: 0.85, step: 0.05}          # F4: bis zur Reichweite (Datenblatt ~0.85 m)
+  s_m: [0.0, 0.2, 0.4]                                # F3: seitlich (Wahl Phase 1, nicht vorgegeben)
+  r0_m: 0.50             # Referenz fuer "erster Fehler nach aussen / innen"
+
+# Varianten. Gesperrte Gelenke stehen auf ihrem Home-Wert (MJCF-Keyframe).
+variants:
+  - {name: UR5e, robot: UR5e, k_null: 0.0, lock: null}
+  - {name: UR5e_null, robot: UR5e, k_null: 0.5, lock: null}   # zusaetzlich: UR5e ist bei 3D auch redundant
+  - {name: FR3, robot: FR3, k_null: 0.0, lock: null}           # F12: Nullraum AUS
+  - {name: FR3_null, robot: FR3, k_null: 0.5, lock: null}      # F12: Nullraum AN (Gelenkzentrierung)
+  - {name: FR3_lock1, robot: FR3, k_null: 0.0, lock: 0}
+  - {name: FR3_lock2, robot: FR3, k_null: 0.0, lock: 1}
+  - {name: FR3_lock3, robot: FR3, k_null: 0.0, lock: 2}
+  - {name: FR3_lock4, robot: FR3, k_null: 0.0, lock: 3}
+  - {name: FR3_lock5, robot: FR3, k_null: 0.0, lock: 4}
+  - {name: FR3_lock6, robot: FR3, k_null: 0.0, lock: 5}
+  - {name: FR3_lock7, robot: FR3, k_null: 0.0, lock: 6}
