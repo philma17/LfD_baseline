@@ -183,12 +183,44 @@ class PlanarEmbedding:
         return np.asarray(v2, float) @ self.E.T
 
 
-class LearnedDS:
-    """x_n_dot = (v_peak / L) f(x_n); v_world = v_peak * E f(x_n)."""
+class PthMLP(OnnxMLP):
+    """model_f.pth (NNModels.DyanmicsNet) als numpy-MLP in float64.
 
-    def __init__(self, shape: str, dataset: str = "LASA"):
+    forward (NNModels.py): y = act(W_i y) fuer alle Schichten ausser der letzten,
+    danach Tanh(W_last y). Keine Biases (bias=False im Original).
+    """
+
+    def __init__(self, path: str):
+        import torch.nn as nn
+        m = load_torch_reference(path)
+        acts = {nn.Tanh: "Tanh", nn.ReLU: "Relu"}
+        act = acts.get(type(m.sigmoid_f))
+        if act is None and type(m.sigmoid_f).__name__ != "ELU":
+            raise ValueError(f"Aktivierung {type(m.sigmoid_f).__name__} nicht unterstuetzt")
+        self.path = path
+        self.dim = m.layers_f[0].in_features
+        self.ops = []
+        for i, layer in enumerate(m.layers_f):
+            if layer.bias is not None:
+                raise ValueError("Bias unerwartet")
+            self.ops.append(("matmul", layer.weight.detach().double().numpy().T))
+            if i < len(m.layers_f) - 1:
+                self.ops.append(("elu", 1.0) if act is None else ("act", act))
+            else:
+                self.ops.append(("act", "Tanh"))
+
+
+class LearnedDS:
+    """x_n_dot = (v_peak / L) f(x_n); v_world = v_peak * E f(x_n).
+
+    source: "onnx" (models_onnx/, Standard) oder "pth" (models_verified/.../model_f.pth).
+    """
+
+    def __init__(self, shape: str, dataset: str = "LASA", source: str = "onnx"):
         self.shape = shape
-        self.f = OnnxMLP(onnx_path(shape, dataset))
+        self.source = source
+        self.f = OnnxMLP(onnx_path(shape, dataset)) if source == "onnx" else PthMLP(
+            pth_path(shape, dataset))
 
     def f_n(self, x_n: np.ndarray) -> np.ndarray:
         return self.f(np.asarray(x_n, float).reshape(1, -1))[0]

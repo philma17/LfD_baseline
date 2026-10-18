@@ -17,7 +17,8 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from . import metrics as M
-from .ik import IKParams, Target, multistart_ik, solve_qdot, task_rows, rot_error
+from .ik import (IKParams, IKResult, Target, multistart_ik, rot_error, solve_qdot, task_rows,
+                 task_sigma_min)
 
 
 @dataclass
@@ -31,11 +32,14 @@ class SimParams:
     seed: int = 0
     start_criterion: str = "nearest_ref"
     start_min_margin_pct: float = 5.0
+    clear_every: int = 10           # Hindernisabstand alle n Schritte pruefen
     ik: IKParams = field(default_factory=IKParams)
 
 
 def run(robot, ds, emb, x0_n, rate: float, tgt: Target, sp: SimParams,
-        free=None, q_ref=None, keep_traj: bool = False) -> dict:
+        free=None, q_ref=None, keep_traj: bool = False, q_start=None, q_null=None) -> dict:
+    """q_start: feste Startkonfiguration (z. B. aus einer Roboteraufnahme) statt Multi-Start-IK.
+    q_null: Ziel der Nullraumaufgabe (Standard: Gelenkmitte)."""
     n = robot.n
     free = np.ones(n, bool) if free is None else np.asarray(free, bool)
     N = int(round(sp.T_max / sp.dt))
@@ -45,10 +49,24 @@ def run(robot, ds, emb, x0_n, rate: float, tgt: Target, sp: SimParams,
     goal = emb.to_world(np.zeros(2))
 
     q_ref = robot.q_home if q_ref is None else np.asarray(q_ref, float)
-    ikr = multistart_ik(robot, P_id[0], tgt, q_ref, sp.n_starts, sp.seed,
-                        sp.start_criterion, free=free, min_margin_pct=sp.start_min_margin_pct)
+    if q_start is None:
+        ikr = multistart_ik(robot, P_id[0], tgt, q_ref, sp.n_starts, sp.seed,
+                            sp.start_criterion, free=free, min_margin_pct=sp.start_min_margin_pct)
+    else:
+        q0 = np.asarray(q_start, float)
+        p0, R0s = robot.fk(q0)
+        _, _, oe0 = task_rows(robot.jac(), R0s, tgt, P_id[0] - p0, 1.0)
+        ikr = IKResult(q0, float(np.linalg.norm(P_id[0] - p0)), float(oe0), True, 1, 0,
+                       task_sigma_min(robot, q0, tgt, free),
+                       float(robot.limit_margin_pct(q0).min()), True)
     q = ikr.q.copy()
     q_mid, q_rng = 0.5 * (robot.q_min + robot.q_max), robot.q_max - robot.q_min
+    if q_null is not None:
+        q_mid = np.asarray(q_null, float)
+    check_obst = bool(getattr(robot, "obstacle_geoms", None))
+    tags = sorted(robot.obstacle_tags) if check_obst else []
+    clr = {t: {"links_m": np.inf, "link": None, "tool_m": np.inf, "t_first_link_s": None}
+           for t in tags}
 
     P = np.empty((N + 1, 3))
     Xn = np.empty((N + 1, 2))
@@ -68,6 +86,21 @@ def run(robot, ds, emb, x0_n, rate: float, tgt: Target, sp: SimParams,
             R0 = R
         x_n, dp = emb.to_plane(p)
         P[k], Xn[k], Q[k], dperp[k] = p, x_n, q, dp
+        if check_obst and (k % sp.clear_every == 0 or k == N):
+            for t in tags:
+                c = clr[t]
+                cl = robot.clearance(robot.link_geoms, tag=t)
+                j = int(np.argmin(cl))
+                if cl[j] < c["links_m"]:
+                    c["links_m"] = float(cl[j])
+                    c["link"] = robot.model.body(int(robot.model.geom_bodyid[
+                        robot.link_geoms[j]])).name
+                if cl[j] < 0 and c["t_first_link_s"] is None:
+                    c["t_first_link_s"] = k * sp.dt
+                if robot.tool_geoms:
+                    c["tool_m"] = min(c["tool_m"],
+                                      float(robot.clearance(robot.tool_geoms, tag=t).min()))
+            robot.fk(q)  # TCP-Puffer fuer den Jacobian wiederherstellen
         v_lin = v_peak * emb.vel_to_world(ds.f_n(x_n)) - sp.k_perp * dp * emb.normal
         J6 = robot.jac()
         Jt, vt, oe = task_rows(J6, R, tgt, v_lin, sp.k_rot)
@@ -137,6 +170,8 @@ def run(robot, ds, emb, x0_n, rate: float, tgt: Target, sp: SimParams,
         "p_min_sigma": P[int(np.argmin(smin))].tolist(),
         "xn_min_sigma": Xn[int(np.argmin(smin))].tolist(),
     }
+    if check_obst:
+        res["clearance"] = clr     # je Hindernisgruppe: min. Abstand Armkoerper / Werkzeug
     if keep_traj:
         res["traj"] = {"P": P, "P_ideal": P_id, "Q": Q, "Xn": Xn, "X_ideal": X_id}
     return res

@@ -86,13 +86,48 @@ UR5E = RobotSpec(
 ROBOTS = {"FR3": FR3, "UR5e": UR5E}
 
 
-class Robot:
-    """Kinematik-Wrapper: FK, geometrischer Jacobian (Welt), Limits."""
+# Franka-Hand-EE-Rahmen (libfranka F_T_EE-Standard bei montierter Hand): 0.1034 m entlang
+# Flansch-z, -45 deg um z. In den Five_Obstacle-Aufnahmen per FK bestaetigt (Streuung < 1e-6).
+FRANKA_HAND_TCP = (np.array([0.0, 0.0, 0.1034]),
+                   np.array([[np.cos(-np.pi / 4), -np.sin(-np.pi / 4), 0.0],
+                             [np.sin(-np.pi / 4), np.cos(-np.pi / 4), 0.0],
+                             [0.0, 0.0, 1.0]]))
 
-    def __init__(self, spec: RobotSpec):
+
+def _quat_z_to(a: np.ndarray) -> np.ndarray:
+    """Quaternion (w, x, y, z), das die z-Achse auf a dreht."""
+    a = np.asarray(a, float) / np.linalg.norm(a)
+    z = np.array([0.0, 0.0, 1.0])
+    c = np.cross(z, a)
+    s, d = np.linalg.norm(c), float(z @ a)
+    if s < 1e-12:
+        return np.array([1.0, 0, 0, 0]) if d > 0 else np.array([0.0, 1.0, 0, 0])
+    ang = np.arctan2(s, d)
+    ax = c / s
+    return np.concatenate([[np.cos(ang / 2)], np.sin(ang / 2) * ax])
+
+
+class Robot:
+    """Kinematik-Wrapper: FK, geometrischer Jacobian (Welt), Limits.
+
+    tcp_offset = (p_off, R_off) im Site-Rahmen: TCP = Site * Offset. Ohne Offset ist der
+    TCP die Site selbst (Phase 0/1, bitgleich zum frueheren Verhalten).
+    tool_radius > 0 haengt eine Kapsel Site->TCP als Werkzeug-Kollisionsgeometrie an.
+    obstacles: Liste von dicts {name, center, axis, radius, height} (Zylinder, Welt).
+    """
+
+    def __init__(self, spec: RobotSpec, tcp_offset=None, tool_radius: float = 0.0,
+                 obstacles=None):
         self.spec = spec
-        self.model = mujoco.MjModel.from_xml_path(os.path.join(MENAGERIE_DIR, spec.mjcf))
+        path = os.path.join(MENAGERIE_DIR, spec.mjcf)
+        if tool_radius > 0 or obstacles:
+            self.model = self._build(path, spec, tcp_offset, tool_radius, obstacles or [])
+        else:
+            self.model = mujoco.MjModel.from_xml_path(path)
         self.data = mujoco.MjData(self.model)
+        self.p_off = None if tcp_offset is None else np.asarray(tcp_offset[0], float)
+        self.R_off = None if tcp_offset is None else np.asarray(tcp_offset[1], float)
+        self._p_tcp = np.zeros(3)
         jids = [mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, j) for j in spec.joints]
         if min(jids) < 0:
             raise ValueError(f"{spec.name}: Gelenk nicht im MJCF gefunden")
@@ -105,6 +140,19 @@ class Robot:
         self.site = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SITE, spec.site)
         if self.site < 0:
             raise ValueError(f"{spec.name}: Site {spec.site} fehlt")
+        self.site_body = int(self.model.site_bodyid[self.site])
+        g = self.model
+        self.obstacle_geoms = [i for i in range(g.ngeom)
+                               if (g.geom(i).name or "").startswith("obstacle")]
+        # Hindernisse koennen in Gruppen (tag) vorliegen, z. B. gleiche Grundflaeche, andere Hoehe
+        self.obstacle_tags = {}
+        for i in self.obstacle_geoms:
+            tag = g.geom(i).name.split("|")[1] if "|" in g.geom(i).name else ""
+            self.obstacle_tags.setdefault(tag, []).append(i)
+        self.tool_geoms = [i for i in range(g.ngeom) if g.geom(i).name == "tool"]
+        self.link_geoms = [i for i in range(g.ngeom)
+                           if g.geom_group[i] == 3 and g.geom_bodyid[i] != 0
+                           and i not in self.tool_geoms]
         key = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_KEY, "home")
         self.q_home = self.model.key_qpos[key][self.qadr].copy() if key >= 0 else np.zeros(self.n)
         self._jp = np.zeros((3, self.model.nv))
@@ -115,14 +163,63 @@ class Robot:
         mujoco.mj_kinematics(self.model, self.data)
         mujoco.mj_comPos(self.model, self.data)
 
+    @staticmethod
+    def _build(path, spec, tcp_offset, tool_radius, obstacles):
+        """Modell per MjSpec um Werkzeugkapsel und Hindernis-Zylinder erweitern."""
+        base = mujoco.MjModel.from_xml_path(path)
+        sid = mujoco.mj_name2id(base, mujoco.mjtObj.mjOBJ_SITE, spec.site)
+        bname = base.body(int(base.site_bodyid[sid])).name
+        s_pos = base.site_pos[sid].copy()
+        s_R = np.zeros(9)
+        mujoco.mju_quat2Mat(s_R, base.site_quat[sid])
+        s_R = s_R.reshape(3, 3)
+        ms = mujoco.MjSpec.from_file(path)
+        if tool_radius > 0:
+            p_off = np.zeros(3) if tcp_offset is None else np.asarray(tcp_offset[0], float)
+            a, b = s_pos, s_pos + s_R @ p_off
+            ms.body(bname).add_geom(
+                name="tool", type=mujoco.mjtGeom.mjGEOM_CAPSULE,
+                pos=0.5 * (a + b), quat=_quat_z_to(b - a),
+                size=[tool_radius, 0.5 * np.linalg.norm(b - a), 0.0],
+                group=3, contype=0, conaffinity=0, rgba=[0.2, 0.2, 0.8, 1.0])
+        for i, ob in enumerate(obstacles):
+            ax = np.asarray(ob["axis"], float) / np.linalg.norm(ob["axis"])
+            c = np.asarray(ob["center"], float) + 0.5 * ob["height"] * ax
+            tag = f"|{ob['tag']}" if ob.get("tag") else ""
+            ms.worldbody.add_geom(
+                name=f"obstacle{i}{tag}", type=mujoco.mjtGeom.mjGEOM_CYLINDER, pos=c,
+                quat=_quat_z_to(ax), size=[ob["radius"], 0.5 * ob["height"], 0.0],
+                group=4, contype=0, conaffinity=0, rgba=[0.9, 0.1, 0.1, 0.6])
+        return ms.compile()
+
     def fk(self, q: np.ndarray):
         self.set_q(q)
-        return self.data.site_xpos[self.site].copy(), self.data.site_xmat[self.site].reshape(3, 3).copy()
+        p = self.data.site_xpos[self.site].copy()
+        R = self.data.site_xmat[self.site].reshape(3, 3).copy()
+        if self.p_off is None:
+            return p, R
+        self._p_tcp = p + R @ self.p_off
+        return self._p_tcp.copy(), R @ self.R_off
 
     def jac(self) -> np.ndarray:
         """6xn Jacobian [Jp; Jr] im Weltsystem am TCP (nach set_q/fk)."""
-        mujoco.mj_jacSite(self.model, self.data, self._jp, self._jr, self.site)
+        if self.p_off is None:
+            mujoco.mj_jacSite(self.model, self.data, self._jp, self._jr, self.site)
+        else:
+            mujoco.mj_jac(self.model, self.data, self._jp, self._jr, self._p_tcp, self.site_body)
         return np.vstack([self._jp[:, self.dadr], self._jr[:, self.dadr]])
+
+    def clearance(self, geoms, distmax: float = 1.0, tag=None) -> np.ndarray:
+        """Abstand (m) jeder Geometrie in geoms zum naechsten Hindernis (optional nur Gruppe
+        tag), nach set_q/fk. Negativ = Durchdringung."""
+        out = np.full(len(geoms), distmax)
+        ft = np.zeros(6)
+        obs = self.obstacle_geoms if tag is None else self.obstacle_tags[tag]
+        for k, g in enumerate(geoms):
+            for o in obs:
+                out[k] = min(out[k], mujoco.mj_geomDistance(self.model, self.data, g, o,
+                                                            distmax, ft))
+        return out
 
     def limit_margin_pct(self, q: np.ndarray) -> np.ndarray:
         """Abstand zum naechsten Positionslimit in % des Gelenkbereichs (50 % = Mitte)."""

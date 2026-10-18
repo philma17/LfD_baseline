@@ -11,7 +11,7 @@ Grundsaetze (Fehlerliste des Altversuchs):
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 from scipy.spatial.transform import Rotation
@@ -148,6 +148,7 @@ class IKResult:
     sigma_min: float = float("nan")
     margin_pct: float = float("nan")
     margin_ok: bool = True
+    solutions: list = field(default_factory=list)   # alle konvergierten Startloesungen
 
 
 def ik_pose(robot, p_des, tgt: Target, q_init, free=None, iters: int = 400,
@@ -225,4 +226,16 @@ def multistart_ik(robot, p_des, tgt: Target, q_ref, n_starts: int, seed: int,
     res.sigma_min = task_sigma_min(robot, best[0], tgt, free)
     res.margin_pct = float(robot.limit_margin_pct(best[0]).min())
     res.margin_ok = margin_ok
+    res.solutions = [s[0].copy() for s in conv]
     return res
+
+
+def distinct_configs(robot, qs, tol: float = 0.05):
+    """Konfigurationen bis auf 2*pi-Mehrdeutigkeit zusammenfassen (Winkel auf (-pi, pi])."""
+    out, keys = [], []
+    for q in qs:
+        w = (np.asarray(q) + np.pi) % (2 * np.pi) - np.pi
+        if all(np.max(np.abs((w - k + np.pi) % (2 * np.pi) - np.pi)) > tol for k in keys):
+            keys.append(w)
+            out.append(np.asarray(q))
+    return out
