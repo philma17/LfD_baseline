@@ -347,6 +347,18 @@ def summarize(rows, cases):
             s["min_unsafe_clearance_mm"] = (float(min(r["unsafe_clearance_mm"] for r in used))
                                             if used else None)
             summary[case][rb] = s
+        # paired FR3 - UR5e comparison over the same start points (Wilcoxon signed-rank)
+        by = {(r["robot"], r["i"]): r["mse_mm2"] for r in rows if r["case"] == case}
+        d = np.array([by[("FR3", i)] - by[("UR5e", i)] for i in idx])
+        if len(d) > 1 and np.any(d != 0):
+            from scipy.stats import wilcoxon
+            p = float(wilcoxon(d).pvalue)
+        else:
+            p = None
+        summary[case]["paired_mse_fr3_minus_ur5e_mm2"] = {
+            "mean": float(d.mean()) if len(d) else None,
+            "median": float(np.median(d)) if len(d) else None,
+            "n_ur5e_lower": int(np.sum(d > 0)), "n": int(len(d)), "wilcoxon_p": p}
     return summary
 
 
@@ -370,6 +382,11 @@ def print_summary(summary):
             notes.update({k: v for k, v in t.items() if k.startswith("runs_with_") and v})
             if notes:
                 print(f"{'':24s}-> {notes}")
+        pc = s["paired_mse_fr3_minus_ur5e_mm2"]
+        if pc["n"]:
+            print(f"{'':24s}paired MSE FR3 - UR5e: mean {pc['mean']:+.4g}, median "
+                  f"{pc['median']:+.4g} mm^2, UR5e lower in {pc['n_ur5e_lower']}/{pc['n']}, "
+                  f"Wilcoxon p = {pc['wilcoxon_p']}")
 
 
 # --------------------------------------------------------------------------
@@ -536,7 +553,8 @@ def fig_mse(rows, cases, labels, fname):
             ax.plot(pos + rng.uniform(-0.07, 0.07, len(v)), v, ".", color=cmap[rb], ms=3.5)
     ax.set_xticks(range(len(cases)))
     ax.set_xticklabels([labels[c] for c in cases], fontsize=8)
-    ax.set_ylabel(r"tracking MSE per run [mm$^2$]")
+    ax.set_yscale("log")    # failed Menagerie-gain UR5e runs are ~50x larger than the rest
+    ax.set_ylabel(r"tracking MSE per run [mm$^2$] (log scale)")
     ax.legend(handles=[plt.matplotlib.patches.Patch(color=cmap[rb], alpha=0.6, label=rb)
                        for rb in ROBOT_ORDER], loc="upper left")
     ax.set_title("Time-synchronized tracking MSE vs. ideal DS rollout (one point per start)")
