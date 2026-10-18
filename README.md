@@ -315,6 +315,73 @@ counts hinge joints that have an actuator.
   not in the MJCF; not done). The task plane must also be moved into its workspace: the
   current goal (0.5, 0, 0.5) m is at the edge of a 0.63 m reach. Not done, not verified.
 
+## Single-run comparison (`experiments/compare_single.py`)
+
+    ~/lfd_env/bin/python experiments/compare_single.py --shape Sine --start 3 \
+        --tau fr3=0.10 ur5e=0.10 --speed 1 --task full6 --L 0.10
+    ~/lfd_env/bin/python experiments/compare_single.py --x0 -0.95 0.02 --menagerie-gains --kinematic
+    ~/lfd_env/bin/python experiments/compare_single.py --dataset 2D_Shapes --shape Five_Obstacle_DS --start 0
+
+The tool makes one figure in the style of Figure D and one json file. It runs every robot from
+the same start: ideal DS rollout (dashed), one path per robot, start, goal and the S2NNDS
+unsafe circle. A table below the figure shows success, final goal error, RMSE, max geometric
+deviation, min unsafe clearance, domain exit, peak measured |q̇|/q̇_max, peak applied
+|τ|/τ_lim, the fraction of steps with IK velocity scaling and the first limit event. The same
+table is printed to the terminal. Outputs: `figures/compare_single/<stem>.png|pdf` and
+`results/compare_single/<stem>.json`.
+
+| option | default | meaning |
+|---|---|---|
+| `--dataset`, `--shape` | LASA, Sine | S2NNDS model (2D models only) |
+| `--model-source` | pth | `pth` = `models_verified/.../model_f.pth`, `onnx` = `models_onnx/`. The tool prints the loaded file and warns if ONNX and PTH differ by more than `--model-tol` (1e-5, max over 2000 domain points) |
+| `--start i` / `--x0 X Y` | start 0 | index into the shared start set (seed and N from `multistart`, sampled in the model's verified initial set) or explicit normalized coordinates. It warns if x0 is outside the initial set or the domain |
+| `--tau ROBOT=TAU ...` / `--menagerie-gains` | 0.10 s each | kv = kp·tau on the in-memory model, or the unmodified model values |
+| `--speed`, `--T-max` | 1, `sim.T_max/speed` | DS time-rate factor; the reference uses the same rate |
+| `--task` | full6 | full6, pos or axis5 (tool z down from `task.orientation`) |
+| `--L` | `task.L_m` | metres per normalized unit; plane and goal from `task` |
+| `--nullspace on/off`, `--k-null` | off, 0.5 | null-space joint centring in `solve_qdot` |
+| `--gravity-ff on/off` | on | feed-forward start target. It is recorded in the json and terminal output, not on the figure |
+| `--kinematic` | off | also run `sim.run` from the same start, drawn as a thin line |
+| `--robots` | fr3 ur5e | any robot registered in `common.robots.ROBOTS` |
+
+The start configuration is the existing IK start procedure (`multistart_ik`, same parameters
+as `sim.run`). Runs whose IK start error exceeds 1 mm / 1e-3 rad are kept and flagged
+`ik_fail`, and run errors are reported in the table. Limit events keep command, applied and
+measured values apart, as in `dynamic_sweeps.py`. FR3 torque is compared with the documented
+limits, which the FR3 model does not enforce.
+
+## Model source: verified `.pth` is the default
+
+`common.scenario.build_ds` now loads `cfg["model_source"]`, default `pth`, which is
+`S2NNDS/models_verified/<dataset>/<shape>/model_f.pth`. `configs/dynamic_baseline.yaml` sets
+`model_source: pth` explicitly. `common/ds.py` is unchanged, so `LearnedDS(...)` called
+directly still defaults to ONNX. The only direct callers are `five_obstacle_transfer.py` and
+`compare_single.py`, which pass the source explicitly, and two Sine checks in
+`tests/test_ds.py`, where ONNX = PTH.
+
+- **Until 2026-10-18 every Sine run used** `S2NNDS/models_onnx/LASA/Sine.onnx`, because
+  `build_ds` did not pass a source and `LearnedDS` defaulted to ONNX.
+  `five_obstacle_transfer.py` sets `NET = "pth"` explicitly.
+- **Why ONNX was the default: not found.** No commit message mentions it. PHASE0.md only
+  states that the simulation evaluates "das ONNX-Netz" as a numpy MLP and that torch is
+  needed "nur für den Test ONNX == pth". The Phase 0 commit (`dc9f2c5`) had only an ONNX
+  loader. The pth option was added in `67a2a84` with ONNX kept as "Standard". The reason is
+  not documented.
+- In S2NNDS `main.py`, `export_onnx()` runs right after `save_all_models()` once verification
+  succeeds (both write the final `model_f`). The pth files in `models_verified/` are copies;
+  where those copies came from is not documented in S2NNDS.
+- **Sine is unaffected.** The ONNX and PTH weights are bitwise identical, and the max output
+  difference on 2000 domain points is 0. A rerun of the main multistart case (equal tau +
+  FF, 20 starts, both robots, plus the kinematic reference) gives the same status and
+  success in 80/80 runs. Every metric agrees with the stored ONNX results to within
+  4·10⁻¹¹ mm² / 5·10⁻¹² mm (`experiments/check_model_source.py` →
+  `results/model_source_check/comparison.json`). The results are not bitwise identical.
+  This is floating-point rounding; the exact cause (e.g. different array layout of the
+  loaded weights in the batch-1 matmul) is not verified.
+- **The other models differ.** CShape, PShape_benchmark, Sshape_benchmark and
+  2D_Shapes/Five_Obstacle_DS have different ONNX and PTH networks (`tests/test_ds.py`). For
+  them, all results before this change would refer to the ONNX network.
+
 ### Known limitations and assumptions
 
 - Servo gains, damping, armature and friction are the Menagerie values; they are not

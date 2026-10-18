@@ -1,0 +1,77 @@
+{
+ "loaded_file": "/home/philipp/S2NNDS/models_verified/LASA/Sine/model_f.pth",
+ "source": "pth",
+ "sine_weights_equal": true,
+ "detail": "all layers bitwise identical (float32 weights cast to float64)",
+ "sine_max_abs_output_diff": 0.0,
+ "case": "equal_tau_ff",
+ "reference": "results/dynamic_multistart/runs.jsonl (ONNX)",
+ "comparison": {
+  "kinematic|FR3": {
+   "n": 20,
+   "status_equal": 20,
+   "success_equal": 20,
+   "max_abs_diff": {
+    "mse_mm2": 1.1668563251049369e-14,
+    "rmse_mm": 8.017085259548473e-13,
+    "final_goal_err_mm": 2.606779412523902e-13,
+    "geom_dev_max_mm": 8.406140367123172e-13,
+    "peak_vel_ratio": 1.0595690991266338e-14,
+    "unsafe_clearance_mm": 2.948752353404416e-13,
+    "min_sigma_min": 3.0531133177191805e-16,
+    "min_limit_margin_pct": 0.0,
+    "q_start": 0.0
+   }
+  },
+  "kinematic|UR5e": {
+   "n": 20,
+   "status_equal": 20,
+   "success_equal": 20,
+   "max_abs_diff": {
+    "mse_mm2": 2.7734186339644848e-14,
+    "rmse_mm": 2.8792255038490033e-12,
+    "final_goal_err_mm": 3.129247729696038e-14,
+    "geom_dev_max_mm": 4.359779898210903e-12,
+    "peak_vel_ratio": 0.0,
+    "unsafe_clearance_mm": 1.2256862191861728e-12,
+    "min_sigma_min": 2.498001805406602e-16,
+    "min_limit_margin_pct": 0.0,
+    "q_start": 0.0
+   }
+  },
+  "equal_tau_ff|FR3": {
+   "n": 20,
+   "status_equal": 20,
+   "success_equal": 20,
+   "max_abs_diff": {
+    "mse_mm2": 1.7280399333685637e-11,
+    "rmse_mm": 5.151434834260726e-13,
+    "final_goal_err_mm": 3.9312129940238805e-13,
+    "geom_dev_max_mm": 5.702105454474804e-13,
+    "peak_vel_ratio": 1.033895191682177e-15,
+    "peak_tau_ratio": 5.218048215738236e-15,
+    "max_gap_deg": 2.55351295663786e-14,
+    "unsafe_clearance_mm": 3.7836400679225335e-13,
+    "min_sigma_min": 2.498001805406602e-16,
+    "min_limit_margin_pct": 0.0
+   }
+  },
+  "equal_tau_ff|UR5e": {
+   "n": 20,
+   "status_equal": 20,
+   "success_equal": 20,
+   "max_abs_diff": {
+    "mse_mm2": 4.084910187884816e-11,
+    "rmse_mm": 2.62456723021387e-12,
+    "final_goal_err_mm": 6.856921537801598e-13,
+    "geom_dev_max_mm": 2.632560835991171e-12,
+    "peak_vel_ratio": 2.4841240175987878e-15,
+    "peak_tau_ratio": 3.039235529911366e-15,
+    "max_gap_deg": 3.8191672047105385e-14,
+    "unsafe_clearance_mm": 8.100187187665142e-13,
+    "min_sigma_min": 4.440892098500626e-16,
+    "min_limit_margin_pct": 5.329070518200751e-15
+   }
+  }
+ }
+}

@@ -1,0 +1,284 @@
+{
+ "settings": {
+  "config": "dynamic_baseline.yaml",
+  "dataset": "LASA",
+  "shape": "Sine",
+  "model_source": "pth",
+  "model_tol": 1e-05,
+  "start": 3,
+  "x0": null,
+  "tau": [
+   "fr3=0.10",
+   "ur5e=0.10"
+  ],
+  "menagerie_gains": false,
+  "speed": 1.0,
+  "T_max": null,
+  "task": "full6",
+  "L": 0.1,
+  "nullspace": "off",
+  "k_null": 0.5,
+  "gravity_ff": true,
+  "kinematic": true,
+  "robots": [
+   "FR3",
+   "UR5e"
+  ],
+  "name": null,
+  "tau_servo_s": {
+   "FR3": 0.1,
+   "UR5e": 0.1
+  },
+  "L_m": 0.1,
+  "rate_1_s": 0.5139168368355428,
+  "T_max_s": 10.0,
+  "x0_n": [
+   -0.9280581234935259,
+   0.04177351696874942
+  ],
+  "start_label": "start 3",
+  "k_null_used": 0.0,
+  "plane_center_m": [
+   0.5,
+   0.0,
+   0.5
+  ],
+  "task_target": "full6",
+  "verified_init_box": [
+   [
+    -1.0,
+    -0.8814084507042251
+   ],
+   [
+    -0.038779342723004505,
+    0.07164319248826274
+   ]
+  ],
+  "training_domain": [
+   [
+    -1.0,
+    1.0
+   ],
+   [
+    -1.0,
+    1.0
+   ]
+  ]
+ },
+ "model": {
+  "source": "pth",
+  "file": "/home/philipp/S2NNDS/models_verified/LASA/Sine/model_f.pth",
+  "onnx_vs_pth": {
+   "onnx_path": "/home/philipp/S2NNDS/models_onnx/LASA/Sine.onnx",
+   "pth_path": "/home/philipp/S2NNDS/models_verified/LASA/Sine/model_f.pth",
+   "onnx_exists": true,
+   "pth_exists": true,
+   "max_abs_diff": 0.0,
+   "mean_abs_diff": 0.0,
+   "tol": 1e-05,
+   "n_points": 2000,
+   "differ": false
+  }
+ },
+ "warnings": [],
+ "results": {
+  "FR3": {
+   "robot": "FR3",
+   "tau_servo_s": 0.1,
+   "ik": {
+    "ok": true,
+    "pos_err_m": 2.1645794874591374e-13,
+    "ori_err_rad": 3.9291506691677826e-14,
+    "margin_pct": 23.8480996045912,
+    "sigma_min": 0.2249732243332678,
+    "q_start": [
+     -0.05977979072219823,
+     -0.47541748434634157,
+     0.06017691462501561,
+     -2.371072403604496,
+     0.029056221971344984,
+     1.8962638823202262,
+     -0.015555994577685051
+    ]
+   },
+   "dynamic": {
+    "status": "ok",
+    "success": true,
+    "final_goal_err_mm": 0.0011876253857946895,
+    "rmse_mm": 8.666131407278277,
+    "mse_mm2": 75.10183356821499,
+    "geom_dev_max_mm": 6.061877597395285,
+    "unsafe_clearance_mm": 13.845790131084614,
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "t_reach_s": 5.91,
+    "peak_vel_ratio": 0.0401198119440129,
+    "peak_qd_cmd_ratio": 0.040944211683952576,
+    "peak_tau_ratio": 0.2551237802845142,
+    "tau_limit_Nm": [
+     87.0,
+     87.0,
+     87.0,
+     87.0,
+     12.0,
+     12.0,
+     12.0
+    ],
+    "tau_limit_enforced_by_model": false,
+    "n_vel_scale_steps": 0,
+    "frac_vel_scale": 0.0,
+    "n_qdes_clip_steps": 0,
+    "n_force_sat_steps": 0,
+    "n_pos_limit_viol_steps": 0,
+    "n_vel_limit_viol_steps": 0,
+    "n_tau_limit_exceed_steps": 0,
+    "n_contact_steps": 0,
+    "max_gap_deg": 0.9009744423974508,
+    "min_sigma_min": 0.20450897444745975,
+    "servo_kp": [
+     4500.0,
+     4500.0,
+     3500.0,
+     3500.0,
+     2000.0,
+     2000.0,
+     2000.0
+    ],
+    "servo_kv": [
+     450.0,
+     450.0,
+     350.0,
+     350.0,
+     200.0,
+     200.0,
+     200.0
+    ],
+    "events": {
+     "cmd_ik_velocity_scaling": null,
+     "cmd_qdes_clip_to_joint_range": null,
+     "cmd_servo_torque_saturation": null,
+     "applied_torque_above_limit": null,
+     "meas_joint_position_limit": null,
+     "meas_joint_velocity_limit": null,
+     "meas_contact": null
+    },
+    "first_physical_limit_event": null,
+    "mujoco_warnings": {}
+   },
+   "kinematic": {
+    "status": "ok",
+    "success": true,
+    "final_goal_err_mm": 2.7213391535090736e-09,
+    "rmse_mm": 0.006498941299311012,
+    "mse_mm2": 4.2236238011890294e-05,
+    "geom_dev_max_mm": 0.008347377634189527,
+    "unsafe_clearance_mm": 15.767624795090088,
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "t_reach_s": 5.652,
+    "peak_vel_ratio": 0.04055199972595998,
+    "n_vel_scale_steps": 0,
+    "frac_vel_scale": 0.0,
+    "n_qpos_clip_steps": 0,
+    "min_sigma_min": 0.20438651497520258
+   }
+  },
+  "UR5e": {
+   "robot": "UR5e",
+   "tau_servo_s": 0.1,
+   "ik": {
+    "ok": true,
+    "pos_err_m": 7.48416910814843e-11,
+    "ori_err_rad": 1.757162992002354e-11,
+    "margin_pct": 11.980111023403818,
+    "sigma_min": 0.23230000778049825,
+    "q_start": [
+     -3.466646348816338,
+     4.4587928592206785,
+     1.7590577039494888,
+     4.7777237243771875,
+     -1.5707963267929754,
+     -1.8958500220257688
+    ]
+   },
+   "dynamic": {
+    "status": "ok",
+    "success": true,
+    "final_goal_err_mm": 7.700773476565516e-10,
+    "rmse_mm": 7.536936286134556,
+    "mse_mm2": 56.80540858125176,
+    "geom_dev_max_mm": 6.0234309231623975,
+    "unsafe_clearance_mm": 14.146572295847779,
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "t_reach_s": 5.7780000000000005,
+    "peak_vel_ratio": 0.035317754098245654,
+    "peak_qd_cmd_ratio": 0.036361912848006384,
+    "peak_tau_ratio": 0.10608959866222904,
+    "tau_limit_Nm": [
+     150.0,
+     150.0,
+     150.0,
+     28.0,
+     28.0,
+     28.0
+    ],
+    "tau_limit_enforced_by_model": true,
+    "n_vel_scale_steps": 0,
+    "frac_vel_scale": 0.0,
+    "n_qdes_clip_steps": 0,
+    "n_force_sat_steps": 0,
+    "n_pos_limit_viol_steps": 0,
+    "n_vel_limit_viol_steps": 0,
+    "n_tau_limit_exceed_steps": 0,
+    "n_contact_steps": 0,
+    "max_gap_deg": 0.8638124180647729,
+    "min_sigma_min": 0.22122558009472795,
+    "servo_kp": [
+     2000.0,
+     2000.0,
+     2000.0,
+     500.0,
+     500.0,
+     500.0
+    ],
+    "servo_kv": [
+     200.0,
+     200.0,
+     200.0,
+     50.0,
+     50.0,
+     50.0
+    ],
+    "events": {
+     "cmd_ik_velocity_scaling": null,
+     "cmd_qdes_clip_to_joint_range": null,
+     "cmd_servo_torque_saturation": null,
+     "applied_torque_above_limit": null,
+     "meas_joint_position_limit": null,
+     "meas_joint_velocity_limit": null,
+     "meas_contact": null
+    },
+    "first_physical_limit_event": null,
+    "mujoco_warnings": {}
+   },
+   "kinematic": {
+    "status": "ok",
+    "success": true,
+    "final_goal_err_mm": 2.7241823622958267e-09,
+    "rmse_mm": 0.008260325714196312,
+    "mse_mm2": 6.82329809046128e-05,
+    "geom_dev_max_mm": 0.012184531721904878,
+    "unsafe_clearance_mm": 15.766520142243992,
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "t_reach_s": 5.652,
+    "peak_vel_ratio": 0.03606118038015503,
+    "n_vel_scale_steps": 0,
+    "frac_vel_scale": 0.0,
+    "n_qpos_clip_steps": 0,
+    "min_sigma_min": 0.22114252367802947
+   }
+  }
+ }
+}

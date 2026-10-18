@@ -31,7 +31,12 @@ def sim_params(cfg: dict) -> SimParams:
 
 
 def build_ds(cfg: dict):
-    ds = LearnedDS(cfg["shape"], cfg.get("dataset", "LASA"))
+    """Model source: cfg["model_source"], default "pth" = the verified network
+    S2NNDS/models_verified/<dataset>/<shape>/model_f.pth. "onnx" = models_onnx/<dataset>/<shape>.onnx
+    (the default until 2026-10-18; identical weights for LASA/Sine, different networks for
+    CShape, PShape_benchmark, Sshape_benchmark, 2D_Shapes/Five_Obstacle_DS, see tests/test_ds.py)."""
+    ds = LearnedDS(cfg["shape"], cfg.get("dataset", "LASA"),
+                   source=cfg.get("model_source", "pth"))
     sc = lasa_scaling(cfg["shape"])
     if cfg.get("time_rate", "demo") == "demo":
         rate = demo_time_rate(sc)

@@ -5,6 +5,7 @@
 
 shape: Sine
 dataset: LASA
+model_source: pth        # pth = S2NNDS/models_verified/.../model_f.pth (default); onnx = models_onnx/
 time_rate: demo          # v_peak / L = vs / ps (from the LASA data)
 
 sim:                     # identical to stage1_clean.yaml
