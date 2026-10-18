@@ -202,7 +202,7 @@ Figures (`figures/dynamic_multistart/`): `figA_paths` (primary case), `figA_supp
 
 ## Combined plot and parameter sweeps
 
-    ~/lfd_env/bin/python experiments/dynamic_sweeps.py               # ~6 min on 4 workers (390 runs)
+    ~/lfd_env/bin/python experiments/dynamic_sweeps.py               # ~7 min on 4 workers (390 runs)
     ~/lfd_env/bin/python experiments/dynamic_sweeps.py --plot-only
     ~/lfd_env/bin/python experiments/menagerie_arm_survey.py         # feasibility list of other arms
 
