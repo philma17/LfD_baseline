@@ -86,13 +86,129 @@ figures in `figures/dynamic_baseline/` (PNG + PDF):
 (×1, ×0.5, ×0.25) and reruns the 6D case. It only checks the cause of the deviation. It is
 not a tuned result, and the baseline always uses the unmodified models.
 
+## Fair FR3 vs. UR5e comparison (multi-start, controlled servos)
+
+    ~/lfd_env/bin/python experiments/dynamic_multistart.py                # all steps (~8 min, 4 workers)
+    ~/lfd_env/bin/python experiments/dynamic_multistart.py --stage servo  # servo check only
+    ~/lfd_env/bin/python experiments/dynamic_multistart.py --plot-only    # tables + figures from saved runs
+
+Settings: `configs/dynamic_baseline.yaml`, sections `dynamic` and `multistart`. Outputs:
+`results/dynamic_multistart/` (`servo_check.json`, `runs.jsonl` with one row per run,
+`summary.json`, `redundancy.json`, decimated trajectories `traj_<case>_<robot>.npz`) and
+`figures/dynamic_multistart/`.
+
+Controlled servo setting (all changes on the in-memory `MjModel` of a fresh `Robot` per
+run; the MJCF files are never written):
+
+- `servo_override: {tau_servo: 0.10}` sets `kv = kp * tau_servo` for every joint of both
+  robots. kp is unchanged. With the Menagerie values FR3 already has kv/kp = 0.10 s, so only
+  the UR5e damping changes (kv halved, 0.20 s -> 0.10 s).
+- `gravity_ff: true` starts the servo target at `q_start + g(q_start)/kp`, the static
+  equilibrium of the PD servo. The robot starts at `q_start` with zero velocity and no sag.
+- Equal tau does not make the servos identical. kp, link inertia and the gravity load still
+  differ, so the gravity offset that builds up along the path (`g(q)/kp`) and the second-order
+  servo response differ between the robots. Every servo stays overdamped (decoupled damping
+  ratio ≥ 1.6, all poles real and negative), the measured step rise time matches tau, and
+  overshoot is < 2 % (`servo_check.json`).
+
+Cases (`multistart.cases`): `equal_tau_ff` (primary), `equal_tau_no_ff` (reference without
+feed-forward), `menagerie_ff` (unmodified Menagerie gains), `equal_tau_ff_null` (primary plus
+null-space task, k_null = 0.5 as in Phase 1), and the kinematic reference.
+
+Start points: N = 20, seed 0, sampled uniformly in the verified initial set of the S2NNDS model
+(`plotting.init_range` in `S2NNDS/config_files/LASA/Sine_config.json`, i.e. the demo start box
+± 0.02, in normalized coordinates: x in [-1.0, -0.881], y in [-0.039, 0.072], a box of about
+12 x 11 mm at L = 0.10 m). Both robots use the same set. The reference for every run is the
+ideal DS rollout from its own x0. The start configuration comes from the existing IK start
+procedure (`sim.run` → `multistart_ik`, criterion `max_sigma_margin`), and the same
+configuration is used for every dynamic case of that robot and x0. Runs whose IK start
+error exceeds 1 mm / 1e-3 rad are flagged `ik_fail`. Failed runs are flagged `error`. Both
+stay in `runs.jsonl`. Statistics use the paired set of start points that are valid for both
+robots, and they list the excluded indices.
+
+Metrics per run: MSE and RMSE of the time-synchronized error, final goal error, max geometric
+deviation, success (final error < 1 % L at T = 10 s), peak |q̇|/q̇_max, peak |τ|/τ_limit
+(documented limits, see above), max |q_des − q|, min joint-limit margin, min σ_min of the task
+Jacobian, final joint configuration, and the in-plane clearance of the TCP to the S2NNDS
+unsafe circle (TCP only, no arm geometry).
+
+Redundancy: null-space dimension = n − rank(J_task): 6D task FR3 1, UR5e 0; 3D task FR3 4,
+UR5e 3. `common.ik.solve_qdot` adds the null-space term `N(J) · (−k_null (q − q_mid) /
+(q_range/2))` only if k_null > 0 and the number of free joints exceeds the number of task rows.
+For UR5e in 6D (6 = 6) the term is therefore not evaluated at all, so the UR5e runs with
+k_null = 0.5 must be bitwise identical to k_null = 0. The script checks this.
+Dynamic mode evaluates the term at the measured q.
+
+### Results (6D task, 20 starts, all IK starts valid, no errors)
+
+| case | robot | success | MSE [mm²] | RMSE [mm] | max geom. dev. [mm] | peak \|τ\|/τ_lim | max \|q_des−q\| [deg] |
+|---|---|---|---|---|---|---|---|
+| kinematic | FR3 | 20/20 | 3.9e-5 ± 1.5e-5 | 0.006 | 0.008 | – | – |
+| kinematic | UR5e | 20/20 | 6.4e-5 ± 2.3e-5 | 0.008 | 0.012 | – | – |
+| equal tau + FF (primary) | FR3 | 20/20 | 108 ± 63 | 10.1 ± 2.7 | 5.9 ± 0.4 | 0.25 | 0.90 |
+| equal tau + FF (primary) | UR5e | 20/20 | 78 ± 47 | 8.5 ± 2.3 | 5.8 ± 0.3 | 0.11 | 0.86 |
+| equal tau, no FF | FR3 | 20/20 | 115 ± 88 | 10.1 ± 3.6 | 6.2 ± 0.6 | 0.25 | 0.89 |
+| equal tau, no FF | UR5e | 20/20 | 95 ± 68 | 9.3 ± 3.1 | 6.1 ± 0.6 | 0.11 | 0.86 |
+| Menagerie gains + FF | FR3 | 20/20 | 108 ± 63 | 10.1 ± 2.7 | 5.9 ± 0.4 | 0.25 | 0.90 |
+| Menagerie gains + FF | UR5e | **16/20** | 1517 ± 2640 | 28.9 ± 26.8 | 29.1 ± 40.9 | 0.11 | 1.26 |
+| equal tau + FF + null space | FR3 | 20/20 | 99 ± 65 | 9.6 ± 2.8 | 5.8 ± 0.4 | 0.26 | 0.90 |
+
+Mean ± std over runs. Full table incl. final error and velocity ratio in `summary.json`.
+Peak joint velocity is ≤ 4 % of the limit in every run. There are no command clips, torque
+saturations, joint-limit or velocity-limit violations and no contacts.
+
+- With equal tau the 6-DoF UR5e tracks *better* than the 7-DoF FR3: MSE 78 vs. 108 mm², and
+  UR5e is lower for 20/20 paired start points (Wilcoxon p = 1.9e-6). The max geometric
+  deviation is almost equal (5.8 vs. 5.9 mm), so the difference is mostly timing. The cause
+  is not verified. A candidate is the residual servo difference that equal kv/kp does not
+  remove: the measured 63 % step time is 0.102–0.108 s for FR3 and 0.100 s for UR5e
+  (higher damping ratio and joint coupling on FR3, `servo_check.json`). The single-start result
+  from the previous section (FR3 better) came from the larger UR5e servo time constant, not
+  from the kinematics. FR3 with Menagerie gains equals the equal-tau case exactly, because
+  FR3 already has kv/kp = 0.10 s.
+- Gravity feed-forward lowers the MSE a little (FR3 115 → 108, UR5e 95 → 78 mm²). The
+  ranking does not change.
+- **Unexpected: with the unmodified Menagerie gains, 4/20 UR5e runs fail** (final error
+  115–142 mm; start indices 1, 9, 10, 16, all with x0 near the left domain edge). Diagnosis
+  in `experiments/dynamic_escape_check.py` → `escape_check.json`: the ideal DS from each x0
+  converges. The lagging robot (tau = 0.20 s) overshoots at the first peak into states
+  around x_n ≈ (−0.7, 0.5) from which the *ideal* learned DS no longer reaches the goal
+  within 20 s. The TCP then leaves the training domain (|x_n| up to 1.37). Two of these runs
+  enter the S2NNDS unsafe circle (min. clearance −7.9 mm and −1.7 mm). The same runs without
+  gravity feed-forward fail identically, so the feed-forward is not the cause. The S2NNDS
+  convergence and safety guarantees hold for the ideal vector field only. Execution lag can
+  push the state out of the region where they hold. With tau = 0.10 s the min. unsafe
+  clearance stays ≥ 8.2 mm for both robots (kinematic: 14.2 mm).
+
+### Redundancy (FR3, 6D, null-space dim. 1)
+
+- UR5e with k_null = 0.5: 20/20 runs bitwise identical to k_null = 0. The term is not
+  evaluated, as expected from the code path above.
+- FR3 null space ON vs. OFF: the final joint configuration differs by 4.8 ± 0.2 deg (norm).
+  Joints 1, 3, 5 and 7 move to mid-range; joints 2, 4 and 6 are fixed by the task. The joint
+  trajectories differ by at most 3.9 deg. The min. joint-limit margin (23.8 %) and min. σ_min
+  (0.2045 vs. 0.2048) do not change, because the limiting joints are not in the null space.
+- The TCP paths are not identical. The difference starts at 0.1–0.4 mm in the first second.
+  The null-space motion is executed with servo lag, so it leaks into the task space. It stays
+  ≤ 1.4 mm for 18/20 starts. For starts 5 and 6 (lowest y, where the ideal rollouts branch
+  between the low and high first peak) it grows to 10–12 mm. There the MSE drops from
+  ~110 to ~45 mm², but the max geometric deviation only changes from 5.5 to 5.2 mm. The
+  null-space task therefore changes mainly the timing in a DS-sensitive region. It does not
+  give a systematic accuracy gain. The mean MSE change (−9 mm²) is dominated by these two
+  starts.
+
+Figures (`figures/dynamic_multistart/`): `figA_paths` (primary case), `figA_supp_paths_<case>`,
+`figC_mse_boxplot` (log scale), `figA_redundancy_paths`, `figB_redundancy_joints`.
+
 ### Known limitations and assumptions
 
 - Servo gains, damping, armature and friction are the Menagerie values; they are not
   identified against the real robots. The real FR3 is torque-controlled (1 kHz) and the
   UR5e runs its own position/velocity controller; neither is modeled here.
-- No gravity compensation and no feed-forward torque. The start transient (sag of ~4-6 mm
-  in the first 0.2 s) is a consequence of `q_des(0) = q_start`.
+- No gravity compensation torque. Without `gravity_ff` the start transient (sag of ~4-6 mm
+  in the first 0.2 s) is a consequence of `q_des(0) = q_start`. `gravity_ff` only fixes the
+  start target. The gravity offset that changes along the path is handled by the task-space
+  loop, not by a feed-forward.
 - Joint velocity limits are constant (FR3 position-dependent limits are not modeled), no
   acceleration or jerk limits, FR3 torque limits are only checked, not enforced.
 - Joint limits in MuJoCo are soft constraints; violations are measured, not prevented.
