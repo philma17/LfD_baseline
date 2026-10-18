@@ -196,13 +196,15 @@ def servo_stability(robot, q, step_rad: float = 0.01, hold_s: float = 1.5) -> di
 
 
 def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=None,
-        n_substeps: int = 1, contact_check: bool = True, gravity_ff: bool = False) -> dict:
+        n_substeps: int = 1, contact_check: bool = True, gravity_ff: bool = False,
+        tau_limit=None) -> dict:
     """Closed-loop DS execution with MuJoCo dynamics. Same arguments as sim.run (q_start is
     mandatory so that both execution modes start from the identical configuration).
 
     gravity_ff: start the servo target at q_start + g(q_start)/kp (static equilibrium of the
     PD servo at q_start), so the robot does not sag at t = 0. The robot itself still starts
-    at q_start with zero velocity. Default False = previous baseline behavior."""
+    at q_start with zero velocity. Default False = previous baseline behavior.
+    tau_limit: joint torque limits used for REPORTING only [Nm]; default TAU_MAX_DOC."""
     m = robot.model
     n = robot.n
     if not np.isclose(sp.dt, n_substeps * m.opt.timestep):
@@ -218,7 +220,8 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
     q_rng = robot.q_max - robot.q_min
     lo = np.maximum(robot.q_min, sv.ctrl_lo)
     hi = np.minimum(robot.q_max, sv.ctrl_hi)
-    tau_doc = TAU_MAX_DOC.get(robot.spec.name, (np.full(n, np.inf), "none"))[0]
+    tau_doc = (TAU_MAX_DOC.get(robot.spec.name, (np.full(n, np.inf), "none"))[0]
+               if tau_limit is None else np.asarray(tau_limit, float))
 
     # Physics state lives in its own MjData; robot.data is only used for FK/Jacobian
     # evaluation at the measured q, so the existing kinematic helpers are reused unchanged.
@@ -245,6 +248,7 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
     ori = np.zeros(N + 1)
     dperp = np.zeros(N + 1)
     smin = np.full(N, np.inf)
+    vscale = np.zeros(N)                   # IK velocity scaling factor (> 1 = command scaled down)
     ncon = np.zeros(N, int)
     n_vel_scale = n_qdes_clip = n_damped = 0
     qdes_clip_joints = set()
@@ -264,6 +268,7 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
             break
         qd_cmd, info = solve_qdot(Jt, vt, free, robot.qd_max, sp.ik, q, q_mid, q_rng)
         smin[k] = info["sigma_min"]
+        vscale[k] = info["vel_scale"]
         n_vel_scale += info["vel_scale"] > 1.0
         n_damped += info["lam2"] > 0.0
         q_new = q_des + qd_cmd * sp.dt
@@ -346,7 +351,8 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
     }
     res["traj"] = {"t": t, "P": P, "P_ideal": P_id, "Xn": Xn, "X_ideal": X_id, "Q": Q,
                    "QD": QD, "Q_des": QDES, "QD_cmd": QD_CMD, "tau_cmd": TAU_CMD,
-                   "tau_applied": TAU_APP}
+                   "tau_applied": TAU_APP, "vel_scale": vscale, "ncon": ncon,
+                   "tau_limit": tau_doc}
     return res
 
 

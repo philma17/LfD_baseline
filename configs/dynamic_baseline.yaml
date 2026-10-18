@@ -55,3 +55,21 @@ multistart:
     - {name: menagerie_ff,      servo_override: null,              gravity_ff: true,  k_null: 0.0}
     - {name: equal_tau_ff_null, servo_override: {tau_servo: 0.10}, gravity_ff: true,  k_null: 0.5}
   workers: 4
+
+# Parameter sweeps (experiments/dynamic_sweeps.py). 6D task, starts = the first n_starts of the
+# multistart set above (same seed), IK start procedure as above. gravity_ff is ON everywhere.
+sweeps:
+  n_starts: 10
+  cases:
+    main:      {servo_override: {tau_servo: 0.10}, gravity_ff: true}
+    menagerie: {servo_override: null,              gravity_ff: true}
+  speed_factors: [1, 2, 4, 8, 16]   # time_rate x factor; ideal reference uses the same rate,
+                                    # T_max = sim.T_max / factor
+  speed_L_extension_m: [0.20, 0.30] # extra runs at the largest factor with larger L (main case)
+  servo_taus: [0.05, 0.10, 0.20, 0.30]   # main case at nominal speed, kv = kp * tau
+  weak:                             # SYNTHETIC variant, speed sweep only (main case)
+    name: UR5e-weak
+    base: UR5e
+    torque_scale: 0.4               # actuator forcerange x 0.4 (in memory)
+    qd_scale: 0.4                   # documented qd_max x 0.4 (IK velocity limit + reporting)
+  workers: 4

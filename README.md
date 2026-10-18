@@ -200,6 +200,121 @@ saturations, joint-limit or velocity-limit violations and no contacts.
 Figures (`figures/dynamic_multistart/`): `figA_paths` (primary case), `figA_supp_paths_<case>`,
 `figC_mse_boxplot` (log scale), `figA_redundancy_paths`, `figB_redundancy_joints`.
 
+## Combined plot and parameter sweeps
+
+    ~/lfd_env/bin/python experiments/dynamic_sweeps.py               # ~6 min on 4 workers (390 runs)
+    ~/lfd_env/bin/python experiments/dynamic_sweeps.py --plot-only
+    ~/lfd_env/bin/python experiments/menagerie_arm_survey.py         # feasibility list of other arms
+
+Setting (config section `sweeps`): 6D task and L = 0.10 m unless swept. The start points are
+the first 10 of the 20-point multistart set (same seed), and the IK start configurations are
+identical to that run (checked: max difference 0 rad, `starts_check.json`). **Gravity
+feed-forward is ON in every sweep run.** This is recorded in `summary.json` and kept off the
+plot legends. The main case uses equal servo tau = 0.10 s; the second case uses the
+Menagerie gains (UR5e tau = 0.20 s). Outputs: `results/dynamic_sweeps/` (`runs.jsonl` with
+all per-run values and limit events, `summary.json`, `servo_check.json`, `arm_survey.json`)
+and `figures/dynamic_sweeps/`.
+
+- **Speed sweep.** The DS time rate is multiplied by 1, 2, 4, 8 and 16. The ideal reference
+  uses the same rate, and T_max = 10 s / factor. Because no velocity limit was reached at
+  ×16 with L = 0.10 m, extra runs at ×16 use L = 0.20 and 0.30 m. These change the reference
+  and the start positions in the world (new IK starts, same normalized x0).
+- **Servo sweep.** kv = kp · tau for tau ∈ {0.05, 0.10, 0.20, 0.30} s at nominal speed.
+  tau = 0.05 s makes UR5e joint 2 underdamped (ζ = 0.82, 4.4 % step overshoot). All other
+  settings are overdamped (`servo_check.json`).
+- **UR5e-weak (SYNTHETIC).** An in-memory UR5e with actuator forcerange × 0.4 (enforced) and
+  qd_max × 0.4 (used by the IK velocity scaling and for reporting). It is used in the speed
+  sweep only, it is not a real robot, and it is marked as synthetic in every figure title.
+- **Limit events.** Command, applied and measured values are kept separate (`limit_events`
+  in `dynamic_sweeps.py`):
+  - command: IK velocity scaling, q_des clipped to the joint range, servo torque command
+    outside the forcerange
+  - applied: actuator torque vs. the reporting limit. FR3 uses the documented 87/12 Nm,
+    which the model does NOT enforce; UR5e uses the enforced model forcerange.
+  - measured: joint position outside the range, |q̇| > q̇_max, contacts
+
+  A clipped or scaled command is not counted as a violation. Time and joint of the first
+  event are stored per run.
+
+Figures: `figD_paths_main` (one axes: ideal rollouts, FR3 and UR5e paths from the same 10
+starts, equal tau, gravity FF on), `figD_paths_menagerie` (same with Menagerie gains),
+`fig_speed_sweep`, `fig_speed_L_sweep`, `fig_servo_sweep`. The sweep panels show success
+rate, MSE, min. unsafe-circle clearance, peak measured |q̇|/q̇_max, peak applied |τ|/τ_lim and
+the fraction of steps with IK velocity scaling.
+
+Results (10 starts per point):
+
+| setting | FR3 success / MSE [mm²] | UR5e success / MSE [mm²] | min. unsafe clearance FR3 / UR5e [mm] | peak \|q̇\|/q̇_max FR3 / UR5e | peak \|τ\|/τ_lim FR3 / UR5e |
+|---|---|---|---|---|---|
+| ×1, tau 0.10 | 10/10 / 109 | 10/10 / 76 | 8.4 / 8.8 | 0.04 / 0.04 | 0.26 / 0.11 |
+| ×2 | 8/10 / 1431 | 8/10 / 1344 | −6.5 / −7.8 | 0.08 / 0.08 | 0.27 / 0.13 |
+| ×4 | 0/10 / 5399 | 0/10 / 5573 | −9.6 / −9.9 | 0.16 / 0.15 | 0.29 / 0.14 |
+| ×16 | 0/10 / 7257 | 0/10 / 7742 | 9.8 / 10.6 | 0.53 / 0.46 | 0.39 / 0.18 |
+| ×16, L = 0.30 m | 0/10 | 0/10 | 35.5 / 43.0 | 0.99 / 0.99 | **3.77** / 0.33 |
+| tau 0.05 s | 10/10 / 32 | 10/10 / 16 | 11.6 / 11.9 | 0.04 / 0.04 | 0.26 / 0.11 |
+| tau 0.20 s | 8/10 / 1436 | 8/10 / 1341 | −6.3 / −7.9 | 0.04 / 0.04 | 0.27 / 0.13 |
+| tau 0.30 s | 5/10 / 3487 | 5/10 / 3461 | −8.8 / −9.6 | 0.04 / 0.04 | 0.28 / 0.14 |
+
+- **The convergence and safety guarantee breaks long before any actuator limit.** At ×2 or
+  at tau = 0.20 s, 2/10 runs per robot fail and the TCP enters the S2NNDS unsafe circle by
+  6–8 mm. Peak joint velocity is ≤ 8 % and peak torque ≤ 27 % of the limits there. No
+  velocity scaling, position-limit, velocity-limit, torque or contact event occurs up to ×16
+  at L = 0.10 m for FR3 and UR5e.
+- **Speed and servo lag act as one parameter.** ×2 at tau = 0.10 s gives the same numbers as
+  ×1 at tau = 0.20 s for both robots (FR3 MSE 1431 vs. 1436 mm², UR5e 1344 vs. 1341,
+  identical success and clearance). The Menagerie-gain UR5e (tau = 0.20 s) behaves like the
+  equal-tau UR5e at twice the speed. The quantity that matters is the lag in DS time,
+  factor × rate × tau. This is shown empirically and not derived analytically.
+- At very high speed (×8, ×16) the clearance becomes positive again. The paths leave the
+  domain before they reach the unsafe circle (8/10 runs leave the verified domain). This is
+  not an improvement.
+- One run (start 1, x0 = (−0.995, −0.037), 0.5 % inside the domain edge) briefly leaves the
+  verified domain [−1, 1]² at nominal speed for both robots and still succeeds.
+- **First real limit events** appear only in the L extension at ×16:
+  - IK velocity scaling is active in 11–90 % of the steps (all variants, first after 0–0.1 s).
+  - FR3 at L = 0.30 m: the applied torque exceeds the documented FR3 limit in 9/10 runs.
+    First event: joint 5 (12 Nm limit) at t = 0.004 s, peak 3.8 × the limit. The model does
+    not enforce the limit, so the simulated FR3 does what a real FR3 could not.
+  - UR5e-weak at L = 0.20 m: the measured joint velocity exceeds q̇_max in 3/10 runs
+    (joint 2, t = 0.56 s), even though the command was scaled to q̇_max. The servo overshoots
+    the scaled command.
+  - UR5e-weak at ×16, L = 0.10 m: first IK velocity scaling at t = 0.03 s on joint 1, active
+    in 25 % of the steps.
+  - Torque saturation of the enforced UR5e forcerange did not occur in any run.
+- Success at the high speed factors is judged at T_max = 10 s / factor. Part of the 0 % at
+  ×8 and ×16 is "not arrived yet", but MSE values of 6000–8000 mm² and domain exits show that
+  the runs also deviate grossly.
+
+### Other arms (feasibility only, `arm_survey.json`)
+
+Checked are the fixed-base arms in the pinned Menagerie checkout (`d7b481b`). Every listed arm
+model uses FIXED/AFFINE joint actuators that `position_servo_map` accepts. The survey only
+counts hinge joints that have an actuator.
+
+| model | arm DoF | forcerange enforced (max) | attachment_site | rough reach [m] |
+|---|---|---|---|---|
+| robotis_omy_3m | 6 | yes (61 Nm) | yes | 0.63 |
+| unitree_z1 | 6 | yes (60 Nm) | no | 0.73 |
+| trossen_vx300s / wx250s | 6 | yes (57 / 35 Nm) | no | 0.72 / 0.60 |
+| agilex_piper, arx_l5, i2rt_yam | 6 | yes (28–100 Nm) | no | 0.62–0.67 |
+| trs_so_arm100, robotstudio_so101 | 6 | yes (3.5 / 2.9 Nm) | no | 0.44 / 0.40 |
+| ufactory_xarm7_nohand | 7 | yes (50 Nm) | yes | 0.77 |
+| kinova_gen3 | 7 | yes (105 Nm) | no | 0.96 |
+| franka_emika_panda_nohand | 7 | yes (87 Nm) | yes | 0.86 |
+| kuka_iiwa_14, flexiv_rizon4 | 7 | no | yes / no | 1.14 / 1.10 |
+| universal_robots_ur10e | 6 | yes (330 Nm) | yes | 1.35 |
+
+- The reach is the maximum distance from the first joint anchor to the TCP (or the last arm
+  body) over random joint samples. It is a rough upper bound, with no collision check.
+- `ufactory_lite6` was not identified as an arm (only 1 actuated hinge found) and was not
+  analyzed further.
+- **Recommendation:** `robotis_omy_3m`. It is a small 6-DoF arm with weaker actuators than the
+  UR5e (61 vs. 150 Nm), an enforced forcerange, the same TCP convention (`attachment_site`),
+  and position servos accepted by the existing code.
+- **Before use:** its documented velocity limits must be added to a `RobotSpec` (they are
+  not in the MJCF; not done). The task plane must also be moved into its workspace: the
+  current goal (0.5, 0, 0.5) m is at the edge of a 0.63 m reach. Not done, not verified.
+
 ### Known limitations and assumptions
 
 - Servo gains, damping, armature and friction are the Menagerie values; they are not

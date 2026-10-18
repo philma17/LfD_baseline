@@ -1,0 +1,3873 @@
+{
+ "note": "6D task; gravity feed-forward ON in all runs; FR3 torque ratio vs. documented limits 87/12 Nm (NOT enforced in the model); UR5e and UR5e-weak vs. the enforced model forcerange; UR5e-weak is a synthetic in-memory variant",
+ "groups": [
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "FR3",
+   "param": 0.05,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 11.609544491149624,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 32.3320096175636,
+    "std": 15.37425660128941,
+    "max": 55.122036342672196
+   },
+   "rmse_mm": {
+    "mean": 5.535420159302713,
+    "std": 1.3707796960322056,
+    "max": 7.424421616710099
+   },
+   "final_goal_err_mm": {
+    "mean": 0.0018804723496021985,
+    "std": 0.001995495077918261,
+    "max": 0.004832076155741011
+   },
+   "geom_dev_max_mm": {
+    "mean": 3.567450361567192,
+    "std": 0.2479629528483346,
+    "max": 3.9492644431192505
+   },
+   "peak_vel_ratio": {
+    "mean": 0.04091243717417231,
+    "std": 0.0007463207826865722,
+    "max": 0.0415505901719993
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.04083539855733105,
+    "std": 0.0007146117403791231,
+    "max": 0.041432232042106276
+   },
+   "peak_tau_ratio": {
+    "mean": 0.25276434063914555,
+    "std": 0.006173907643653221,
+    "max": 0.2576801215858365
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.25276434063914544,
+    "std": 0.0061739076436536,
+    "max": 0.2576801215858366
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.6197398065229093,
+    "std": 0.004350781324990881,
+    "max": 0.6229288396191217
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "FR3",
+   "param": 0.1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 8.413262265357274,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 108.91099319122245,
+    "std": 61.034772202207755,
+    "max": 264.75250978177746
+   },
+   "rmse_mm": {
+    "mean": 10.142761809139069,
+    "std": 2.589589429983152,
+    "max": 16.27121721881241
+   },
+   "final_goal_err_mm": {
+    "mean": 0.005214376621798502,
+    "std": 0.005589083417571068,
+    "max": 0.01707061302297721
+   },
+   "geom_dev_max_mm": {
+    "mean": 5.871472934790779,
+    "std": 0.365038819726357,
+    "max": 6.6211556425751255
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03988212375360393,
+    "std": 0.0014192962525968673,
+    "max": 0.040814097340882684
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.040647295675105576,
+    "std": 0.0012714055621641032,
+    "max": 0.04138112050494909
+   },
+   "peak_tau_ratio": {
+    "mean": 0.2529810580527475,
+    "std": 0.004175296509515422,
+    "max": 0.2564768305329242
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2529810580527479,
+    "std": 0.004175296509515147,
+    "max": 0.25647683053292325
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.8966439524943061,
+    "std": 0.017861081180284833,
+    "max": 0.9068452484921953
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "FR3",
+   "param": 0.2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -6.275785834036027,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1436.3192541963786,
+    "std": 2455.732221881418,
+    "max": 6924.59642639046
+   },
+   "rmse_mm": {
+    "mean": 29.03003614208533,
+    "std": 25.68130006629549,
+    "max": 83.21416001132535
+   },
+   "final_goal_err_mm": {
+    "mean": 25.988919351854992,
+    "std": 54.898700431144,
+    "max": 139.15913229092277
+   },
+   "geom_dev_max_mm": {
+    "mean": 28.520557961723608,
+    "std": 40.56733545738305,
+    "max": 113.29292127499447
+   },
+   "peak_vel_ratio": {
+    "mean": 0.037980181917538436,
+    "std": 0.00212633153890675,
+    "max": 0.04181207361034
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.041069820421564776,
+    "std": 0.0014055558833908617,
+    "max": 0.0435479076388475
+   },
+   "peak_tau_ratio": {
+    "mean": 0.2582408574082274,
+    "std": 0.005266056322261326,
+    "max": 0.26951383481007263
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.25824085740822755,
+    "std": 0.005266056322261245,
+    "max": 0.2695138348100726
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.425974840311673,
+    "std": 0.0803889623577224,
+    "max": 1.5839443529738118
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "FR3",
+   "param": 0.3,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.5,
+   "min_unsafe_clearance_mm": -8.837713943864935,
+   "n_inside_unsafe": 3,
+   "n_left_domain": 4,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 3486.7902358953534,
+    "std": 3541.38615717879,
+    "max": 8544.556012747245
+   },
+   "rmse_mm": {
+    "mean": 50.5114621930384,
+    "std": 32.238390210303386,
+    "max": 92.43676764549508
+   },
+   "final_goal_err_mm": {
+    "mean": 65.07480492521154,
+    "std": 69.79695507566522,
+    "max": 150.9633461362368
+   },
+   "geom_dev_max_mm": {
+    "mean": 60.27530502386786,
+    "std": 51.21185932439031,
+    "max": 124.80602798637644
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03688713931206787,
+    "std": 0.0035296955362098753,
+    "max": 0.04102248772520718
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.041109846541364965,
+    "std": 0.0023825300792823974,
+    "max": 0.043935726033224036
+   },
+   "peak_tau_ratio": {
+    "mean": 0.26446659556009255,
+    "std": 0.008143069841751518,
+    "max": 0.2769705111921801
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.26446659556009255,
+    "std": 0.008143069841751505,
+    "max": 0.2769705111921801
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.955293515143604,
+    "std": 0.1868920976878698,
+    "max": 2.1762509434714694
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 0.05,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 11.932303077288944,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 15.885156088524557,
+    "std": 6.373163723717236,
+    "max": 30.487591537459135
+   },
+   "rmse_mm": {
+    "mean": 3.9197167794543057,
+    "std": 0.7608302901647213,
+    "max": 5.521556984896482
+   },
+   "final_goal_err_mm": {
+    "mean": 1.5086231647226683e-09,
+    "std": 2.5424450741400855e-09,
+    "max": 6.353139323451411e-09
+   },
+   "geom_dev_max_mm": {
+    "mean": 3.547145198544552,
+    "std": 0.2763022808738492,
+    "max": 3.859370758104112
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03509300863193522,
+    "std": 0.0035641090989850495,
+    "max": 0.04190983311389568
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.03533471709761511,
+    "std": 0.003502336204424878,
+    "max": 0.04201136183298698
+   },
+   "peak_tau_ratio": {
+    "mean": 0.1059323468480258,
+    "std": 0.00011798283146562215,
+    "max": 0.10619345283157297
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.10593234684802537,
+    "std": 0.00011798283146692528,
+    "max": 0.10619345283157425
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.657664564879191,
+    "std": 0.003395855041196726,
+    "max": 0.6601448495603722
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 0.1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 8.819514680075521,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 76.31661899718367,
+    "std": 45.997649609623224,
+    "max": 196.81306354449742
+   },
+   "rmse_mm": {
+    "mean": 8.47371661933555,
+    "std": 2.239232421160869,
+    "max": 14.029007931585804
+   },
+   "final_goal_err_mm": {
+    "mean": 1.0209885695764184e-06,
+    "std": 2.9585272002538783e-06,
+    "max": 9.430488384318448e-06
+   },
+   "geom_dev_max_mm": {
+    "mean": 5.798132821365071,
+    "std": 0.2821177680565605,
+    "max": 6.122687284085037
+   },
+   "peak_vel_ratio": {
+    "mean": 0.034515963766417024,
+    "std": 0.0036134476806376193,
+    "max": 0.04155329138321026
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.03552015094391121,
+    "std": 0.003470641794880742,
+    "max": 0.04219115551213003
+   },
+   "peak_tau_ratio": {
+    "mean": 0.10604670119230317,
+    "std": 7.963873059778682e-05,
+    "max": 0.10612212589958896
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.10604670119230324,
+    "std": 7.96387305979787e-05,
+    "max": 0.10612212589959058
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.8610468565899267,
+    "std": 0.012104367942102904,
+    "max": 0.8682960422331627
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 0.2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -7.924004418374637,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1340.510325209731,
+    "std": 2381.224573002655,
+    "max": 6941.822254471358
+   },
+   "rmse_mm": {
+    "mean": 27.49563794472855,
+    "std": 25.48420467710527,
+    "max": 83.31759870802422
+   },
+   "final_goal_err_mm": {
+    "mean": 25.44644180874385,
+    "std": 53.95089609178763,
+    "max": 139.454912826378
+   },
+   "geom_dev_max_mm": {
+    "mean": 27.82626097051928,
+    "std": 39.77804421365476,
+    "max": 113.68685037247936
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03297815740502826,
+    "std": 0.0036223729611475596,
+    "max": 0.04019568756537601
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.03553394665675617,
+    "std": 0.0036611295631139265,
+    "max": 0.042426318187323855
+   },
+   "peak_tau_ratio": {
+    "mean": 0.11072726522866864,
+    "std": 0.009368707849743422,
+    "max": 0.1307808511733068
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.11072726522866935,
+    "std": 0.009368707849743935,
+    "max": 0.13078085117330682
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.2612588451834479,
+    "std": 0.07241979172927497,
+    "max": 1.432146120474869
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "servo",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 0.3,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.5,
+   "min_unsafe_clearance_mm": -9.59918009204709,
+   "n_inside_unsafe": 3,
+   "n_left_domain": 4,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 3461.240923893497,
+    "std": 3600.235342494098,
+    "max": 8659.174623964607
+   },
+   "rmse_mm": {
+    "mean": 49.894104593178085,
+    "std": 32.86029773887061,
+    "max": 93.05468620098941
+   },
+   "final_goal_err_mm": {
+    "mean": 64.50808240452638,
+    "std": 69.81916423530922,
+    "max": 152.30683276046764
+   },
+   "geom_dev_max_mm": {
+    "mean": 59.74000286512951,
+    "std": 51.479222499420416,
+    "max": 126.21814376795263
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03150950032917853,
+    "std": 0.0035627434801744594,
+    "max": 0.038708025031733435
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.035558800422952536,
+    "std": 0.003766149081094439,
+    "max": 0.04257666459694965
+   },
+   "peak_tau_ratio": {
+    "mean": 0.11849261893663696,
+    "std": 0.013166850013815094,
+    "max": 0.13465336866287544
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.11849261893663865,
+    "std": 0.013166850013815238,
+    "max": 0.1346533686628815
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.699680480864054,
+    "std": 0.19172248285737645,
+    "max": 2.0758156360790436
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "FR3",
+   "param": 1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 8.413262265357274,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 108.91099319122245,
+    "std": 61.034772202207755,
+    "max": 264.75250978177746
+   },
+   "rmse_mm": {
+    "mean": 10.142761809139069,
+    "std": 2.589589429983152,
+    "max": 16.27121721881241
+   },
+   "final_goal_err_mm": {
+    "mean": 0.005214376621798502,
+    "std": 0.005589083417571068,
+    "max": 0.01707061302297721
+   },
+   "geom_dev_max_mm": {
+    "mean": 5.871472934790779,
+    "std": 0.365038819726357,
+    "max": 6.6211556425751255
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03988212375360393,
+    "std": 0.0014192962525968673,
+    "max": 0.040814097340882684
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.040647295675105576,
+    "std": 0.0012714055621641032,
+    "max": 0.04138112050494909
+   },
+   "peak_tau_ratio": {
+    "mean": 0.2529810580527475,
+    "std": 0.004175296509515422,
+    "max": 0.2564768305329242
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2529810580527479,
+    "std": 0.004175296509515147,
+    "max": 0.25647683053292325
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.8966439524943061,
+    "std": 0.017861081180284833,
+    "max": 0.9068452484921953
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "FR3",
+   "param": 2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -6.453088148292968,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1431.0048540191099,
+    "std": 2431.6761951933117,
+    "max": 6892.500362707971
+   },
+   "rmse_mm": {
+    "mean": 29.125756791005692,
+    "std": 25.444823646695607,
+    "max": 83.02108384445467
+   },
+   "final_goal_err_mm": {
+    "mean": 25.917523702881873,
+    "std": 54.683617986193326,
+    "max": 138.90340061090384
+   },
+   "geom_dev_max_mm": {
+    "mean": 28.39641724410223,
+    "std": 40.405000836300026,
+    "max": 113.08003701738848
+   },
+   "peak_vel_ratio": {
+    "mean": 0.07629632622696172,
+    "std": 0.003968577525631429,
+    "max": 0.08343915305307663
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.08226692465037194,
+    "std": 0.0025999498961520717,
+    "max": 0.08685154811584021
+   },
+   "peak_tau_ratio": {
+    "mean": 0.26321213058433385,
+    "std": 0.0029705879324618345,
+    "max": 0.2695612801600609
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.26321213058433374,
+    "std": 0.002970587932461639,
+    "max": 0.26956128016006076
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.4142714317607779,
+    "std": 0.07818934664809253,
+    "max": 1.5689825597448253
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "FR3",
+   "param": 4,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -9.633498371981366,
+   "n_inside_unsafe": 4,
+   "n_left_domain": 6,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 5398.647325690905,
+    "std": 3715.464934075734,
+    "max": 9637.176792244083
+   },
+   "rmse_mm": {
+    "mean": 67.81512838639046,
+    "std": 29.809686860114677,
+    "max": 98.16912341588919
+   },
+   "final_goal_err_mm": {
+    "mean": 99.26302500518277,
+    "std": 63.54094801280963,
+    "max": 157.55655135939756
+   },
+   "geom_dev_max_mm": {
+    "mean": 88.1971694630785,
+    "std": 46.563568739522744,
+    "max": 131.3401522564948
+   },
+   "peak_vel_ratio": {
+    "mean": 0.14854164414790208,
+    "std": 0.010271959973949729,
+    "max": 0.15934491354198452
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.16614901519021813,
+    "std": 0.009639753802577762,
+    "max": 0.17496518489978838
+   },
+   "peak_tau_ratio": {
+    "mean": 0.27869655506891283,
+    "std": 0.008012335772873861,
+    "max": 0.29117849102496607
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2786965550689128,
+    "std": 0.008012335772873955,
+    "max": 0.29117849102496607
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 2.4979108306087787,
+    "std": 0.19527245663154946,
+    "max": 2.6858414783538245
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "FR3",
+   "param": 8,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -1.4292752752146545,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7486.850802182203,
+    "std": 3873.221413463062,
+    "max": 11406.442385383367
+   },
+   "rmse_mm": {
+    "mean": 82.16388080183884,
+    "std": 28.59579405288328,
+    "max": 106.80094749291023
+   },
+   "final_goal_err_mm": {
+    "mean": 127.43650222326343,
+    "std": 65.09869329999036,
+    "max": 173.24329644913934
+   },
+   "geom_dev_max_mm": {
+    "mean": 114.40267417777275,
+    "std": 46.657747050415395,
+    "max": 146.64391124976106
+   },
+   "peak_vel_ratio": {
+    "mean": 0.2750023701816848,
+    "std": 0.02532132403305229,
+    "max": 0.296296800256181
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.34354571162835973,
+    "std": 0.010218995510313768,
+    "max": 0.35436844712568294
+   },
+   "peak_tau_ratio": {
+    "mean": 0.29222851840336694,
+    "std": 0.0052992692788732705,
+    "max": 0.3024472043706474
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.29222851840336705,
+    "std": 0.005299269278873401,
+    "max": 0.30244720437064804
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 4.343348820426573,
+    "std": 0.46066316022115705,
+    "max": 4.699216900001066
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "FR3",
+   "param": 16,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 9.846991214842452,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7257.356690302557,
+    "std": 3588.9469340778955,
+    "max": 11594.251378589188
+   },
+   "rmse_mm": {
+    "mean": 81.90092803030038,
+    "std": 24.711551012029325,
+    "max": 107.67660553058491
+   },
+   "final_goal_err_mm": {
+    "mean": 140.66604280717291,
+    "std": 54.82416689352076,
+    "max": 182.50173672929654
+   },
+   "geom_dev_max_mm": {
+    "mean": 121.22247732999953,
+    "std": 48.57515469335932,
+    "max": 158.4380403094853
+   },
+   "peak_vel_ratio": {
+    "mean": 0.485590469027067,
+    "std": 0.052992040839350836,
+    "max": 0.5328887154738942
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.6936389638534891,
+    "std": 0.018617977109284013,
+    "max": 0.7130313663934041
+   },
+   "peak_tau_ratio": {
+    "mean": 0.38117109852405584,
+    "std": 0.008107763395263286,
+    "max": 0.3932030506584117
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.38117109852405606,
+    "std": 0.008107763395263652,
+    "max": 0.39320305065841293
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 7.421644911513853,
+    "std": 0.9003928125036947,
+    "max": 8.177287820767297
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 8.819514680075521,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 76.31661899718367,
+    "std": 45.997649609623224,
+    "max": 196.81306354449742
+   },
+   "rmse_mm": {
+    "mean": 8.47371661933555,
+    "std": 2.239232421160869,
+    "max": 14.029007931585804
+   },
+   "final_goal_err_mm": {
+    "mean": 1.0209885695764184e-06,
+    "std": 2.9585272002538783e-06,
+    "max": 9.430488384318448e-06
+   },
+   "geom_dev_max_mm": {
+    "mean": 5.798132821365071,
+    "std": 0.2821177680565605,
+    "max": 6.122687284085037
+   },
+   "peak_vel_ratio": {
+    "mean": 0.034515963766417024,
+    "std": 0.0036134476806376193,
+    "max": 0.04155329138321026
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.03552015094391121,
+    "std": 0.003470641794880742,
+    "max": 0.04219115551213003
+   },
+   "peak_tau_ratio": {
+    "mean": 0.10604670119230317,
+    "std": 7.963873059778682e-05,
+    "max": 0.10612212589958896
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.10604670119230324,
+    "std": 7.96387305979787e-05,
+    "max": 0.10612212589959058
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.8610468565899267,
+    "std": 0.012104367942102904,
+    "max": 0.8682960422331627
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -7.810807850831375,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1344.1517562970625,
+    "std": 2388.0466113489156,
+    "max": 6945.63607256851
+   },
+   "rmse_mm": {
+    "mean": 27.508996466494057,
+    "std": 25.547491064105177,
+    "max": 83.3404827953889
+   },
+   "final_goal_err_mm": {
+    "mean": 25.484270446616094,
+    "std": 54.02115823976304,
+    "max": 139.4723447674844
+   },
+   "geom_dev_max_mm": {
+    "mean": 27.85839614454136,
+    "std": 39.868804618666275,
+    "max": 113.74013983832553
+   },
+   "peak_vel_ratio": {
+    "mean": 0.06625533723703145,
+    "std": 0.007238391342344939,
+    "max": 0.08066453972217875
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.07106375241347132,
+    "std": 0.007336010550088155,
+    "max": 0.08485869806044746
+   },
+   "peak_tau_ratio": {
+    "mean": 0.11138116844557167,
+    "std": 0.00911453622265404,
+    "max": 0.13085574458896493
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.11138116844557153,
+    "std": 0.009114536222652927,
+    "max": 0.13085574458895602
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.248930360756017,
+    "std": 0.07254494799304136,
+    "max": 1.4208336048522152
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 4,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -9.85967029295409,
+   "n_inside_unsafe": 4,
+   "n_left_domain": 6,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 5572.6348412298985,
+    "std": 3853.9450114013575,
+    "max": 9925.890066403581
+   },
+   "rmse_mm": {
+    "mean": 68.6521737177703,
+    "std": 30.90332389628781,
+    "max": 99.62876124093675
+   },
+   "final_goal_err_mm": {
+    "mean": 101.54342368619055,
+    "std": 63.80137343569895,
+    "max": 159.95723581188494
+   },
+   "geom_dev_max_mm": {
+    "mean": 90.07848335373178,
+    "std": 47.539868774037366,
+    "max": 133.78725550204163
+   },
+   "peak_vel_ratio": {
+    "mean": 0.12116992785085015,
+    "std": 0.014945931265765185,
+    "max": 0.1506208031491813
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.1426681379325539,
+    "std": 0.015007257371616161,
+    "max": 0.170791280990442
+   },
+   "peak_tau_ratio": {
+    "mean": 0.12917671835317499,
+    "std": 0.00799892880618987,
+    "max": 0.1381996098196881
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.1291767183531762,
+    "std": 0.00799892880618771,
+    "max": 0.13819960981968582
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 2.1632561699323754,
+    "std": 0.24038314131892247,
+    "max": 2.6500277724345915
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 8,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -1.1842623468293567,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7876.00905229702,
+    "std": 4134.024171797845,
+    "max": 12022.223621125675
+   },
+   "rmse_mm": {
+    "mean": 83.97724340791925,
+    "std": 30.25505727980958,
+    "max": 109.64590106851088
+   },
+   "final_goal_err_mm": {
+    "mean": 130.9870682990317,
+    "std": 67.38403290196503,
+    "max": 178.5113644876301
+   },
+   "geom_dev_max_mm": {
+    "mean": 117.98915978189693,
+    "std": 48.89677694199356,
+    "max": 151.9439483505684
+   },
+   "peak_vel_ratio": {
+    "mean": 0.20749977336771144,
+    "std": 0.03418508290583516,
+    "max": 0.2681789019923498
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.2819650090946827,
+    "std": 0.03598373333105781,
+    "max": 0.34344013674756446
+   },
+   "peak_tau_ratio": {
+    "mean": 0.13989743597559695,
+    "std": 0.00340775354315765,
+    "max": 0.14366547995272716
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.13989743597559312,
+    "std": 0.003407753543158307,
+    "max": 0.1436654799527275
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 3.686267743200575,
+    "std": 0.5814925448409565,
+    "max": 4.713994743206246
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 16,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 10.648072812922663,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7741.5983534428615,
+    "std": 3949.317561315654,
+    "max": 12523.608457616121
+   },
+   "rmse_mm": {
+    "mean": 84.2437932410208,
+    "std": 26.76194756670995,
+    "max": 111.90892930242931
+   },
+   "final_goal_err_mm": {
+    "mean": 146.07340872543924,
+    "std": 60.298156395014985,
+    "max": 191.2870068706845
+   },
+   "geom_dev_max_mm": {
+    "mean": 127.6616296046652,
+    "std": 52.02061883920978,
+    "max": 167.5817824602842
+   },
+   "peak_vel_ratio": {
+    "mean": 0.3504244343623969,
+    "std": 0.05817684008825007,
+    "max": 0.45531466410781124
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.569040801089985,
+    "std": 0.06710997877357641,
+    "max": 0.6894065624247316
+   },
+   "peak_tau_ratio": {
+    "mean": 0.16302092982871758,
+    "std": 0.011765265875570764,
+    "max": 0.17486811432541194
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.16302092982871547,
+    "std": 0.011765265875571512,
+    "max": 0.17486811432541383
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 6.190257275408195,
+    "std": 0.993934201183836,
+    "max": 7.9997163920860155
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 8.819514680075521,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 76.31661899718367,
+    "std": 45.997649609623224,
+    "max": 196.81306354449742
+   },
+   "rmse_mm": {
+    "mean": 8.47371661933555,
+    "std": 2.239232421160869,
+    "max": 14.029007931585804
+   },
+   "final_goal_err_mm": {
+    "mean": 1.0209885695764184e-06,
+    "std": 2.9585272002538783e-06,
+    "max": 9.430488384318448e-06
+   },
+   "geom_dev_max_mm": {
+    "mean": 5.798132821365071,
+    "std": 0.2821177680565605,
+    "max": 6.122687284085037
+   },
+   "peak_vel_ratio": {
+    "mean": 0.08628990941604256,
+    "std": 0.009033619201594048,
+    "max": 0.10388322845802567
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.08880037735977801,
+    "std": 0.008676604487201858,
+    "max": 0.10547788878032507
+   },
+   "peak_tau_ratio": {
+    "mean": 0.26511675298075793,
+    "std": 0.00019909682649446925,
+    "max": 0.2653053147489724
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2651167529807581,
+    "std": 0.00019909682649494654,
+    "max": 0.26530531474897645
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.8610468565899267,
+    "std": 0.012104367942102904,
+    "max": 0.8682960422331627
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -7.810807850831375,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1344.1517562970625,
+    "std": 2388.0466113489156,
+    "max": 6945.63607256851
+   },
+   "rmse_mm": {
+    "mean": 27.508996466494057,
+    "std": 25.547491064105177,
+    "max": 83.3404827953889
+   },
+   "final_goal_err_mm": {
+    "mean": 25.484270446616094,
+    "std": 54.02115823976304,
+    "max": 139.4723447674844
+   },
+   "geom_dev_max_mm": {
+    "mean": 27.85839614454136,
+    "std": 39.868804618666275,
+    "max": 113.74013983832553
+   },
+   "peak_vel_ratio": {
+    "mean": 0.1656383430925786,
+    "std": 0.018095978355862342,
+    "max": 0.20166134930544688
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.1776593810336783,
+    "std": 0.01834002637522039,
+    "max": 0.21214674515111864
+   },
+   "peak_tau_ratio": {
+    "mean": 0.27845292111392916,
+    "std": 0.022786340556635115,
+    "max": 0.32713936147241235
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.27845292111392894,
+    "std": 0.02278634055663231,
+    "max": 0.32713936147239003
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.248930360756017,
+    "std": 0.07254494799304136,
+    "max": 1.4208336048522152
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 4,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -9.85967029295409,
+   "n_inside_unsafe": 4,
+   "n_left_domain": 6,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 5572.6348412298985,
+    "std": 3853.9450114013575,
+    "max": 9925.890066403581
+   },
+   "rmse_mm": {
+    "mean": 68.6521737177703,
+    "std": 30.90332389628781,
+    "max": 99.62876124093675
+   },
+   "final_goal_err_mm": {
+    "mean": 101.54342368619055,
+    "std": 63.80137343569895,
+    "max": 159.95723581188494
+   },
+   "geom_dev_max_mm": {
+    "mean": 90.07848335373178,
+    "std": 47.539868774037366,
+    "max": 133.78725550204163
+   },
+   "peak_vel_ratio": {
+    "mean": 0.30292481962712536,
+    "std": 0.037364828164412944,
+    "max": 0.37655200787295323
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.3566703448313847,
+    "std": 0.037518143429040404,
+    "max": 0.42697820247610496
+   },
+   "peak_tau_ratio": {
+    "mean": 0.32294179588293753,
+    "std": 0.019997322015474682,
+    "max": 0.34549902454922027
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.3229417958829406,
+    "std": 0.01999732201546928,
+    "max": 0.34549902454921455
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 2.1632561699323754,
+    "std": 0.24038314131892247,
+    "max": 2.6500277724345915
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 8,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -1.1842623468293567,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7876.00905229702,
+    "std": 4134.024171797845,
+    "max": 12022.223621125675
+   },
+   "rmse_mm": {
+    "mean": 83.97724340791925,
+    "std": 30.25505727980958,
+    "max": 109.64590106851088
+   },
+   "final_goal_err_mm": {
+    "mean": 130.9870682990317,
+    "std": 67.38403290196503,
+    "max": 178.5113644876301
+   },
+   "geom_dev_max_mm": {
+    "mean": 117.98915978189693,
+    "std": 48.89677694199356,
+    "max": 151.9439483505684
+   },
+   "peak_vel_ratio": {
+    "mean": 0.5187494334192785,
+    "std": 0.08546270726458793,
+    "max": 0.6704472549808745
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.7049125227367067,
+    "std": 0.08995933332764454,
+    "max": 0.8586003418689112
+   },
+   "peak_tau_ratio": {
+    "mean": 0.34974358993899235,
+    "std": 0.00851938385789411,
+    "max": 0.3591636998818179
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.34974358993898286,
+    "std": 0.00851938385789578,
+    "max": 0.35916369988181873
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 3.686267743200575,
+    "std": 0.5814925448409565,
+    "max": 4.713994743206246
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 16,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 8.149305552104599,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 766,
+   "mse_mm2": {
+    "mean": 6317.519596412132,
+    "std": 2993.3457301723165,
+    "max": 9943.367691661795
+   },
+   "rmse_mm": {
+    "mean": 76.65409490488973,
+    "std": 22.152735740868742,
+    "max": 99.71643641678034
+   },
+   "final_goal_err_mm": {
+    "mean": 132.82337314408338,
+    "std": 53.88465247777217,
+    "max": 174.56650365141857
+   },
+   "geom_dev_max_mm": {
+    "mean": 113.9259650407354,
+    "std": 46.551443585212546,
+    "max": 152.17902597483362
+   },
+   "peak_vel_ratio": {
+    "mean": 0.7739463895987619,
+    "std": 0.0740156824687942,
+    "max": 0.845712095352033
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0000000000000002,
+    "std": 0.0,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 0.3836965383894585,
+    "std": 0.040061635815763635,
+    "max": 0.4229611054981054
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.3836965383894536,
+    "std": 0.04006163581576361,
+    "max": 0.42296110549810206
+   },
+   "frac_vel_scale": {
+    "mean": 0.24551282051282047,
+    "std": 0.05090674633352689,
+    "max": 0.3076923076923077
+   },
+   "max_gap_deg": {
+    "mean": 5.503047192517831,
+    "std": 0.5994061558850973,
+    "max": 5.996348711341457
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.03,
+      "joint": 1,
+      "value": 1.00498916216717
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "FR3",
+   "param": 1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 1.0,
+   "min_unsafe_clearance_mm": 8.413262265357274,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 108.91099319122245,
+    "std": 61.034772202207755,
+    "max": 264.75250978177746
+   },
+   "rmse_mm": {
+    "mean": 10.142761809139069,
+    "std": 2.589589429983152,
+    "max": 16.27121721881241
+   },
+   "final_goal_err_mm": {
+    "mean": 0.005214376621798502,
+    "std": 0.005589083417571068,
+    "max": 0.01707061302297721
+   },
+   "geom_dev_max_mm": {
+    "mean": 5.871472934790779,
+    "std": 0.365038819726357,
+    "max": 6.6211556425751255
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03988212375360393,
+    "std": 0.0014192962525968673,
+    "max": 0.040814097340882684
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.040647295675105576,
+    "std": 0.0012714055621641032,
+    "max": 0.04138112050494909
+   },
+   "peak_tau_ratio": {
+    "mean": 0.2529810580527475,
+    "std": 0.004175296509515422,
+    "max": 0.2564768305329242
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2529810580527479,
+    "std": 0.004175296509515147,
+    "max": 0.25647683053292325
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 0.8966439524943061,
+    "std": 0.017861081180284833,
+    "max": 0.9068452484921953
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "FR3",
+   "param": 2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -6.453088148292968,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1431.0048540191099,
+    "std": 2431.6761951933117,
+    "max": 6892.500362707971
+   },
+   "rmse_mm": {
+    "mean": 29.125756791005692,
+    "std": 25.444823646695607,
+    "max": 83.02108384445467
+   },
+   "final_goal_err_mm": {
+    "mean": 25.917523702881873,
+    "std": 54.683617986193326,
+    "max": 138.90340061090384
+   },
+   "geom_dev_max_mm": {
+    "mean": 28.39641724410223,
+    "std": 40.405000836300026,
+    "max": 113.08003701738848
+   },
+   "peak_vel_ratio": {
+    "mean": 0.07629632622696172,
+    "std": 0.003968577525631429,
+    "max": 0.08343915305307663
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.08226692465037194,
+    "std": 0.0025999498961520717,
+    "max": 0.08685154811584021
+   },
+   "peak_tau_ratio": {
+    "mean": 0.26321213058433385,
+    "std": 0.0029705879324618345,
+    "max": 0.2695612801600609
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.26321213058433374,
+    "std": 0.002970587932461639,
+    "max": 0.26956128016006076
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.4142714317607779,
+    "std": 0.07818934664809253,
+    "max": 1.5689825597448253
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "FR3",
+   "param": 4,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -9.633498371981366,
+   "n_inside_unsafe": 4,
+   "n_left_domain": 6,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 5398.647325690905,
+    "std": 3715.464934075734,
+    "max": 9637.176792244083
+   },
+   "rmse_mm": {
+    "mean": 67.81512838639046,
+    "std": 29.809686860114677,
+    "max": 98.16912341588919
+   },
+   "final_goal_err_mm": {
+    "mean": 99.26302500518277,
+    "std": 63.54094801280963,
+    "max": 157.55655135939756
+   },
+   "geom_dev_max_mm": {
+    "mean": 88.1971694630785,
+    "std": 46.563568739522744,
+    "max": 131.3401522564948
+   },
+   "peak_vel_ratio": {
+    "mean": 0.14854164414790208,
+    "std": 0.010271959973949729,
+    "max": 0.15934491354198452
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.16614901519021813,
+    "std": 0.009639753802577762,
+    "max": 0.17496518489978838
+   },
+   "peak_tau_ratio": {
+    "mean": 0.27869655506891283,
+    "std": 0.008012335772873861,
+    "max": 0.29117849102496607
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2786965550689128,
+    "std": 0.008012335772873955,
+    "max": 0.29117849102496607
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 2.4979108306087787,
+    "std": 0.19527245663154946,
+    "max": 2.6858414783538245
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "FR3",
+   "param": 8,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -1.4292752752146545,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7486.850802182203,
+    "std": 3873.221413463062,
+    "max": 11406.442385383367
+   },
+   "rmse_mm": {
+    "mean": 82.16388080183884,
+    "std": 28.59579405288328,
+    "max": 106.80094749291023
+   },
+   "final_goal_err_mm": {
+    "mean": 127.43650222326343,
+    "std": 65.09869329999036,
+    "max": 173.24329644913934
+   },
+   "geom_dev_max_mm": {
+    "mean": 114.40267417777275,
+    "std": 46.657747050415395,
+    "max": 146.64391124976106
+   },
+   "peak_vel_ratio": {
+    "mean": 0.2750023701816848,
+    "std": 0.02532132403305229,
+    "max": 0.296296800256181
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.34354571162835973,
+    "std": 0.010218995510313768,
+    "max": 0.35436844712568294
+   },
+   "peak_tau_ratio": {
+    "mean": 0.29222851840336694,
+    "std": 0.0052992692788732705,
+    "max": 0.3024472043706474
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.29222851840336705,
+    "std": 0.005299269278873401,
+    "max": 0.30244720437064804
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 4.343348820426573,
+    "std": 0.46066316022115705,
+    "max": 4.699216900001066
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "FR3",
+   "param": 16,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 9.846991214842452,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7257.356690302557,
+    "std": 3588.9469340778955,
+    "max": 11594.251378589188
+   },
+   "rmse_mm": {
+    "mean": 81.90092803030038,
+    "std": 24.711551012029325,
+    "max": 107.67660553058491
+   },
+   "final_goal_err_mm": {
+    "mean": 140.66604280717291,
+    "std": 54.82416689352076,
+    "max": 182.50173672929654
+   },
+   "geom_dev_max_mm": {
+    "mean": 121.22247732999953,
+    "std": 48.57515469335932,
+    "max": 158.4380403094853
+   },
+   "peak_vel_ratio": {
+    "mean": 0.485590469027067,
+    "std": 0.052992040839350836,
+    "max": 0.5328887154738942
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.6936389638534891,
+    "std": 0.018617977109284013,
+    "max": 0.7130313663934041
+   },
+   "peak_tau_ratio": {
+    "mean": 0.38117109852405584,
+    "std": 0.008107763395263286,
+    "max": 0.3932030506584117
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.38117109852405606,
+    "std": 0.008107763395263652,
+    "max": 0.39320305065841293
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 7.421644911513853,
+    "std": 0.9003928125036947,
+    "max": 8.177287820767297
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "UR5e",
+   "param": 1,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.8,
+   "min_unsafe_clearance_mm": -7.924004418374637,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 2,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 1340.510325209731,
+    "std": 2381.224573002655,
+    "max": 6941.822254471358
+   },
+   "rmse_mm": {
+    "mean": 27.49563794472855,
+    "std": 25.48420467710527,
+    "max": 83.31759870802422
+   },
+   "final_goal_err_mm": {
+    "mean": 25.44644180874385,
+    "std": 53.95089609178763,
+    "max": 139.454912826378
+   },
+   "geom_dev_max_mm": {
+    "mean": 27.82626097051928,
+    "std": 39.77804421365476,
+    "max": 113.68685037247936
+   },
+   "peak_vel_ratio": {
+    "mean": 0.03297815740502826,
+    "std": 0.0036223729611475596,
+    "max": 0.04019568756537601
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.03553394665675617,
+    "std": 0.0036611295631139265,
+    "max": 0.042426318187323855
+   },
+   "peak_tau_ratio": {
+    "mean": 0.11072726522866864,
+    "std": 0.009368707849743422,
+    "max": 0.1307808511733068
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.11072726522866935,
+    "std": 0.009368707849743935,
+    "max": 0.13078085117330682
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 1.2612588451834479,
+    "std": 0.07241979172927497,
+    "max": 1.432146120474869
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "UR5e",
+   "param": 2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -9.289634200974234,
+   "n_inside_unsafe": 4,
+   "n_left_domain": 6,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 5450.211760650682,
+    "std": 3855.1785879243325,
+    "max": 9857.108727061712
+   },
+   "rmse_mm": {
+    "mean": 67.68921235033847,
+    "std": 31.062343977546337,
+    "max": 99.28297299669119
+   },
+   "final_goal_err_mm": {
+    "mean": 99.00486253983824,
+    "std": 65.48301765170463,
+    "max": 159.71942730330127
+   },
+   "geom_dev_max_mm": {
+    "mean": 88.4627637461318,
+    "std": 47.97315299648923,
+    "max": 133.47716527259536
+   },
+   "peak_vel_ratio": {
+    "mean": 0.060096682832200765,
+    "std": 0.007429169791010683,
+    "max": 0.07478235958074395
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.07132706453067036,
+    "std": 0.007491549550803322,
+    "max": 0.08537057756652874
+   },
+   "peak_tau_ratio": {
+    "mean": 0.12595767112977774,
+    "std": 0.011968023792861921,
+    "max": 0.13784692205463217
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.12595767112978082,
+    "std": 0.011968023792863422,
+    "max": 0.13784692205463314
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 2.1746085491293834,
+    "std": 0.243134605022276,
+    "max": 2.6632721102391947
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "UR5e",
+   "param": 4,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -1.719455523855372,
+   "n_inside_unsafe": 1,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7769.848935362798,
+    "std": 4087.779992011764,
+    "max": 11880.803842132733
+   },
+   "rmse_mm": {
+    "mean": 83.42120415077883,
+    "std": 30.01391590943696,
+    "max": 108.99910018955539
+   },
+   "final_goal_err_mm": {
+    "mean": 130.3928731023247,
+    "std": 67.15867715465969,
+    "max": 178.09090843738647
+   },
+   "geom_dev_max_mm": {
+    "mean": 117.11592806427078,
+    "std": 48.79994474783672,
+    "max": 151.3482876516184
+   },
+   "peak_vel_ratio": {
+    "mean": 0.10226132670160246,
+    "std": 0.017197197094516496,
+    "max": 0.13251561620432256
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.14072066784423504,
+    "std": 0.018376006492365208,
+    "max": 0.171666163598663
+   },
+   "peak_tau_ratio": {
+    "mean": 0.1325568759508527,
+    "std": 0.01217648625556032,
+    "max": 0.1424949986356205
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.13255687595085425,
+    "std": 0.012176486255562599,
+    "max": 0.14249499863562143
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 3.6856189736795244,
+    "std": 0.5881047698643257,
+    "max": 4.717583300645796
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "UR5e",
+   "param": 8,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 9.55900488027606,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 7663.903271664293,
+    "std": 3897.370228817667,
+    "max": 12353.251297857825
+   },
+   "rmse_mm": {
+    "mean": 83.85315581392186,
+    "std": 26.511036102608603,
+    "max": 111.14518117245491
+   },
+   "final_goal_err_mm": {
+    "mean": 145.04481358916922,
+    "std": 60.516293818850606,
+    "max": 190.41714335433335
+   },
+   "geom_dev_max_mm": {
+    "mean": 126.47797526258134,
+    "std": 51.59629464852526,
+    "max": 165.96903722612015
+   },
+   "peak_vel_ratio": {
+    "mean": 0.1720745163676909,
+    "std": 0.029011484063325352,
+    "max": 0.22377742384615582
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.2846536214516512,
+    "std": 0.03362415198165939,
+    "max": 0.34473882701711256
+   },
+   "peak_tau_ratio": {
+    "mean": 0.13774107853360298,
+    "std": 0.012604947728222626,
+    "max": 0.15090624162147834
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.13774107853360607,
+    "std": 0.012604947728221945,
+    "max": 0.15090624162147606
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 6.167265713110908,
+    "std": 1.026479279891053,
+    "max": 7.963397505543325
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed",
+   "case": "menagerie",
+   "variant": "UR5e",
+   "param": 16,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.1,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 16.364703663996412,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 7,
+   "n_vel_scale_steps_total": 0,
+   "mse_mm2": {
+    "mean": 6217.154563970634,
+    "std": 2675.3543358512184,
+    "max": 9953.425443280448
+   },
+   "rmse_mm": {
+    "mean": 76.88166338514668,
+    "std": 18.450064712431825,
+    "max": 99.76685543446004
+   },
+   "final_goal_err_mm": {
+    "mean": 128.2585497951858,
+    "std": 48.5248659759543,
+    "max": 183.09407728337104
+   },
+   "geom_dev_max_mm": {
+    "mean": 101.20308010895563,
+    "std": 51.66843931391563,
+    "max": 159.21174196865138
+   },
+   "peak_vel_ratio": {
+    "mean": 0.2781077566597954,
+    "std": 0.053481516485370084,
+    "max": 0.36251983243607305
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 0.5682326671687882,
+    "std": 0.07070642184258069,
+    "max": 0.6913807828252082
+   },
+   "peak_tau_ratio": {
+    "mean": 0.13090007590044173,
+    "std": 0.013314935172570859,
+    "max": 0.15368103148243184
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.13090007590044062,
+    "std": 0.013314935172570246,
+    "max": 0.15368103148243373
+   },
+   "frac_vel_scale": {
+    "mean": 0.0,
+    "std": 0.0,
+    "max": 0.0
+   },
+   "max_gap_deg": {
+    "mean": 9.811086766679468,
+    "std": 1.8609457813831434,
+    "max": 12.89372909820657
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed_L",
+   "case": "main",
+   "variant": "FR3",
+   "param": 0.2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.2,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 26.990480447599737,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 955,
+   "mse_mm2": {
+    "mean": 27425.894210754206,
+    "std": 12792.001241879734,
+    "max": 42320.03356367757
+   },
+   "rmse_mm": {
+    "mean": 159.8124797243999,
+    "std": 45.775606496285235,
+    "max": 205.71833550677385
+   },
+   "final_goal_err_mm": {
+    "mean": 262.7484624779646,
+    "std": 93.9698209981815,
+    "max": 331.92136483920393
+   },
+   "geom_dev_max_mm": {
+    "mean": 221.07413145070004,
+    "std": 83.74259890532814,
+    "max": 285.81040247060713
+   },
+   "peak_vel_ratio": {
+    "mean": 0.8937443791922892,
+    "std": 0.08287785115746414,
+    "max": 0.9516717511874447
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0000000000000002,
+    "std": 0.0,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 0.7460993005125129,
+    "std": 0.009035590090892845,
+    "max": 0.7575056152669694
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.7460993005125128,
+    "std": 0.009035590090892803,
+    "max": 0.7575056152669717
+   },
+   "frac_vel_scale": {
+    "mean": 0.3060897435897436,
+    "std": 0.13208386523024027,
+    "max": 0.46794871794871795
+   },
+   "max_gap_deg": {
+    "mean": 13.375991602977745,
+    "std": 1.4266430437380537,
+    "max": 14.345977476567526
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.1,
+      "joint": 2,
+      "value": 1.0136601246106474
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed_L",
+   "case": "main",
+   "variant": "FR3",
+   "param": 0.3,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.3,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 35.45609278577462,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 1988,
+   "mse_mm2": {
+    "mean": 47311.334934208826,
+    "std": 19190.093880075896,
+    "max": 69743.85428419348
+   },
+   "rmse_mm": {
+    "mean": 212.17456446109003,
+    "std": 50.478698807358164,
+    "max": 264.09061756183894
+   },
+   "final_goal_err_mm": {
+    "mean": 324.3796484730975,
+    "std": 97.30581399340552,
+    "max": 417.34281699382365
+   },
+   "geom_dev_max_mm": {
+    "mean": 250.9277280554009,
+    "std": 95.37763174253125,
+    "max": 342.4235667666628
+   },
+   "peak_vel_ratio": {
+    "mean": 0.9398248436562865,
+    "std": 0.086303722016659,
+    "max": 0.9937800107960698
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0,
+    "std": 2.220446049250313e-16,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 2.0136770829741937,
+    "std": 0.7419417776105778,
+    "max": 3.767647822211037
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 2.0136770829741946,
+    "std": 0.741941777610579,
+    "max": 3.767647822211041
+   },
+   "frac_vel_scale": {
+    "mean": 0.6371794871794872,
+    "std": 0.20210557935306875,
+    "max": 0.8621794871794872
+   },
+   "max_gap_deg": {
+    "mean": 14.46753192482386,
+    "std": 0.20369641324897858,
+    "max": 14.674370721222267
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.036000000000000004,
+      "joint": 3,
+      "value": 1.00870214209162
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 9,
+     "earliest": {
+      "t_s": 0.004,
+      "joint": 5,
+      "value": 1.0408042252618088
+     }
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": {
+    "type": "applied_torque_above_limit",
+    "t_s": 0.004,
+    "joint": 5,
+    "value": 1.0408042252618088
+   }
+  },
+  {
+   "sweep": "speed_L",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 0.2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.2,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 31.072537054443732,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 348,
+   "mse_mm2": {
+    "mean": 31914.747149028834,
+    "std": 15907.517802821072,
+    "max": 50903.55317428825
+   },
+   "rmse_mm": {
+    "mean": 171.2616523722977,
+    "std": 53.58475711679251,
+    "max": 225.61815790021922
+   },
+   "final_goal_err_mm": {
+    "mean": 292.9917066234734,
+    "std": 114.81255421944473,
+    "max": 375.5221002135925
+   },
+   "geom_dev_max_mm": {
+    "mean": 253.15338325014127,
+    "std": 103.99746177135687,
+    "max": 330.67323649906734
+   },
+   "peak_vel_ratio": {
+    "mean": 0.7679912528909277,
+    "std": 0.02814286556136782,
+    "max": 0.8039904754665511
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0000000000000002,
+    "std": 0.0,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 0.29076666032521675,
+    "std": 0.04815728732918727,
+    "max": 0.32716978921089324
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.2907666603252165,
+    "std": 0.04815728732918749,
+    "max": 0.3271697892108981
+   },
+   "frac_vel_scale": {
+    "mean": 0.11153846153846154,
+    "std": 0.05311451797644377,
+    "max": 0.1987179487179487
+   },
+   "max_gap_deg": {
+    "mean": 13.494931918597398,
+    "std": 0.6180451355094757,
+    "max": 14.586736653229805
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.06,
+      "joint": 1,
+      "value": 1.0040275149568565
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed_L",
+   "case": "main",
+   "variant": "UR5e",
+   "param": 0.3,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.3,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 42.95390319111928,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 8,
+   "n_vel_scale_steps_total": 2220,
+   "mse_mm2": {
+    "mean": 47199.399970229824,
+    "std": 18210.5201892668,
+    "max": 62809.90718860717
+   },
+   "rmse_mm": {
+    "mean": 212.13101516914463,
+    "std": 49.439439649129966,
+    "max": 250.6190479365189
+   },
+   "final_goal_err_mm": {
+    "mean": 310.0488544031792,
+    "std": 90.58925974451279,
+    "max": 374.8981281809404
+   },
+   "geom_dev_max_mm": {
+    "mean": 231.41989580463056,
+    "std": 99.65234280334766,
+    "max": 300.53136743876496
+   },
+   "peak_vel_ratio": {
+    "mean": 0.9536987267634192,
+    "std": 0.04123676975337577,
+    "max": 0.9878795904795683
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0000000000000002,
+    "std": 0.0,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 0.2996771355758727,
+    "std": 0.033150356320270656,
+    "max": 0.326752258928315
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.29967713557587305,
+    "std": 0.03315035632027072,
+    "max": 0.3267522589283139
+   },
+   "frac_vel_scale": {
+    "mean": 0.7115384615384615,
+    "std": 0.17274686266160458,
+    "max": 0.9326923076923077
+   },
+   "max_gap_deg": {
+    "mean": 17.134593964757798,
+    "std": 0.8986897429643966,
+    "max": 17.830769228509684
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.0,
+      "joint": 6,
+      "value": 1.0738377095692406
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  },
+  {
+   "sweep": "speed_L",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 0.2,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.2,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": 12.822015847382662,
+   "n_inside_unsafe": 0,
+   "n_left_domain": 4,
+   "n_vel_scale_steps_total": 2315,
+   "mse_mm2": {
+    "mean": 16811.731031650936,
+    "std": 5794.818916309041,
+    "max": 22793.353441882784
+   },
+   "rmse_mm": {
+    "mean": 127.45098183968324,
+    "std": 25.121444132048545,
+    "max": 150.97467814796886
+   },
+   "final_goal_err_mm": {
+    "mean": 182.68996066362283,
+    "std": 48.12060914494367,
+    "max": 227.78771175943052
+   },
+   "geom_dev_max_mm": {
+    "mean": 125.79491897644611,
+    "std": 54.74014156332126,
+    "max": 176.46090106401746
+   },
+   "peak_vel_ratio": {
+    "mean": 0.9745015559295858,
+    "std": 0.03147597103398204,
+    "max": 1.0020848490762935
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0,
+    "std": 2.220446049250313e-16,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 0.3197311089582828,
+    "std": 0.0181029060817789,
+    "max": 0.35031690103454216
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.3197311089582825,
+    "std": 0.01810290608178269,
+    "max": 0.3503169010345483
+   },
+   "frac_vel_scale": {
+    "mean": 0.7419871794871794,
+    "std": 0.18674437436194202,
+    "max": 0.9294871794871795
+   },
+   "max_gap_deg": {
+    "mean": 6.700683108457943,
+    "std": 0.2185491722135768,
+    "max": 7.023774629397137
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.0,
+      "joint": 6,
+      "value": 1.2921993378180723
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 3,
+     "earliest": {
+      "t_s": 0.56,
+      "joint": 2,
+      "value": 1.0003318317188075
+     }
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": {
+    "type": "meas_joint_velocity_limit",
+    "t_s": 0.56,
+    "joint": 2,
+    "value": 1.0003318317188075
+   }
+  },
+  {
+   "sweep": "speed_L",
+   "case": "main",
+   "variant": "UR5e-weak",
+   "param": 0.3,
+   "n_runs": 10,
+   "n_used": 10,
+   "L_m": 0.3,
+   "ik_fail_indices": [],
+   "error_indices": [],
+   "gravity_ff": true,
+   "success_rate": 0.0,
+   "min_unsafe_clearance_mm": -4.9864761616525515,
+   "n_inside_unsafe": 2,
+   "n_left_domain": 1,
+   "n_vel_scale_steps_total": 2794,
+   "mse_mm2": {
+    "mean": 37942.15380807237,
+    "std": 12119.566113319695,
+    "max": 54947.785882385775
+   },
+   "rmse_mm": {
+    "mean": 192.1992076720572,
+    "std": 33.360295400800474,
+    "max": 234.40944068527995
+   },
+   "final_goal_err_mm": {
+    "mean": 212.25020446547882,
+    "std": 41.720154234927335,
+    "max": 303.9466997343064
+   },
+   "geom_dev_max_mm": {
+    "mean": 72.802144883701,
+    "std": 23.8189149620529,
+    "max": 105.6566771637763
+   },
+   "peak_vel_ratio": {
+    "mean": 0.928410360947926,
+    "std": 0.021263006764931557,
+    "max": 0.9711487979810121
+   },
+   "peak_qd_cmd_ratio": {
+    "mean": 1.0,
+    "std": 1.9582493486507355e-16,
+    "max": 1.0000000000000002
+   },
+   "peak_tau_ratio": {
+    "mean": 0.42475485788682593,
+    "std": 0.0025516486332362543,
+    "max": 0.42812209420449865
+   },
+   "peak_tau_cmd_ratio": {
+    "mean": 0.42475485788682565,
+    "std": 0.0025516486332343435,
+    "max": 0.42812209420449343
+   },
+   "frac_vel_scale": {
+    "mean": 0.8955128205128204,
+    "std": 0.17434640477568591,
+    "max": 1.0
+   },
+   "max_gap_deg": {
+    "mean": 6.640676550507061,
+    "std": 0.11928038083146238,
+    "max": 6.845808141934411
+   },
+   "events": {
+    "cmd_ik_velocity_scaling": {
+     "n_runs": 10,
+     "earliest": {
+      "t_s": 0.0,
+      "joint": 1,
+      "value": 1.4883932207914652
+     }
+    },
+    "cmd_qdes_clip_to_joint_range": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "cmd_servo_torque_saturation": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "applied_torque_above_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_position_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_joint_velocity_limit": {
+     "n_runs": 0,
+     "earliest": null
+    },
+    "meas_contact": {
+     "n_runs": 0,
+     "earliest": null
+    }
+   },
+   "first_physical_limit_event": null
+  }
+ ]
+}
