@@ -41,6 +41,25 @@ class TestServoMap(unittest.TestCase):
                 self.assertLess(s["residual_qvel_max"], 1e-4)
 
 
+class TestServoOverride(unittest.TestCase):
+    def test_override_in_memory_only(self):
+        for spec in ROBOTS.values():
+            r = Robot(spec)
+            kv0 = sim_dynamic.position_servo_map(r).kv.copy()
+            sv = sim_dynamic.apply_servo_override(r, 0.10)
+            with self.subTest(robot=spec.name):
+                np.testing.assert_allclose(sv.kv, 0.10 * sv.kp)
+                # a freshly loaded model is unchanged (MJCF untouched)
+                np.testing.assert_array_equal(sim_dynamic.position_servo_map(Robot(spec)).kv, kv0)
+
+    def test_gravity_ff_removes_static_sag(self):
+        for spec in ROBOTS.values():
+            r = Robot(spec)
+            s = sim_dynamic.static_sag(r, r.q_home, hold_s=2.0, gravity_ff=True)
+            with self.subTest(robot=spec.name):
+                self.assertLess(s["tcp_disp_mm"], 0.05)
+
+
 class TestDynamicRun(unittest.TestCase):
     def test_short_run_mujoco_state(self):
         ds, sc, rate = build_ds(CFG)

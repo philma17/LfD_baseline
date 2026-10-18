@@ -98,6 +98,17 @@ def position_servo_map(robot) -> ServoMap:
         force_lo=m.actuator_forcerange[act, 0].copy(), force_hi=m.actuator_forcerange[act, 1].copy())
 
 
+def apply_servo_override(robot, tau_servo: float) -> ServoMap:
+    """Set kv = kp * tau_servo for every arm actuator, IN MEMORY ONLY (robot.model was compiled
+    from the MJCF for this Robot instance; nothing is written back). kp is kept unchanged.
+
+    For an overdamped joint servo the velocity tracking behaves like a first-order lag with
+    time constant kv / kp, so equal tau_servo gives both robots the same command lag."""
+    sv = position_servo_map(robot)
+    robot.model.actuator_biasprm[sv.act, 2] = -sv.kp * float(tau_servo)
+    return position_servo_map(robot)   # re-verified after the change
+
+
 def gravity_torque(robot, q) -> np.ndarray:
     """Generalized gravity force g(q) (qfrc_bias at q_dot = 0) in robot joint order."""
     d = mujoco.MjData(robot.model)
@@ -106,15 +117,17 @@ def gravity_torque(robot, q) -> np.ndarray:
     return d.qfrc_bias[robot.dadr].copy()
 
 
-def static_sag(robot, q0, hold_s: float = 3.0) -> dict:
-    """Hold ctrl = q0 from rest at q0 and let MuJoCo settle (no DS, no IK).
+def static_sag(robot, q0, hold_s: float = 3.0, gravity_ff: bool = False) -> dict:
+    """Hold ctrl = q0 (or q0 + g(q0)/kp with gravity_ff) from rest at q0 and let MuJoCo
+    settle (no DS, no IK).
 
-    Predicted equilibrium (first order, friction neglected): q - q0 = -g(q0) / kp."""
+    Predicted equilibrium without feed-forward (first order, friction neglected):
+    q - q0 = -g(q0) / kp. With feed-forward the prediction is q - q0 = 0 (to first order)."""
     sv = position_servo_map(robot)
     m = robot.model
     d = mujoco.MjData(m)
     d.qpos[robot.qadr] = q0
-    d.ctrl[sv.act] = q0
+    d.ctrl[sv.act] = q0 + (gravity_torque(robot, q0) / sv.kp if gravity_ff else 0.0)
     mujoco.mj_forward(m, d)
     for _ in range(int(round(hold_s / m.opt.timestep))):
         mujoco.mj_step(m, d)
@@ -123,9 +136,9 @@ def static_sag(robot, q0, hold_s: float = 3.0) -> dict:
     p, R = robot.fk(q)
     g = gravity_torque(robot, q0)
     return {
-        "hold_s": hold_s,
+        "hold_s": hold_s, "gravity_ff": bool(gravity_ff),
         "dq_rad": (q - q0).tolist(),
-        "dq_pred_rad": (-g / sv.kp).tolist(),
+        "dq_pred_rad": (np.zeros_like(g) if gravity_ff else -g / sv.kp).tolist(),
         "max_abs_dq_rad": float(np.max(np.abs(q - q0))),
         "tcp_disp_mm": float(1e3 * np.linalg.norm(p - p0)),
         "tcp_disp_vec_mm": (1e3 * (p - p0)).tolist(),
@@ -135,10 +148,61 @@ def static_sag(robot, q0, hold_s: float = 3.0) -> dict:
     }
 
 
+def servo_stability(robot, q, step_rad: float = 0.01, hold_s: float = 1.5) -> dict:
+    """Per-joint servo check at configuration q.
+
+    Analytic (decoupled joint, diagonal of the joint-space inertia incl. armature):
+      I_ii s^2 + kv s + kp = 0  ->  w_n = sqrt(kp / I_ii), zeta = kv / (2 sqrt(kp I_ii)),
+      w_n * dt (explicit position stiffness; implicitfast treats the kv term implicitly).
+    Empirical (coupled, MuJoCo): from rest at q with gravity feed-forward, step every ctrl by
+    +step_rad and record 63 % rise time, overshoot and residual error after hold_s."""
+    sv = position_servo_map(robot)
+    m = robot.model
+    d = mujoco.MjData(m)
+    d.qpos[robot.qadr] = q
+    mujoco.mj_forward(m, d)
+    M = np.zeros((m.nv, m.nv))
+    try:                                    # MuJoCo >= 3.x (this env: 3.16): (m, d, dst)
+        mujoco.mj_fullM(m, d, M)
+    except TypeError:                       # older API: (m, dst, qM)
+        mujoco.mj_fullM(m, M, d.qM)
+    I = np.diag(M)[robot.dadr]
+    wn = np.sqrt(sv.kp / I)
+    zeta = sv.kv / (2.0 * np.sqrt(sv.kp * I))
+    poles = [np.roots([Ii, kv, kp]) for Ii, kv, kp in zip(I, sv.kv, sv.kp)]
+    # empirical step response
+    g = d.qfrc_bias[robot.dadr].copy()
+    q_hold = q + g / sv.kp
+    d.ctrl[sv.act] = q_hold + step_rad
+    n = int(round(hold_s / m.opt.timestep))
+    Q = np.empty((n + 1, robot.n))
+    Q[0] = d.qpos[robot.qadr]
+    for k in range(n):
+        mujoco.mj_step(m, d)
+        Q[k + 1] = d.qpos[robot.qadr]
+    resp = (Q - Q[0]) / step_rad
+    t = np.arange(n + 1) * m.opt.timestep
+    t63 = [float(t[np.argmax(r >= 0.63)]) if np.any(r >= 0.63) else None for r in resp.T]
+    return {
+        "kp": sv.kp.tolist(), "kv": sv.kv.tolist(), "tau_kv_over_kp_s": (sv.kv / sv.kp).tolist(),
+        "inertia_diag_kgm2": I.tolist(), "w_n_rad_s": wn.tolist(), "zeta": zeta.tolist(),
+        "w_n_dt": (wn * m.opt.timestep).tolist(),
+        "max_real_pole": float(max(np.max(p.real) for p in poles)),
+        "step_rad": step_rad, "step_t63_s": t63,
+        "step_overshoot_pct": (100.0 * np.maximum(resp.max(0) - 1.0, 0.0)).tolist(),
+        "step_final_frac": resp[-1].tolist(),
+        "finite": bool(np.all(np.isfinite(Q))),
+    }
+
+
 def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=None,
-        n_substeps: int = 1, contact_check: bool = True) -> dict:
+        n_substeps: int = 1, contact_check: bool = True, gravity_ff: bool = False) -> dict:
     """Closed-loop DS execution with MuJoCo dynamics. Same arguments as sim.run (q_start is
-    mandatory so that both execution modes start from the identical configuration)."""
+    mandatory so that both execution modes start from the identical configuration).
+
+    gravity_ff: start the servo target at q_start + g(q_start)/kp (static equilibrium of the
+    PD servo at q_start), so the robot does not sag at t = 0. The robot itself still starts
+    at q_start with zero velocity. Default False = previous baseline behavior."""
     m = robot.model
     n = robot.n
     if not np.isclose(sp.dt, n_substeps * m.opt.timestep):
@@ -162,7 +226,11 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
     q0 = np.asarray(q_start, float)
     d.qpos[robot.qadr] = q0
     d.qvel[:] = 0.0
-    q_des = np.clip(q0, lo, hi)            # windup guard: start at the measured start pose
+    q_des = q0.copy()                      # windup guard: start at the measured start pose
+    if gravity_ff:
+        q_des = q_des + gravity_torque(robot, q0) / sv.kp
+    q_des = np.clip(q_des, lo, hi)
+    qdes0 = q_des.copy()
     d.ctrl[sv.act] = q_des                 # set before the first mj_step (no initial jump)
     mujoco.mj_forward(m, d)
 
@@ -260,6 +328,12 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
         "max_abs_tau_applied_Nm": np.abs(TAU_APP).max(0).tolist(),
         "tau_doc_Nm": tau_doc.tolist(),
         "n_tau_doc_exceed_steps": int(np.sum(np.any(np.abs(TAU_APP) > tau_doc, axis=1))),
+        "peak_tau_ratio": float(np.max(np.abs(TAU_APP) / tau_doc)),
+        # start / configuration
+        "gravity_ff": bool(gravity_ff),
+        "qdes0_minus_q0_rad": (qdes0 - q0).tolist(),
+        "min_limit_margin_pct": float(min(robot.limit_margin_pct(qq).min() for qq in Q)),
+        "q_final_rad": Q[-1].tolist(),
         # windup / servo gap
         "max_abs_gap_rad": float(np.abs(gap).max()),
         "max_abs_gap_per_joint_rad": np.abs(gap).max(0).tolist(),
@@ -290,6 +364,7 @@ def tracking_metrics(P, P_id, goal, L, dt, success_frac) -> dict:
     reached = np.flatnonzero(dist_goal < thr)
     return {
         "final_goal_err_m": float(dist_goal[-1]),
+        "mse_sync_m2": float(np.mean(e ** 2)),
         "rmse_sync_m": float(np.sqrt(np.mean(e ** 2))), "max_err_sync_m": float(e.max()),
         "t_max_err_sync_s": float(np.argmax(e) * dt),
         "geom_dev_mean_m": float(g.mean()), "geom_dev_max_m": float(g.max()),

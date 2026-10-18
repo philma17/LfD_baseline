@@ -36,3 +36,22 @@ robots: [FR3, UR5e]
 dynamic:
   n_substeps: 1
   sag_hold_s: 3.0             # static sag check: hold ctrl = q_start for this long
+  # Defaults reproduce the single-start baseline (unmodified Menagerie servos, no feed-forward).
+  servo_override: null        # {tau_servo: 0.10} -> kv = kp * tau_servo, kp unchanged (in memory)
+  gravity_ff: false           # true -> q_des(0) = q_start + g(q_start) / kp
+
+# Multi-start comparison (experiments/dynamic_multistart.py). Task, DS and controller as above.
+multistart:
+  mode: full6
+  n_starts: 20
+  seed: 0
+  # Start region: the verified initial set of the S2NNDS model, read from
+  # S2NNDS/config_files/LASA/Sine_config.json -> plotting.init_range (normalized DS coords).
+  region: s2nnds_init_range
+  primary: equal_tau_ff
+  cases:                      # k_null: null-space gain of common.ik.solve_qdot (Phase 1: 0.5)
+    - {name: equal_tau_ff,      servo_override: {tau_servo: 0.10}, gravity_ff: true,  k_null: 0.0}
+    - {name: equal_tau_no_ff,   servo_override: {tau_servo: 0.10}, gravity_ff: false, k_null: 0.0}
+    - {name: menagerie_ff,      servo_override: null,              gravity_ff: true,  k_null: 0.0}
+    - {name: equal_tau_ff_null, servo_override: {tau_servo: 0.10}, gravity_ff: true,  k_null: 0.5}
+  workers: 4

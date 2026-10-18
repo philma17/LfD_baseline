@@ -77,7 +77,8 @@ def run_case(cfg, ds, sc, rate, sp, robot, mode):
     q_start = kin["traj"]["Q"][0].copy()
     t0 = time.time()
     dyn = sim_dynamic.run(robot, ds, emb, x0, rate, tgt, sp, q_start=q_start,
-                          n_substeps=int(cfg["dynamic"]["n_substeps"]))
+                          n_substeps=int(cfg["dynamic"]["n_substeps"]),
+                          gravity_ff=bool(cfg["dynamic"].get("gravity_ff", False)))
     t_dyn = time.time() - t0
     sag = sim_dynamic.static_sag(robot, q_start, float(cfg["dynamic"]["sag_hold_s"]))
     sv = sim_dynamic.position_servo_map(robot)
@@ -278,6 +279,9 @@ def main():
                 all_tr[rb] = load_traj(rb, mode)
                 continue
             robot = Robot(ROBOTS[rb])
+            so = cfg["dynamic"].get("servo_override")
+            if so:   # in-memory model change only, the MJCF is never written
+                sim_dynamic.apply_servo_override(robot, float(so["tau_servo"]))
             res, trajs, _ = run_case(cfg, ds, sc, rate, sp, robot, mode)
             metrics[mode][rb] = to_jsonable(res)
             save_traj(trajs, rb, mode)
