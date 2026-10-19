@@ -1,0 +1,106 @@
+[
+ {
+  "case": "menagerie_ff",
+  "robot": "UR5e",
+  "i": 1,
+  "x0_n": [
+   -0.9951408863162992,
+   -0.03695431930689651
+  ],
+  "final_goal_err_mm": 139.454912826378,
+  "ideal_from_x0_converges": true,
+  "t_leave_domain_s": 0.92,
+  "x_n_at_leave": [
+   -1.0002222657203674,
+   0.027274142485111952
+  ],
+  "max_abs_x_n": 1.3535189628601074,
+  "min_unsafe_clearance_mm": 3.5094779265853027,
+  "t_point_of_no_return_s": 2.7,
+  "x_n_point_of_no_return": [
+   -0.7397764921188354,
+   0.5054648220539093
+  ],
+  "unsafe_clearance_at_no_return_n": 0.2736540853420911,
+  "menagerie_no_ff_final_err_mm": 139.13616953154772,
+  "menagerie_no_ff_success": false
+ },
+ {
+  "case": "menagerie_ff",
+  "robot": "UR5e",
+  "i": 9,
+  "x0_n": [
+   -0.9644567025588059,
+   0.00789485184304664
+  ],
+  "final_goal_err_mm": 114.99493003785253,
+  "ideal_from_x0_converges": true,
+  "t_leave_domain_s": 7.66,
+  "x_n_at_leave": [
+   0.03270149230957031,
+   1.0002688318490982
+  ],
+  "max_abs_x_n": 1.1069439351558685,
+  "min_unsafe_clearance_mm": -7.924004418374637,
+  "t_point_of_no_return_s": 2.6,
+  "x_n_point_of_no_return": [
+   -0.6107056140899658,
+   0.3808269277215004
+  ],
+  "unsafe_clearance_at_no_return_n": 0.11294871514469443,
+  "menagerie_no_ff_final_err_mm": 111.47408996632588,
+  "menagerie_no_ff_success": false
+ },
+ {
+  "case": "menagerie_ff",
+  "robot": "UR5e",
+  "i": 10,
+  "x0_n": [
+   -0.9966415263233127,
+   -0.025055668247559743
+  ],
+  "final_goal_err_mm": 141.46714781108892,
+  "ideal_from_x0_converges": true,
+  "t_leave_domain_s": 0.54,
+  "x_n_at_leave": [
+   -1.00007563829422,
+   0.006067881477065384
+  ],
+  "max_abs_x_n": 1.3710853457450867,
+  "min_unsafe_clearance_mm": 4.160974174726858,
+  "t_point_of_no_return_s": 2.5,
+  "x_n_point_of_no_return": [
+   -0.7516351342201233,
+   0.5112455412745476
+  ],
+  "unsafe_clearance_at_no_return_n": 0.2868428520716467,
+  "menagerie_no_ff_final_err_mm": 141.20525081398938,
+  "menagerie_no_ff_success": false
+ },
+ {
+  "case": "menagerie_ff",
+  "robot": "UR5e",
+  "i": 16,
+  "x0_n": [
+   -0.9839786961649478,
+   0.04088922892659524
+  ],
+  "final_goal_err_mm": 136.48792760452972,
+  "ideal_from_x0_converges": true,
+  "t_leave_domain_s": 5.8,
+  "x_n_at_leave": [
+   -0.13040870428085327,
+   1.0001523792743683
+  ],
+  "max_abs_x_n": 1.3076381385326385,
+  "min_unsafe_clearance_mm": -1.651098474504853,
+  "t_point_of_no_return_s": 1.9000000000000001,
+  "x_n_point_of_no_return": [
+   -0.6938502192497253,
+   0.4630875214934349
+  ],
+  "unsafe_clearance_at_no_return_n": 0.21485987180115498,
+  "menagerie_no_ff_final_err_mm": 135.92519470813656,
+  "menagerie_no_ff_success": false
+ }
+]

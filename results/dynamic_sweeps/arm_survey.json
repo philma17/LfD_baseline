@@ -1,0 +1,1517 @@
+{
+ "menagerie_dir": "/home/philipp/.cache/robot_descriptions/mujoco_menagerie",
+ "pinned_commit": "d7b481bac63d3d600ab404ee74f7474c5efe8a67",
+ "models": [
+  {
+   "file": "agilex_piper/piper.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 100.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.624,
+   "timestep": 0.002,
+   "total_mass_kg": 2.37
+  },
+  {
+   "file": "aloha/aloha.xml",
+   "arm_dof": 12,
+   "arm_joints": [
+    "left/waist",
+    "left/shoulder",
+    "left/elbow",
+    "left/forearm_roll",
+    "left/wrist_angle",
+    "left/wrist_rotate",
+    "right/waist",
+    "right/shoulder",
+    "right/elbow",
+    "right/forearm_roll",
+    "right/wrist_angle",
+    "right/wrist_rotate"
+   ],
+   "n_hinge": 12,
+   "n_actuators": 14,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [
+    "left/gripper",
+    "left/left_finger",
+    "left/right_finger",
+    "right/gripper",
+    "right/left_finger",
+    "right/right_finger"
+   ],
+   "rough_reach_m": 1.586,
+   "timestep": 0.002,
+   "total_mass_kg": 8.52
+  },
+  {
+   "file": "aloha/filtered_cartesian_actuators.xml",
+   "load_error": "ValueError(\"Error: transmission target 'left/gripper' not found in actuator 0\\nElement name 'left/X', id 0, line 38\")"
+  },
+  {
+   "file": "aloha/joint_position_actuators.xml",
+   "load_error": "ValueError(\"XML Error: unknown default class name 'waist'\\nElement 'position', line 3\\n\")"
+  },
+  {
+   "file": "aloha/keyframe_ctrl.xml",
+   "load_error": "ValueError(\"Error: keyframe 'neutral_pose': invalid qpos size, expected 0, got 16\\nElement name 'neutral_pose', id 0\")"
+  },
+  {
+   "file": "aloha/keyframe_no_act.xml",
+   "load_error": "ValueError(\"Error: keyframe 'neutral_pose': invalid qpos size, expected 0, got 16\\nElement name 'neutral_pose', id 0\")"
+  },
+  {
+   "file": "arx_l5/arx_l5.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 100.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.651,
+   "timestep": 0.002,
+   "total_mass_kg": 3.6
+  },
+  {
+   "file": "flexiv_rizon4/flexiv_rizon4.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 1.098,
+   "timestep": 0.002,
+   "total_mass_kg": 18.17
+  },
+  {
+   "file": "flexiv_rizon4s/flexiv_rizon4s.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [
+    "ft_site1",
+    "ft_site2",
+    "ft_site3",
+    "ft_site4",
+    "ft_site5",
+    "ft_site6",
+    "ft_site7"
+   ],
+   "rough_reach_m": 1.098,
+   "timestep": 0.002,
+   "total_mass_kg": 18.8
+  },
+  {
+   "file": "franka_emika_panda/mjx_panda.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 8,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 200.0,
+   "has_attachment_site": false,
+   "sites": [
+    "gripper"
+   ],
+   "rough_reach_m": 0.806,
+   "timestep": 0.002,
+   "total_mass_kg": 17.45
+  },
+  {
+   "file": "franka_emika_panda/mjx_panda_nohand.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 100.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.806,
+   "timestep": 0.002,
+   "total_mass_kg": 16.69
+  },
+  {
+   "file": "franka_emika_panda/panda.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 8,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 100.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.806,
+   "timestep": 0.002,
+   "total_mass_kg": 17.45
+  },
+  {
+   "file": "franka_emika_panda/panda_nohand.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 87.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 0.857,
+   "timestep": 0.002,
+   "total_mass_kg": 16.69
+  },
+  {
+   "file": "franka_fr3/fr3.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "fr3_joint1",
+    "fr3_joint2",
+    "fr3_joint3",
+    "fr3_joint4",
+    "fr3_joint5",
+    "fr3_joint6",
+    "fr3_joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 0.856,
+   "timestep": 0.002,
+   "total_mass_kg": 18.32
+  },
+  {
+   "file": "franka_fr3_v2/fr3v2.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "fr3v2_joint1",
+    "fr3v2_joint2",
+    "fr3v2_joint3",
+    "fr3v2_joint4",
+    "fr3v2_joint5",
+    "fr3v2_joint6",
+    "fr3v2_joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.805,
+   "timestep": 0.002,
+   "total_mass_kg": 17.31
+  },
+  {
+   "file": "google_robot/robot.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "joint_finger_left"
+   ],
+   "n_hinge": 9,
+   "n_actuators": 9,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 30.0,
+   "has_attachment_site": false,
+   "sites": [
+    "wrist",
+    "gripper"
+   ],
+   "rough_reach_m": 0.0,
+   "timestep": 0.004,
+   "total_mass_kg": 152.75
+  },
+  {
+   "file": "i2rt_yam/yam.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 28.0,
+   "has_attachment_site": false,
+   "sites": [
+    "tcp_site",
+    "grasp_site"
+   ],
+   "rough_reach_m": 0.665,
+   "timestep": 0.002,
+   "total_mass_kg": 3.98
+  },
+  {
+   "file": "i2rt_yam/yam_linear_4310.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 100.0,
+   "has_attachment_site": false,
+   "sites": [
+    "tcp_site",
+    "grasp_site"
+   ],
+   "rough_reach_m": 0.658,
+   "timestep": 0.002,
+   "total_mass_kg": 4.06
+  },
+  {
+   "file": "kinova_gen3/gen3.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "joint_7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 105.0,
+   "has_attachment_site": false,
+   "sites": [
+    "pinch_site"
+   ],
+   "rough_reach_m": 0.961,
+   "timestep": 0.002,
+   "total_mass_kg": 8.19
+  },
+  {
+   "file": "kuka_iiwa_14/iiwa14.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 1.141,
+   "timestep": 0.002,
+   "total_mass_kg": 30.61
+  },
+  {
+   "file": "leap_hand/left_hand.xml",
+   "arm_dof": 16,
+   "arm_joints": [
+    "if_mcp",
+    "if_rot",
+    "if_pip",
+    "if_dip",
+    "mf_mcp",
+    "mf_rot",
+    "mf_pip",
+    "mf_dip",
+    "rf_mcp",
+    "rf_rot",
+    "rf_pip",
+    "rf_dip",
+    "th_cmc",
+    "th_axl",
+    "th_mcp",
+    "th_ipl"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 16,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.126,
+   "timestep": 0.002,
+   "total_mass_kg": 0.74
+  },
+  {
+   "file": "leap_hand/right_hand.xml",
+   "arm_dof": 16,
+   "arm_joints": [
+    "if_mcp",
+    "if_rot",
+    "if_pip",
+    "if_dip",
+    "mf_mcp",
+    "mf_rot",
+    "mf_pip",
+    "mf_dip",
+    "rf_mcp",
+    "rf_rot",
+    "rf_pip",
+    "rf_dip",
+    "th_cmc",
+    "th_axl",
+    "th_mcp",
+    "th_ipl"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 16,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.124,
+   "timestep": 0.002,
+   "total_mass_kg": 0.75
+  },
+  {
+   "file": "low_cost_robot_arm/low_cost_robot_arm.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "base_rotation",
+    "pitch",
+    "elbow",
+    "wrist_pitch",
+    "wrist_roll",
+    "gripper"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 87.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.283,
+   "timestep": 0.002,
+   "total_mass_kg": 0.34
+  },
+  {
+   "file": "ms_human_700/MS-Human-700-Locomotion.xml",
+   "load_error": "IndexError('list index out of range')"
+  },
+  {
+   "file": "ms_human_700/MS-Human-700-Manipulation.xml",
+   "load_error": "IndexError('list index out of range')"
+  },
+  {
+   "file": "ms_human_700/MS-Human-700.xml",
+   "load_error": "IndexError('list index out of range')"
+  },
+  {
+   "file": "rethink_robotics_sawyer/sawyer.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "right_j0",
+    "right_j1",
+    "right_j2",
+    "right_j3",
+    "right_j4",
+    "right_j5",
+    "right_j6"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 80.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 1.248,
+   "timestep": 0.002,
+   "total_mass_kg": 20.73
+  },
+  {
+   "file": "robotiq_2f85/2f85.xml",
+   "load_error": "IndexError('list index out of range')"
+  },
+  {
+   "file": "robotiq_2f85_v4/2f85.xml",
+   "load_error": "IndexError('list index out of range')"
+  },
+  {
+   "file": "robotiq_2f85_v4/mjx_2f85.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "left_driver_joint"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 1,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 5.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.0,
+   "timestep": 0.002,
+   "total_mass_kg": 0.89
+  },
+  {
+   "file": "robotis_omy_3m/omy_3m.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 61.4,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 0.63,
+   "timestep": 0.002,
+   "total_mass_kg": 12.78
+  },
+  {
+   "file": "robotstudio_so101/so101.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "shoulder_pan",
+    "shoulder_lift",
+    "elbow_flex",
+    "wrist_flex",
+    "wrist_roll",
+    "gripper"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 2.94,
+   "has_attachment_site": false,
+   "sites": [
+    "baseframe",
+    "gripperframe"
+   ],
+   "rough_reach_m": 0.396,
+   "timestep": 0.005,
+   "total_mass_kg": 0.65
+  },
+  {
+   "file": "seeed_rebot_devarm/seeed_rebot_devarm.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 8,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 1904.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.658,
+   "timestep": 0.002,
+   "total_mass_kg": 6.01
+  },
+  {
+   "file": "shadow_dexee/shadow_dexee.xml",
+   "arm_dof": 12,
+   "arm_joints": [
+    "F0/J0",
+    "F0/J1",
+    "F0/J2",
+    "F0/J3",
+    "F1/J0",
+    "F1/J1",
+    "F1/J2",
+    "F1/J3",
+    "F2/J0",
+    "F2/J1",
+    "F2/J2",
+    "F2/J3"
+   ],
+   "n_hinge": 12,
+   "n_actuators": 12,
+   "actuator_kinds": [
+    "FIXED/NONE/JOINT"
+   ],
+   "position_servo_map_compatible": false,
+   "incompatibility": [
+    "F0/J0_actuator: FIXED/NONE/JOINT, gear 1.0, biasprm [0.0, 0.0, 0.0]",
+    "F0/J1_actuator: FIXED/NONE/JOINT, gear 1.0, biasprm [0.0, 0.0, 0.0]",
+    "F0/J2_actuator: FIXED/NONE/JOINT, gear 1.0, biasprm [0.0, 0.0, 0.0]"
+   ],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 1.2,
+   "has_attachment_site": true,
+   "sites": [
+    "tcp",
+    "attachment_site",
+    "F0/attachment_site",
+    "F0/j0_site",
+    "F0/j1_site",
+    "F0/j2_site",
+    "F0/j3_site",
+    "F0/fingertip_site"
+   ],
+   "rough_reach_m": 0.207,
+   "timestep": 0.002,
+   "total_mass_kg": 4.14
+  },
+  {
+   "file": "shadow_hand/keyframes.xml",
+   "load_error": "ValueError(\"Error: keyframe 'scissors': invalid qpos size, expected 0, got 24\\nElement name 'scissors', id 0\")"
+  },
+  {
+   "file": "shadow_hand/left_hand.xml",
+   "arm_dof": 16,
+   "arm_joints": [
+    "lh_WRJ2",
+    "lh_WRJ1",
+    "lh_FFJ4",
+    "lh_FFJ3",
+    "lh_MFJ4",
+    "lh_MFJ3",
+    "lh_RFJ4",
+    "lh_RFJ3",
+    "lh_LFJ5",
+    "lh_LFJ4",
+    "lh_LFJ3",
+    "lh_THJ5",
+    "lh_THJ4",
+    "lh_THJ3",
+    "lh_THJ2",
+    "lh_THJ1"
+   ],
+   "n_hinge": 24,
+   "n_actuators": 20,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 10.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.143,
+   "timestep": 0.002,
+   "total_mass_kg": 3.79
+  },
+  {
+   "file": "shadow_hand/right_hand.xml",
+   "arm_dof": 16,
+   "arm_joints": [
+    "rh_WRJ2",
+    "rh_WRJ1",
+    "rh_FFJ4",
+    "rh_FFJ3",
+    "rh_MFJ4",
+    "rh_MFJ3",
+    "rh_RFJ4",
+    "rh_RFJ3",
+    "rh_LFJ5",
+    "rh_LFJ4",
+    "rh_LFJ3",
+    "rh_THJ5",
+    "rh_THJ4",
+    "rh_THJ3",
+    "rh_THJ2",
+    "rh_THJ1"
+   ],
+   "n_hinge": 24,
+   "n_actuators": 20,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 10.0,
+   "has_attachment_site": false,
+   "sites": [
+    "grasp_site"
+   ],
+   "rough_reach_m": 0.143,
+   "timestep": 0.002,
+   "total_mass_kg": 3.79
+  },
+  {
+   "file": "sharpa_wave/left_hand.xml",
+   "arm_dof": 22,
+   "arm_joints": [
+    "left_thumb_CMC_FE",
+    "left_thumb_CMC_AA",
+    "left_thumb_MCP_FE",
+    "left_thumb_MCP_AA",
+    "left_thumb_IP",
+    "left_index_MCP_FE",
+    "left_index_MCP_AA",
+    "left_index_PIP",
+    "left_index_DIP",
+    "left_middle_MCP_FE",
+    "left_middle_MCP_AA",
+    "left_middle_PIP",
+    "left_middle_DIP",
+    "left_ring_MCP_FE",
+    "left_ring_MCP_AA",
+    "left_ring_PIP",
+    "left_ring_DIP",
+    "left_pinky_CMC",
+    "left_pinky_MCP_FE",
+    "left_pinky_MCP_AA",
+    "left_pinky_PIP",
+    "left_pinky_DIP"
+   ],
+   "n_hinge": 22,
+   "n_actuators": 22,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [
+    "wrist_site",
+    "left_thumb_fingertip",
+    "left_index_fingertip",
+    "left_middle_fingertip",
+    "left_ring_fingertip",
+    "left_pinky_fingertip"
+   ],
+   "rough_reach_m": 0.162,
+   "timestep": 0.002,
+   "total_mass_kg": 1.32
+  },
+  {
+   "file": "sharpa_wave/right_hand.xml",
+   "arm_dof": 22,
+   "arm_joints": [
+    "right_thumb_CMC_FE",
+    "right_thumb_CMC_AA",
+    "right_thumb_MCP_FE",
+    "right_thumb_MCP_AA",
+    "right_thumb_IP",
+    "right_index_MCP_FE",
+    "right_index_MCP_AA",
+    "right_index_PIP",
+    "right_index_DIP",
+    "right_middle_MCP_FE",
+    "right_middle_MCP_AA",
+    "right_middle_PIP",
+    "right_middle_DIP",
+    "right_ring_MCP_FE",
+    "right_ring_MCP_AA",
+    "right_ring_PIP",
+    "right_ring_DIP",
+    "right_pinky_CMC",
+    "right_pinky_MCP_FE",
+    "right_pinky_MCP_AA",
+    "right_pinky_PIP",
+    "right_pinky_DIP"
+   ],
+   "n_hinge": 22,
+   "n_actuators": 22,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [
+    "wrist_site",
+    "right_thumb_fingertip",
+    "right_index_fingertip",
+    "right_middle_fingertip",
+    "right_ring_fingertip",
+    "right_pinky_fingertip"
+   ],
+   "rough_reach_m": 0.162,
+   "timestep": 0.002,
+   "total_mass_kg": 1.32
+  },
+  {
+   "file": "stanford_tidybot/tidybot.xml",
+   "arm_dof": 8,
+   "arm_joints": [
+    "joint_th",
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "joint_7"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 11,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": 105.0,
+   "has_attachment_site": false,
+   "sites": [
+    "pinch_site"
+   ],
+   "rough_reach_m": 1.45,
+   "timestep": 0.002,
+   "total_mass_kg": 69.09
+  },
+  {
+   "file": "tetheria_aero_hand_open/left_hand.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "left_thumb_cmc_abd"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [
+    "grasp_site",
+    "palm_collision_1",
+    "palm_collision_2",
+    "palm_collision_3",
+    "palm_collision_4",
+    "if_f_spring1_s1",
+    "if_proximal_tendon0_s0",
+    "if_proximal_tendon0_s1"
+   ],
+   "rough_reach_m": 0.0,
+   "timestep": 0.01,
+   "total_mass_kg": 0.45
+  },
+  {
+   "file": "tetheria_aero_hand_open/right_hand.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "right_thumb_cmc_abd"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [
+    "grasp_site",
+    "palm_collision_1",
+    "palm_collision_2",
+    "palm_collision_3",
+    "palm_collision_4",
+    "if_f_spring1_s1",
+    "if_proximal_tendon0_s0",
+    "if_proximal_tendon0_s1"
+   ],
+   "rough_reach_m": 0.0,
+   "timestep": 0.01,
+   "total_mass_kg": 0.45
+  },
+  {
+   "file": "trossen_vx300s/vx300s.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "waist",
+    "shoulder",
+    "elbow",
+    "forearm_roll",
+    "wrist_angle",
+    "wrist_rotate"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 57.0,
+   "has_attachment_site": false,
+   "sites": [
+    "pinch"
+   ],
+   "rough_reach_m": 0.721,
+   "timestep": 0.002,
+   "total_mass_kg": 3.74
+  },
+  {
+   "file": "trossen_wx250s/wx250s.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "waist",
+    "shoulder",
+    "elbow",
+    "forearm_roll",
+    "wrist_angle",
+    "wrist_rotate"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 35.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.605,
+   "timestep": 0.002,
+   "total_mass_kg": 2.13
+  },
+  {
+   "file": "trossen_wxai/wxai_follower.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint_0",
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 144.0,
+   "has_attachment_site": false,
+   "sites": [
+    "ee_gripper_link"
+   ],
+   "rough_reach_m": 0.625,
+   "timestep": 0.002,
+   "total_mass_kg": 4.11
+  },
+  {
+   "file": "trossen_wxai/wxai_follower_biarm.xml",
+   "arm_dof": 12,
+   "arm_joints": [
+    "left/joint_0",
+    "left/joint_1",
+    "left/joint_2",
+    "left/joint_3",
+    "left/joint_4",
+    "left/joint_5",
+    "right/joint_0",
+    "right/joint_1",
+    "right/joint_2",
+    "right/joint_3",
+    "right/joint_4",
+    "right/joint_5"
+   ],
+   "n_hinge": 12,
+   "n_actuators": 14,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 144.0,
+   "has_attachment_site": false,
+   "sites": [
+    "left_attach",
+    "right_attach",
+    "left/ee_gripper_link",
+    "right/ee_gripper_link"
+   ],
+   "rough_reach_m": 1.382,
+   "timestep": 0.002,
+   "total_mass_kg": 8.22
+  },
+  {
+   "file": "trs_so_arm100/so_arm100.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "Rotation",
+    "Pitch",
+    "Elbow",
+    "Wrist_Pitch",
+    "Wrist_Roll",
+    "Jaw"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 3.5,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.439,
+   "timestep": 0.002,
+   "total_mass_kg": 1.17
+  },
+  {
+   "file": "ufactory_lite6/lite6.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 20.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 0.0,
+   "timestep": 0.002,
+   "total_mass_kg": 7.58
+  },
+  {
+   "file": "ufactory_lite6/lite6_gripper_narrow.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/NONE/JOINT"
+   ],
+   "position_servo_map_compatible": false,
+   "incompatibility": [
+    ": FIXED/AFFINE/JOINT, gear 1.0, biasprm [0.0, 0.0, 0.0]"
+   ],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 20.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site",
+    "end_effector"
+   ],
+   "rough_reach_m": 0.0,
+   "timestep": 0.002,
+   "total_mass_kg": 7.88
+  },
+  {
+   "file": "ufactory_lite6/lite6_gripper_wide.xml",
+   "arm_dof": 1,
+   "arm_joints": [
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/NONE/JOINT"
+   ],
+   "position_servo_map_compatible": false,
+   "incompatibility": [
+    ": FIXED/AFFINE/JOINT, gear 1.0, biasprm [0.0, 0.0, 0.0]"
+   ],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 20.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site",
+    "end_effector"
+   ],
+   "rough_reach_m": 0.0,
+   "timestep": 0.002,
+   "total_mass_kg": 7.88
+  },
+  {
+   "file": "ufactory_xarm7/hand.xml",
+   "load_error": "IndexError('list index out of range')"
+  },
+  {
+   "file": "ufactory_xarm7/xarm7.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 13,
+   "n_actuators": 8,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT",
+    "FIXED/AFFINE/TENDON"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 50.0,
+   "has_attachment_site": false,
+   "sites": [
+    "link_tcp"
+   ],
+   "rough_reach_m": 0.769,
+   "timestep": 0.002,
+   "total_mass_kg": 12.07
+  },
+  {
+   "file": "ufactory_xarm7/xarm7_nohand.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 50.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 0.769,
+   "timestep": 0.002,
+   "total_mass_kg": 11.32
+  },
+  {
+   "file": "unitree_z1/z1.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 60.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.728,
+   "timestep": 0.002,
+   "total_mass_kg": 4.42
+  },
+  {
+   "file": "unitree_z1/z1_gripper.xml",
+   "arm_dof": 7,
+   "arm_joints": [
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "jointGripper"
+   ],
+   "n_hinge": 7,
+   "n_actuators": 7,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 60.0,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.824,
+   "timestep": 0.002,
+   "total_mass_kg": 4.69
+  },
+  {
+   "file": "universal_robots_ur10e/ur10e.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "shoulder_pan_joint",
+    "shoulder_lift_joint",
+    "elbow_joint",
+    "wrist_1_joint",
+    "wrist_2_joint",
+    "wrist_3_joint"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 330.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 1.352,
+   "timestep": 0.002,
+   "total_mass_kg": 32.7
+  },
+  {
+   "file": "universal_robots_ur5e/ur5e.xml",
+   "arm_dof": 6,
+   "arm_joints": [
+    "shoulder_pan_joint",
+    "shoulder_lift_joint",
+    "elbow_joint",
+    "wrist_1_joint",
+    "wrist_2_joint",
+    "wrist_3_joint"
+   ],
+   "n_hinge": 6,
+   "n_actuators": 6,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": true,
+   "max_forcerange_Nm": 150.0,
+   "has_attachment_site": true,
+   "sites": [
+    "attachment_site"
+   ],
+   "rough_reach_m": 0.967,
+   "timestep": 0.002,
+   "total_mass_kg": 20.99
+  },
+  {
+   "file": "wonik_allegro/left_hand.xml",
+   "arm_dof": 16,
+   "arm_joints": [
+    "rfj0",
+    "rfj1",
+    "rfj2",
+    "rfj3",
+    "mfj0",
+    "mfj1",
+    "mfj2",
+    "mfj3",
+    "ffj0",
+    "ffj1",
+    "ffj2",
+    "ffj3",
+    "thj0",
+    "thj1",
+    "thj2",
+    "thj3"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 16,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.186,
+   "timestep": 0.002,
+   "total_mass_kg": 0.65
+  },
+  {
+   "file": "wonik_allegro/right_hand.xml",
+   "arm_dof": 16,
+   "arm_joints": [
+    "ffj0",
+    "ffj1",
+    "ffj2",
+    "ffj3",
+    "mfj0",
+    "mfj1",
+    "mfj2",
+    "mfj3",
+    "rfj0",
+    "rfj1",
+    "rfj2",
+    "rfj3",
+    "thj0",
+    "thj1",
+    "thj2",
+    "thj3"
+   ],
+   "n_hinge": 16,
+   "n_actuators": 16,
+   "actuator_kinds": [
+    "FIXED/AFFINE/JOINT"
+   ],
+   "position_servo_map_compatible": true,
+   "incompatibility": [],
+   "forcerange_enforced_all_arm": false,
+   "max_forcerange_Nm": null,
+   "has_attachment_site": false,
+   "sites": [],
+   "rough_reach_m": 0.117,
+   "timestep": 0.002,
+   "total_mass_kg": 0.64
+  }
+ ]
+}

@@ -150,6 +150,11 @@ def main():
                    "free_height_links_m": free_height(res["clearance"], "links_m"),
                    "free_height_tool_m": free_height(res["clearance"], "tool_m")}
             row.update({kk: vv for kk, vv in res.items() if kk != "traj"})
+            # Obstacle status: check if any clearance became negative (collision)
+            row["status_obst"] = "OK" if all(
+                res["clearance"][h]["links_m"] >= 0 and res["clearance"][h]["tool_m"] >= 0
+                for h in HEIGHTS
+            ) else "KOLLISION"
             if name.startswith("FR3_replay"):
                 cmpd = compare_to_recording(res, rec)
                 row["vs_recording"] = {kk: vv for kk, vv in cmpd.items() if kk != "q_u"}
@@ -186,6 +191,11 @@ def main():
                    "free_height_links_m": free_height(res["clearance"], "links_m"),
                    "free_height_tool_m": free_height(res["clearance"], "tool_m")}
             row.update(res)
+            # Obstacle status: check if any clearance became negative (collision)
+            row["status_obst"] = "OK" if all(
+                res["clearance"][h]["links_m"] >= 0 and res["clearance"][h]["tool_m"] >= 0
+                for h in HEIGHTS
+            ) else "KOLLISION"
             rows.append(row)
             c10 = res["clearance"]["H10cm"]
             print(f"[{key}] UR5e_branch{b:<2d} {row['status']:16s} frei bis H: Arm "
@@ -211,7 +221,7 @@ def plot(plots):
         first = next(iter(d["runs"].values()))[0]
         ax.plot(*first["traj"]["X_ideal"].T, "k--", lw=1, label="ideales DS")
         for name, (res, row) in d["runs"].items():
-            ax.plot(*res["traj"]["Xn"].T, color=col[name], lw=1.3,
+            ax.plot(*res["traj"]["Xn"].T, color=col.get(name, "tab:gray"), lw=1.3,
                     label=f"{name}: {row['status']}, {row['status_obst']}")
         for o in d["obs"]:
             if o["height"] == HEIGHTS[0]:

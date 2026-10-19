@@ -1,0 +1,309 @@
+{
+ "settings": {
+  "list": false,
+  "config": "dynamic_baseline.yaml",
+  "dataset": "LASA",
+  "shape": "Angle",
+  "start": 0,
+  "x0": null,
+  "tau": null,
+  "menagerie_gains": false,
+  "speed": 1.0,
+  "T_max": "auto",
+  "task": "full6",
+  "L": null,
+  "center": null,
+  "nullspace": "off",
+  "k_null": 0.5,
+  "gravity_ff": true,
+  "robots": [
+   "FR3",
+   "UR5e"
+  ],
+  "name": null,
+  "tau_servo_s": {
+   "FR3": 0.1,
+   "UR5e": 0.1
+  },
+  "rate_1_s": 1.2394399785222487,
+  "T_max_s": 10.0,
+  "ideal_t_reach_s": 3.652,
+  "x0_n": [
+   -0.8963815649297914,
+   -0.0579030125712183
+  ],
+  "start_label": "start 0",
+  "k_null_used": 0.0,
+  "task_target": "full6",
+  "verified_init_box": [
+   [
+    -1.0,
+    -0.8373239126737058
+   ],
+   [
+    -0.1133802794766932,
+    0.09225351965112874
+   ]
+  ],
+  "training_domain": [
+   [
+    -1.0,
+    1.0
+   ],
+   [
+    -1.0,
+    1.0
+   ]
+  ],
+  "execution": "dynamic (MuJoCo)"
+ },
+ "model": {
+  "dataset": "LASA",
+  "shape": "Angle",
+  "dim": 2,
+  "file": "/home/philipp/S2NNDS/models_verified/LASA/Angle/model_f.pth",
+  "source": "pth (models_verified)",
+  "s2nnds_config": "/home/philipp/S2NNDS/config_files/LASA/Angle_config.json",
+  "normalization": {
+   "ps": 48.96551724137929,
+   "vs": 60.68981963798594
+  }
+ },
+ "ideal_rollout": {
+  "left_domain": false,
+  "t_left_domain_s": null,
+  "final_goal_err_mm": 0.0006742293540539274,
+  "max_abs_x_n": 0.8963815649297914
+ },
+ "embedding": {
+  "type": "plane",
+  "center_m": [
+   0.5,
+   0.0,
+   0.5
+  ],
+  "L_m": 0.1,
+  "e1": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "e2": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "anchor_n": [
+   0.0,
+   0.0
+  ],
+  "config_section": "task"
+ },
+ "unsafe_set": {
+  "shape": "Rectangle",
+  "supported": true,
+  "reason": null,
+  "lo_n": [
+   -0.6,
+   0.7
+  ],
+  "hi_n": [
+   -0.4,
+   1.0
+  ]
+ },
+ "warnings": [
+  "the demonstrations themselves enter the unsafe set as interpreted here (min signed distance -0.100 normalized); clearance values are not a safety statement for this shape (interpretation not verified)"
+ ],
+ "results": {
+  "FR3": {
+   "robot": "FR3",
+   "tau_servo_s": 0.1,
+   "ik": {
+    "ok": true,
+    "pos_err_m": 3.708972634945071e-14,
+    "ori_err_rad": 6.5383087866492365e-15,
+    "margin_pct": 24.131258351004064,
+    "sigma_min": 0.22462826401620828,
+    "q_start": [
+     -0.06849502028850475,
+     -0.4647897457705489,
+     0.046859026650749515,
+     -2.3626906215519288,
+     0.022176351877628373,
+     1.8982658949720101,
+     -0.03373486583883806
+    ]
+   },
+   "ideal": {
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "final_goal_err_mm": 0.0006742293540539274,
+    "max_abs_x_n": 0.8963815649297914
+   },
+   "dynamic": {
+    "status": "ok",
+    "success": true,
+    "final_goal_err_mm": 1.1830330475663282e-06,
+    "rmse_mm": 4.1742325463254275,
+    "mse_mm2": 17.424217350802465,
+    "geom_dev_max_mm": 7.936526188808741,
+    "t_reach_s": 3.09,
+    "unsafe_clearance_mm": 33.11571448945683,
+    "entered_unsafe_set": false,
+    "ideal_unsafe_clearance_mm": 39.79654256889701,
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "max_out_of_plane_mm": 0.28319956991773587,
+    "max_ori_err_rad": 0.0008450843119474808,
+    "peak_vel_ratio": 0.06461014254544938,
+    "peak_qd_cmd_ratio": 0.06469204727394781,
+    "peak_tau_ratio": 0.25153766151143125,
+    "tau_limit_Nm": [
+     87.0,
+     87.0,
+     87.0,
+     87.0,
+     12.0,
+     12.0,
+     12.0
+    ],
+    "tau_limit_enforced_by_model": false,
+    "n_vel_scale_steps": 0,
+    "frac_vel_scale": 0.0,
+    "n_qdes_clip_steps": 0,
+    "n_force_sat_steps": 0,
+    "n_pos_limit_viol_steps": 0,
+    "n_vel_limit_viol_steps": 0,
+    "n_tau_limit_exceed_steps": 0,
+    "n_contact_steps": 0,
+    "max_gap_deg": 1.2188424306786059,
+    "min_sigma_min": 0.20479511310614415,
+    "servo_kp": [
+     4500.0,
+     4500.0,
+     3500.0,
+     3500.0,
+     2000.0,
+     2000.0,
+     2000.0
+    ],
+    "servo_kv": [
+     450.0,
+     450.0,
+     350.0,
+     350.0,
+     200.0,
+     200.0,
+     200.0
+    ],
+    "events": {
+     "cmd_ik_velocity_scaling": null,
+     "cmd_qdes_clip_to_joint_range": null,
+     "cmd_servo_torque_saturation": null,
+     "applied_torque_above_limit": null,
+     "meas_joint_position_limit": null,
+     "meas_joint_velocity_limit": null,
+     "meas_contact": null
+    },
+    "first_physical_limit_event": null,
+    "mujoco_warnings": {}
+   }
+  },
+  "UR5e": {
+   "robot": "UR5e",
+   "tau_servo_s": 0.1,
+   "ik": {
+    "ok": true,
+    "pos_err_m": 3.338964692060751e-11,
+    "ori_err_rad": 1.8798800801631396e-11,
+    "margin_pct": 12.500028008045238,
+    "sigma_min": 0.23257015410609733,
+    "q_start": [
+     -3.4883092911233358,
+     4.466852020491271,
+     1.7531610493197793,
+     -1.5076240894319966,
+     4.712388980402605,
+     -1.9175129643292643
+    ]
+   },
+   "ideal": {
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "final_goal_err_mm": 0.0006742293540539274,
+    "max_abs_x_n": 0.8963815649297914
+   },
+   "dynamic": {
+    "status": "ok",
+    "success": true,
+    "final_goal_err_mm": 8.135729719884298e-05,
+    "rmse_mm": 3.8766399635736755,
+    "mse_mm2": 15.028337407176508,
+    "geom_dev_max_mm": 7.597863604472446,
+    "t_reach_s": 2.982,
+    "unsafe_clearance_mm": 33.28754697679462,
+    "entered_unsafe_set": false,
+    "ideal_unsafe_clearance_mm": 39.79654256889701,
+    "left_domain": false,
+    "t_left_domain_s": null,
+    "max_out_of_plane_mm": 0.3790314164709985,
+    "max_ori_err_rad": 0.0005240820204971725,
+    "peak_vel_ratio": 0.05455594662355415,
+    "peak_qd_cmd_ratio": 0.056629511084906124,
+    "peak_tau_ratio": 0.10860496027915056,
+    "tau_limit_Nm": [
+     150.0,
+     150.0,
+     150.0,
+     28.0,
+     28.0,
+     28.0
+    ],
+    "tau_limit_enforced_by_model": true,
+    "n_vel_scale_steps": 0,
+    "frac_vel_scale": 0.0,
+    "n_qdes_clip_steps": 0,
+    "n_force_sat_steps": 0,
+    "n_pos_limit_viol_steps": 0,
+    "n_vel_limit_viol_steps": 0,
+    "n_tau_limit_exceed_steps": 0,
+    "n_contact_steps": 0,
+    "max_gap_deg": 1.093637440026191,
+    "min_sigma_min": 0.22145873625351112,
+    "servo_kp": [
+     2000.0,
+     2000.0,
+     2000.0,
+     500.0,
+     500.0,
+     500.0
+    ],
+    "servo_kv": [
+     200.0,
+     200.0,
+     200.0,
+     50.0,
+     50.0,
+     50.0
+    ],
+    "events": {
+     "cmd_ik_velocity_scaling": null,
+     "cmd_qdes_clip_to_joint_range": null,
+     "cmd_servo_torque_saturation": null,
+     "applied_torque_above_limit": null,
+     "meas_joint_position_limit": null,
+     "meas_joint_velocity_limit": null,
+     "meas_contact": null
+    },
+    "first_physical_limit_event": null,
+    "mujoco_warnings": {}
+   }
+  }
+ }
+}

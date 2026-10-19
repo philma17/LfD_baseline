@@ -1,0 +1,84 @@
+# Dynamics-based execution baseline: FR3 vs. UR5e, kinematic vs. MuJoCo dynamics.
+# Task cell, controller and IK parameters are taken unchanged from configs/stage1_clean.yaml
+# (Phase 1). The chosen cell (L = 0.10 m, r = 0.50 m, s = 0) was status OK for both robots
+# in Phase 1 in both modes, so differences come from the execution mode, not from geometry.
+
+shape: Sine
+dataset: LASA
+model_source: pth        # pth = S2NNDS/models_verified/.../model_f.pth (default); onnx = models_onnx/
+time_rate: demo          # v_peak / L = vs / ps (from the LASA data)
+
+sim:                     # identical to stage1_clean.yaml
+  dt: 0.002              # controller period; equals model timestep (n_substeps = 1)
+  T_max: 10.0
+  k_perp: 5.0
+  k_rot: 5.0
+  success_frac: 0.01
+  n_starts: 32
+  seed: 0
+  start_criterion: max_sigma_margin
+  start_min_margin_pct: 5.0
+  ik:
+    eps: 0.02
+    lam_max: 0.05
+    k_null: 0.0          # min-norm (no null-space task) for both robots
+
+task:
+  plane: {e1: [1.0, 0.0, 0.0], e2: [0.0, 1.0, 0.0]}   # horizontal
+  center: [0.50, 0.0, 0.50]   # DS goal (x_n = 0) in world [m], same for both robots
+  anchor: [0.0, 0.0]
+  L_m: 0.10
+  modes: [full6, pos]         # full6 = main case (tool z down, tool x || world x)
+  orientation:
+    R_des: [[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]]
+
+# 3D models (experiments/compare_traj.py): p = center + L * axes (x_n - anchor), no plane.
+# Same goal location and scale as the 2D plane; axes = identity (DS x,y,z = world x,y,z).
+spatial:
+  center: [0.50, 0.0, 0.50]
+  L_m: 0.10
+  axes: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  anchor: [0.0, 0.0, 0.0]
+
+robots: [FR3, UR5e]
+
+dynamic:
+  n_substeps: 1
+  sag_hold_s: 3.0             # static sag check: hold ctrl = q_start for this long
+  # Defaults reproduce the single-start baseline (unmodified Menagerie servos, no feed-forward).
+  servo_override: null        # {tau_servo: 0.10} -> kv = kp * tau_servo, kp unchanged (in memory)
+  gravity_ff: false           # true -> q_des(0) = q_start + g(q_start) / kp
+
+# Multi-start comparison (experiments/dynamic_multistart.py). Task, DS and controller as above.
+multistart:
+  mode: full6
+  n_starts: 20
+  seed: 0
+  # Start region: the verified initial set of the S2NNDS model, read from
+  # S2NNDS/config_files/LASA/Sine_config.json -> plotting.init_range (normalized DS coords).
+  region: s2nnds_init_range
+  primary: equal_tau_ff
+  cases:                      # k_null: null-space gain of common.ik.solve_qdot (Phase 1: 0.5)
+    - {name: equal_tau_ff,      servo_override: {tau_servo: 0.10}, gravity_ff: true,  k_null: 0.0}
+    - {name: equal_tau_no_ff,   servo_override: {tau_servo: 0.10}, gravity_ff: false, k_null: 0.0}
+    - {name: menagerie_ff,      servo_override: null,              gravity_ff: true,  k_null: 0.0}
+    - {name: equal_tau_ff_null, servo_override: {tau_servo: 0.10}, gravity_ff: true,  k_null: 0.5}
+  workers: 4
+
+# Parameter sweeps (experiments/dynamic_sweeps.py). 6D task, starts = the first n_starts of the
+# multistart set above (same seed), IK start procedure as above. gravity_ff is ON everywhere.
+sweeps:
+  n_starts: 10
+  cases:
+    main:      {servo_override: {tau_servo: 0.10}, gravity_ff: true}
+    menagerie: {servo_override: null,              gravity_ff: true}
+  speed_factors: [1, 2, 4, 8, 16]   # time_rate x factor; ideal reference uses the same rate,
+                                    # T_max = sim.T_max / factor
+  speed_L_extension_m: [0.20, 0.30] # extra runs at the largest factor with larger L (main case)
+  servo_taus: [0.05, 0.10, 0.20, 0.30]   # main case at nominal speed, kv = kp * tau
+  weak:                             # SYNTHETIC variant, speed sweep only (main case)
+    name: UR5e-weak
+    base: UR5e
+    torque_scale: 0.4               # actuator forcerange x 0.4 (in memory)
+    qd_scale: 0.4                   # documented qd_max x 0.4 (IK velocity limit + reporting)
+  workers: 4
