@@ -195,6 +195,29 @@ def servo_stability(robot, q, step_rad: float = 0.01, hold_s: float = 1.5) -> di
     }
 
 
+def check_dims(ds, emb, x0_n) -> int:
+    """Model input dimension == embedding dimension == len(x0_n); returns it."""
+    d_model = int(ds.f.dim)
+    d_emb = int(np.asarray(emb.E).shape[1])
+    if not (d_model == d_emb == len(x0_n)):
+        raise ValueError(f"dimension mismatch: model input {d_model}, embedding {d_emb}, "
+                         f"x0 {len(x0_n)}")
+    return d_model
+
+
+def ideal_rollout(ds, x0_n, dt: float, n_steps: int, rate: float) -> np.ndarray:
+    """Explicit Euler of the ideal DS, (n_steps+1, dim). For 2D this calls
+    LearnedDS.rollout_ideal (unchanged reference); the same scheme for other dimensions."""
+    x0_n = np.asarray(x0_n, float)
+    if len(x0_n) == 2:
+        return ds.rollout_ideal(x0_n, dt, n_steps, rate)
+    X = np.empty((n_steps + 1, len(x0_n)))
+    X[0] = x0_n
+    for k in range(n_steps):
+        X[k + 1] = X[k] + dt * rate * ds.f_n(X[k])
+    return X
+
+
 def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=None,
         n_substeps: int = 1, contact_check: bool = True, gravity_ff: bool = False,
         tau_limit=None) -> dict:
@@ -212,10 +235,12 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
     sv = position_servo_map(robot)
     free = np.ones(n, bool) if free is None else np.asarray(free, bool)
     N = int(round(sp.T_max / sp.dt))
-    X_id = ds.rollout_ideal(x0_n, sp.dt, N, rate)   # same reference as sim.run
+    x0_n = np.asarray(x0_n, float)
+    dim = check_dims(ds, emb, x0_n)                  # 2 (plane) or 3 (spatial embedding)
+    X_id = ideal_rollout(ds, x0_n, sp.dt, N, rate)   # same reference as sim.run for 2D
     P_id = emb.to_world(X_id)
     v_peak = rate * emb.L
-    goal = emb.to_world(np.zeros(2))
+    goal = emb.to_world(np.zeros(dim))
     q_mid = 0.5 * (robot.q_min + robot.q_max) if q_null is None else np.asarray(q_null, float)
     q_rng = robot.q_max - robot.q_min
     lo = np.maximum(robot.q_min, sv.ctrl_lo)
@@ -238,7 +263,7 @@ def run(robot, ds, emb, x0_n, rate: float, tgt, sp, q_start, free=None, q_null=N
     mujoco.mj_forward(m, d)
 
     P = np.empty((N + 1, 3))
-    Xn = np.empty((N + 1, 2))
+    Xn = np.empty((N + 1, dim))
     Q = np.empty((N + 1, n))
     QD = np.empty((N + 1, n))
     QDES = np.empty((N + 1, n))            # target active while Q[k] was measured

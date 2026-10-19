@@ -382,6 +382,85 @@ directly still defaults to ONNX. The only direct callers are `five_obstacle_tran
   2D_Shapes/Five_Obstacle_DS have different ONNX and PTH networks (`tests/test_ds.py`). For
   them, all results before this change would refer to the ONNX network.
 
+## Any verified S2NNDS model, 2D or 3D (`experiments/compare_traj.py`)
+
+    ~/lfd_env/bin/python experiments/compare_traj.py --list
+    ~/lfd_env/bin/python experiments/compare_traj.py --dataset LASA --shape Sine --start 3
+    ~/lfd_env/bin/python experiments/compare_traj.py --dataset 2D_Shapes --shape Five_Obstacle_DS --start 0
+    ~/lfd_env/bin/python experiments/compare_traj.py --dataset 3D_Shapes --shape Cshape_bottom --start 2
+    ~/lfd_env/bin/python experiments/compare_traj.py --dataset 3D_Shapes --shape Cshape_bottom --x0 0.1 -0.1 -0.95
+
+The tool only runs the dynamic (MuJoCo) execution. `compare_single.py` is unchanged and
+stays as the 2D tool with the kinematic option.
+
+- **Model:** always `S2NNDS/models_verified/<dataset>/<shape>/model_f.pth`, evaluated by
+  `common.ds.PthMLP`. There is no ONNX option and no fallback; a missing file is an error.
+  The loaded path is printed and written to the json (`model.file`). `tests/test_compare_traj.py`
+  checks that the numpy evaluation equals the torch forward pass for every verified model
+  (< 1e-5).
+- **Datasets and shapes:** every `<dataset>/<shape>` folder below `models_verified`.
+  `--list` shows `.pth` present, model input dimension, config dimension, demonstration data,
+  verified initial set and unsafe shape. The config is `<shape>_config.json`; benchmark
+  models use `<base>_config_benchmark.json`. Normalization: LASA via `lasa_scaling` (benchmark
+  and `Sine_new` use the base LASA data), 2D_Shapes and 3D_Shapes via
+  `datasets.shape_scaling`. The model input dimension must equal the config domain dimension
+  and the data dimension, otherwise the tool stops with a message.
+- **Start:** `--start i` indexes the shared start set: `multistart.seed` / `n_starts`,
+  uniform in the model's `plotting.init_range`. For LASA/Sine this is the same set as
+  `dynamic_multistart.py`. `--x0` takes exactly dim values. Without an init_range (only
+  `LASA/Worm_benchmark`), the default is the mean demonstration start and `--start` is
+  rejected.
+- **Embedding:**
+  - 2D: the plane from config `task` (`center`, `plane`, `L_m`, `anchor`), as before.
+  - 3D: `common.embedding.SpatialEmbedding` from config `spatial`, with
+    p = center + L·A·(x_n − anchor), A orthonormal (default identity, center (0.5, 0, 0.5) m,
+    L = 0.10 m). There is no plane and no projection; d_perp ≡ 0, so the k_perp correction
+    term is inactive and all three Cartesian velocity components come from the DS.
+  - `--L` and `--center` override both.
+- **Dynamic execution:** `common.sim_dynamic.run` now takes the dimension from the model.
+  `check_dims` requires model = embedding = x0 dimension. `ideal_rollout` calls the unchanged
+  `LearnedDS.rollout_ideal` for 2D and uses the same Euler scheme for 3D. The arrays `Xn` and
+  `X_ideal` and the goal have the model dimension. The 2D behavior is unchanged: the committed
+  `compare_single.py` result is reproduced bitwise.
+- **Task modes:** `full6` (default: DS position + fixed tool orientation), `axis5` and `pos`.
+  In all modes the DS drives the three position rows. For 2D only the in-plane part comes
+  from the DS; for 3D all three components do.
+- **T_max:** `auto` = max(`sim.T_max`/speed, 1.5 × ideal reach time), so slow fields are not
+  cut off (e.g. Five_Obstacle_DS reaches 1 % L at ~11 s). LASA/Sine keeps 10 s. If the ideal
+  rollout does not reach the goal within 120 s, a warning is written.
+- **Unsafe set:** `common.unsafe.UnsafeSet`, using the semantics of S2NNDS `main.py`.
+  - Circle (2D circles, several centers; 3D sphere) and Rectangle (including the 2D
+    `unbounded` variants): signed distance × L, min clearance and "entered unsafe set".
+  - Custom (level-set expression): clearance disabled, reported in the table, terminal
+    and json as "not evaluated". No safety is claimed.
+- **Warnings** are written to the terminal, the figure and the json:
+  - when the ideal DS itself leaves the training domain
+  - when the demonstrations themselves enter the unsafe set as interpreted here
+- **Figures:**
+  - 2D: one axes as before, plus the unsafe circles and rectangles.
+  - 3D: a 3D axes with equal scaling and sphere wireframes, plus top (x-y) and side (x-z)
+    views of the same world paths.
+- **Outputs:** `figures/compare_traj/<dataset>_<shape>_...png|pdf` and
+  `results/compare_traj/<dataset>_<shape>_....json`.
+
+Findings from the first runs (model properties, not robot effects):
+
+- **3D_Shapes/Cshape_bottom:** the ideal rollout of `model_f.pth` diverges (leaves
+  [−1, 1]³ and runs off to |x_n| ≈ 150) from 9 of the 20 shared start points in the init box
+  and from 1 of 15 demonstration starts. From the mean demonstration start and start 2 it
+  converges, and both robots reach the goal (max geometric deviation 26 / 29 mm, larger than
+  in 2D). From start 0 the robots follow the diverging field until FR3 hits joint 2's position
+  limit after 7.5 s. The network agrees with the demonstration directions (mean cosine 0.97),
+  so the normalization is not the cause; that the init box is larger than the region of
+  convergence is not explained.
+- **LASA/Sshape:** the ideal rollout already enters the configured unsafe band from
+  demonstration starts (signed distance −0.05), and from start 0 it also leaves the domain.
+- **LASA/Angle and LASA/Worm:** the demonstrations themselves intersect the configured unsafe
+  rectangle. Either the configured set or this interpretation does not match what S2NNDS
+  verified; not resolved.
+- **LASA/PShape_benchmark:** the ideal rollout from demonstration starts converges in only
+  3/7 cases within 40 s.
+
 ### Known limitations and assumptions
 
 - Servo gains, damping, armature and friction are the Menagerie values; they are not

@@ -32,6 +32,14 @@ task:
   orientation:
     R_des: [[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, -1.0]]
 
+# 3D models (experiments/compare_traj.py): p = center + L * axes (x_n - anchor), no plane.
+# Same goal location and scale as the 2D plane; axes = identity (DS x,y,z = world x,y,z).
+spatial:
+  center: [0.50, 0.0, 0.50]
+  L_m: 0.10
+  axes: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  anchor: [0.0, 0.0, 0.0]
+
 robots: [FR3, UR5e]
 
 dynamic:
