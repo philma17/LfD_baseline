@@ -5,6 +5,12 @@
   python experiments/compare_traj.py --dataset 2D_Shapes --shape Five_Obstacle_DS --start 0
   python experiments/compare_traj.py --dataset 3D_Shapes --shape Cshape_bottom --start 0
   python experiments/compare_traj.py --dataset 3D_Shapes --shape Cshape_bottom --x0 0.1 -0.1 -0.95
+  python experiments/compare_traj.py --dataset LASA --shape Sine --presentation
+
+--presentation: slide version of the plot. Short title (dataset and shape only), no table, no
+notes, the trajectories use the whole figure; start, goal, unsafe set and legend stay. Files go
+to figures/compare_traj/presentation/ and results/compare_traj/presentation/, so the diagnostic
+plot is never overwritten. Console output and json are complete in both modes.
 
 Model: ALWAYS the verified PyTorch network S2NNDS/models_verified/<dataset>/<shape>/model_f.pth,
 evaluated as a float64 numpy MLP (common.ds.PthMLP). There is no ONNX option and no fallback:
@@ -176,7 +182,17 @@ def parse_args(argv=None):
     ap.add_argument("--gravity-ff", choices=["on", "off"], default="on")
     ap.add_argument("--robots", nargs="+", default=["fr3", "ur5e"])
     ap.add_argument("--name", default=None, help="output file stem")
+    ap.add_argument("--presentation", action="store_true",
+                    help="clean plot for slides: short title, no table, no notes, trajectories "
+                         "get the whole figure. Saved in figures/compare_traj/presentation/ "
+                         "(json in results/compare_traj/presentation/), the diagnostic plot is "
+                         "not touched. The json keeps all parameters and measured values.")
     return ap.parse_args(argv)
+
+
+def presentation_title(dataset, shape):
+    """Short title: dataset and shape only (no servo, null space, task, embedding details)."""
+    return f"{dataset.replace('_', ' ')}: {shape.replace('_', ' ')}"
 
 
 def robot_key(name):
@@ -472,16 +488,22 @@ def _table(ax, rows, cols, cells, notes):
         ax.text(0.0, 0.0, "\n".join(notes), fontsize=6.5, va="bottom", transform=ax.transAxes)
 
 
-def figure_2d(paths, S, title, rows, cols, cells, notes, stem):
+def figure_2d(paths, S, title, rows, cols, cells, notes, stem, presentation=False):
     emb, unsafe = S["emb"], S["unsafe"]
 
     def mm(P):
         x, _ = emb.to_plane(np.asarray(P, float))
         return 1e3 * emb.L * (x - emb.anchor_n)
 
-    fig = plt.figure(figsize=(8.2, 8.0), layout="constrained")
-    gs = fig.add_gridspec(2, 1, height_ratios=[3.0, 1.8])
-    ax = fig.add_subplot(gs[0])
+    if presentation:        # one axes, no table row
+        fig = plt.figure(figsize=(8.2, 6.4), layout="constrained")
+        ax = fig.add_subplot(111)
+        lab_robot = lambda rb: rb
+    else:
+        fig = plt.figure(figsize=(8.2, 8.0), layout="constrained")
+        gs = fig.add_gridspec(2, 1, height_ratios=[3.0, 1.8])
+        ax = fig.add_subplot(gs[0])
+        lab_robot = lambda rb: f"{rb} (dynamic)"
     sc_mm = lambda v: 1e3 * emb.L * (np.asarray(v) - emb.anchor_n)
     if unsafe.supported and unsafe.shape == "Circle":
         for c in unsafe.centers:
@@ -497,7 +519,7 @@ def figure_2d(paths, S, title, rows, cols, cells, notes, stem):
     for rb, p in paths.items():
         if "dynamic" in p:
             ax.plot(*mm(p["dynamic"]).T, color=COLORS.get(rb) or next(extra), lw=1.6,
-                    label=f"{rb} (dynamic)", zorder=3)
+                    label=lab_robot(rb), zorder=3)
     ax.plot(*sc_mm(S["x0"]), "o", ms=6, mfc="white", mec="k", zorder=5, label="start")
     ax.plot(0, 0, "*", ms=12, color="k", zorder=5, label="goal")
     if unsafe.supported:
@@ -512,18 +534,28 @@ def figure_2d(paths, S, title, rows, cols, cells, notes, stem):
     ax.grid(alpha=0.3)
     ax.set_xlabel(r"plane coordinate $e_1$ [mm]")
     ax.set_ylabel(r"plane coordinate $e_2$ [mm]")
+    if presentation:
+        ax.legend(fontsize=10, loc="best")
+        ax.set_title(title, fontsize=13)
+        return _save(fig, stem, "presentation")
     ax.legend(fontsize=7.5, loc="best")
     ax.set_title(title, fontsize=8.5)
     _table(fig.add_subplot(gs[1]), rows, cols, cells, notes)
     return _save(fig, stem)
 
 
-def figure_3d(paths, S, title, rows, cols, cells, notes, stem):
+def figure_3d(paths, S, title, rows, cols, cells, notes, stem, presentation=False):
     emb, unsafe = S["emb"], S["unsafe"]
     goal = emb.to_world(np.zeros(3))
     mm = lambda P: 1e3 * (np.asarray(P, float) - goal)          # world offsets from the goal
-    fig = plt.figure(figsize=(9.0, 11.0), layout="constrained")
-    gs = fig.add_gridspec(3, 2, height_ratios=[2.4, 1.5, 1.7])
+    if presentation:        # 3D view + two projections, no table row
+        fig = plt.figure(figsize=(9.0, 9.0), layout="constrained")
+        gs = fig.add_gridspec(2, 2, height_ratios=[2.4, 1.5])
+        lab_robot = lambda rb: rb
+    else:
+        fig = plt.figure(figsize=(9.0, 11.0), layout="constrained")
+        gs = fig.add_gridspec(3, 2, height_ratios=[2.4, 1.5, 1.7])
+        lab_robot = lambda rb: f"{rb} (dynamic)"
     ax = fig.add_subplot(gs[0, :], projection="3d")
     axy, axz = fig.add_subplot(gs[1, 0]), fig.add_subplot(gs[1, 1])
     ideal = next((p["ideal"] for p in paths.values() if "ideal" in p), None)
@@ -533,7 +565,7 @@ def figure_3d(paths, S, title, rows, cols, cells, notes, stem):
     extra = iter(["tab:green", "tab:purple", "tab:brown"])
     for rb, p in paths.items():
         if "dynamic" in p:
-            curves.append((f"{rb} (dynamic)", mm(p["dynamic"]),
+            curves.append((lab_robot(rb), mm(p["dynamic"]),
                            dict(color=COLORS.get(rb) or next(extra), lw=1.6)))
     s = mm(emb.to_world(S["x0"]))
     for lab, C, st in curves:
@@ -567,21 +599,25 @@ def figure_3d(paths, S, title, rows, cols, cells, notes, stem):
     ax.set_xlabel("world x - x_goal [mm]")
     ax.set_ylabel("world y - y_goal [mm]")
     ax.set_zlabel("world z - z_goal [mm]")
-    ax.legend(fontsize=7, loc="upper left")
-    ax.set_title(title, fontsize=8.5)
+    ax.legend(fontsize=9 if presentation else 7, loc="upper left")
+    ax.set_title(title, fontsize=13 if presentation else 8.5)
     axy.set_xlabel("x - x_goal [mm]")
     axy.set_ylabel("y - y_goal [mm]")
     axy.set_title("top view (world x-y)", fontsize=8)
     axz.set_xlabel("x - x_goal [mm]")
     axz.set_ylabel("z - z_goal [mm]")
     axz.set_title("side view (world x-z)", fontsize=8)
+    if presentation:
+        return _save(fig, stem, "presentation")
     _table(fig.add_subplot(gs[2, :]), rows, cols, cells, notes)
     return _save(fig, stem)
 
 
-def _save(fig, stem):
-    os.makedirs(FIG, exist_ok=True)
-    p = os.path.join(FIG, stem)
+def _save(fig, stem, subdir=""):
+    """Diagnostic plots go to FIG/, presentation plots to FIG/presentation/ (never overwritten)."""
+    d = os.path.join(FIG, subdir)
+    os.makedirs(d, exist_ok=True)
+    p = os.path.join(d, stem)
     fig.savefig(p + ".png", dpi=200)
     fig.savefig(p + ".pdf")
     plt.close(fig)
@@ -664,12 +700,21 @@ def main(argv=None):
         print(f"[{rb}] limit events (command / applied / measured): {evs if evs else 'none'}")
     for n in notes:
         print("note:", n)
-    figp = (figure_2d if dim == 2 else figure_3d)(paths, S, title, rows, cols, cells, notes, stem)
-    os.makedirs(OUT, exist_ok=True)
-    jp = os.path.join(OUT, stem + ".json")
+    fig_fn = figure_2d if dim == 2 else figure_3d
+    if a.presentation:
+        figp = fig_fn(paths, S, presentation_title(a.dataset, a.shape), rows, cols, cells, notes,
+                      stem, presentation=True)
+    else:
+        figp = fig_fn(paths, S, title, rows, cols, cells, notes, stem)
+    out_dir = os.path.join(OUT, "presentation") if a.presentation else OUT
+    os.makedirs(out_dir, exist_ok=True)
+    jp = os.path.join(out_dir, stem + ".json")
+    settings = {**vars(a)}
+    if not a.presentation:          # normal-mode json keeps exactly its previous keys
+        settings.pop("presentation")
     with open(jp, "w") as fh:
         json.dump(to_jsonable({
-            "settings": {**vars(a), "robots": robots, "tau_servo_s": tau, "rate_1_s": rate,
+            "settings": {**settings, "robots": robots, "tau_servo_s": tau, "rate_1_s": rate,
                          "T_max_s": T_max, "ideal_t_reach_s": tr_id, "x0_n": S["x0"],
                          "start_label": S["label"], "gravity_ff": ff, "k_null_used": sp.ik.k_null,
                          "task_target": a.task, "verified_init_box": S["box"],

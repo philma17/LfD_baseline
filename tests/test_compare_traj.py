@@ -127,5 +127,36 @@ class TestCompareTrajCli(unittest.TestCase):
         self.assertIn("Cshape_bottom", str(cm.exception))
 
 
+class TestPresentationMode(unittest.TestCase):
+    def test_no_table_own_folder_full_json(self):
+        import json
+        import tempfile
+        import compare_traj as ct
+        saved = (ct.OUT, ct.FIG, ct._table)
+
+        def forbidden(*a, **k):
+            raise AssertionError("presentation mode must not draw the result table")
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                ct.OUT, ct.FIG, ct._table = os.path.join(tmp, "r"), os.path.join(tmp, "f"), forbidden
+                ct.main(["--dataset", "LASA", "--shape", "Sine", "--robots", "fr3", "--T-max", "0.5",
+                         "--name", "pres_test", "--presentation"])
+                png = os.path.join(tmp, "f", "presentation", "pres_test.png")
+                js = os.path.join(tmp, "r", "presentation", "pres_test.json")
+                self.assertTrue(os.path.exists(png))
+                self.assertFalse(os.path.exists(os.path.join(tmp, "f", "pres_test.png")))
+                d = json.load(open(js))
+                self.assertTrue(d["settings"]["presentation"])
+                self.assertIn("peak_tau_ratio", d["results"]["FR3"]["dynamic"])  # full measured values
+                self.assertEqual(d["model"]["file"].split("/")[-1], "model_f.pth")
+        finally:
+            ct.OUT, ct.FIG, ct._table = saved
+
+    def test_title_has_only_dataset_and_shape(self):
+        from compare_traj import presentation_title
+        self.assertEqual(presentation_title("2D_Shapes", "Five_Obstacle_DS"),
+                         "2D Shapes: Five Obstacle DS")
+
+
 if __name__ == "__main__":
     unittest.main()

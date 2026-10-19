@@ -442,6 +442,12 @@ stays as the 2D tool with the kinematic option.
     views of the same world paths.
 - **Outputs:** `figures/compare_traj/<dataset>_<shape>_...png|pdf` and
   `results/compare_traj/<dataset>_<shape>_....json`.
+- **`--presentation`:** plot for slides. Title is only dataset and shape (e.g. "LASA: Sine"),
+  legend entries are just the robot names, and there is no table and no notes. The
+  trajectories use the whole figure; start, goal, unsafe set and legend stay. Files go to
+  `figures/compare_traj/presentation/` and `results/compare_traj/presentation/`, so the
+  diagnostic plot is never overwritten. The terminal output and the json are complete in both
+  modes (the json has `settings.presentation: true`).
 
 Findings from the first runs (model properties, not robot effects):
 
